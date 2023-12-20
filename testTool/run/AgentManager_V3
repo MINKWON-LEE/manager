@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# chkconfig: 2345 64 36
+# description: RUN AgentManager Process ALL
+
+SNET_WEB=sgweb
+
+su - $SNET_WEB -c "cd /usr/local/snetManager/bin/; /usr/local/snetManager/bin/run_v3.sh"

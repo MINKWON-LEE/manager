@@ -1,0 +1,152 @@
+spring:
+  application:
+    name: manager-service
+
+
+  #eureka.instance.hostname=localhost
+  #eureka.client.register-with-eureka=true
+  #eureka.client.fetch-registry=true
+  #eureka.client.service-url.defaultZone=${EUREKA_SERVICE_URL:http://localhost:8761/eureka}
+  #
+  #management.endpoint.shutdown.enable=true
+  #management.endpoints.web.exposure.include=shutdown,info
+
+  # ===============================
+  # = DATA SOURCE
+  # ===============================
+  datasource:
+    platform: mariadb
+
+  #####
+  #spring.datasource.hikari.driver-class-name=org.mariadb.jdbc.Driver
+  #spring.datasource.hikari.jdbc-url=jdbc:mariadb://192.168.80.111:3306/SMARTGUARD_NeXT
+  #spring.datasource.hikari.username = root
+  #spring.datasource.hikari.password = super123!@#
+
+  #default value
+    hikari:
+      connection-timeout: 30000
+      validation-timeout: 5000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      minimum-idle: 10
+      maximum-pool-size: 10
+
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+        useLocalSessionState: true
+        useLocalTransactionState: true
+        rewriteBatchedStatements: true
+        cacheResultSetMetadata: true
+        cacheServerConfiguration: true
+        elideSetAutoCommits: true
+        maintainTimeStats: false
+
+  servlet:
+    multipart:
+      # Enable multipart uploads
+      enabled: true
+      # Threshold after which files are written to disk.
+      file-size-threshold: 2KB
+      # Max file size.
+      max-file-size: 200MB
+      # Max Request Size
+      max-request-size: 215MB
+
+#async timeout
+  mvc:
+    async:
+      request-timeout: 1200000
+
+server:
+  port: 10225
+#  ssl:
+#    key-store: classpath:cert/smartguard.com.jks
+#    key-password: sgserver1@3$
+#    key-store-provider: SUN
+#    key-store-type: JKS
+
+
+#server.servlet.session.timeout=30m
+#  #async timeout
+#spring.mvc.async.request-timeout=1200000
+
+  tomcat:
+    max-threads: 250
+    accept-count: 100
+    max-connections: 10000
+    min-spare-threads: 10
+    max-swallow-size: 2MB
+    max-http-form-post-size: 2MB
+    accesslog:
+      enabled: true
+      directory: log
+      file-date-format: "yyyy-MM-dd"
+      prefix: access_log
+      suffix: .log
+      rotate: true
+
+  compression:
+    enabled: true
+
+smartguard:
+  v3:
+    lang: KO
+    key: "Snet^2016$m@bigen.com#skte!ecom"
+    salt: "16$sKtM@biV.com#"
+    key-size: 128
+    iteration-count: 1000
+
+    #agent.context.properties
+    pty:
+      ptyPromptPhraseVals: "$[SPACE],$,#[SPACE],#,>[SPACE],>,%[SPACE],%,]#[SPACE],]#,]$[SPACE],]$[SPACE],],][SPACE]"
+      ptyIntPromptPhraseVals: "36[SPACE]32,36[SPACE]32[SPACE],36,35[SPACE]32,35,62[SPACE]32,62,37[SPACE]32,37,93[SPACE]35[SPACE]32,93[SPACE]35,93[SPACE]36[SPACE]32,93[SPACE]36,93,93[SPACE]32"
+      ptyPassPhraseVals: "Password:[SPACE],Password:,PassWord:[SPACE],PassWord:,password[SPACE]for,Password[SPACE]for"
+      ptyIntPassPraseVals: "207[SPACE]200[SPACE]163[SPACE]58,148[SPACE]237[SPACE]152[SPACE]184[SPACE]58,115[SPACE]119[SPACE]111[SPACE]114[SPACE]100[SPACE]58[SPACE]32"
+      ptyLoginPhraseVals: "login:[SPACE],login:"
+      ptyLoginExcludeVals: "Last[SPACE]login:,incorrect,fail,Last[SPACE]successful[SPACE]login:"
+      ptySslConfirmPhraseVals: "CONTINUE"
+      ptyIncorrectVals: "incorrect,refuse,can[SPACE]not,sorry,unknown[SPACE]character,authentication[SPACE]failure"
+      ptyIncorrectExcludeVals: "Last[SPACE]authentication[SPACE]failure"
+      ptyIntIncorrectVals: "237[SPACE]151[SPACE]136[SPACE]234[SPACE]176[SPACE]128[SPACE]32[SPACE]234[SPACE]177[SPACE]176[SPACE]235[SPACE]182[SPACE]128"
+      SHADOW_MANAGER_DIR: "[MANAGER_SYS_ROOT_DIR]txFiles[SLASH]inbound[SLASH]jtrResult[SLASH]"
+      JTR_SHELL: "john.sh"
+    file:
+      getUploadDir: "[MANAGER_SYS_ROOT_DIR]txFiles[SLASH]inbound[SLASH]getResults[SLASH]"
+      getDownloadDIr: "[MANAGER_SYS_ROOT_DIR]txFiles[SLASH]outbound[SLASH]get[SLASH]work[SLASH]"
+      diagnosisUploadDir: "[MANAGER_SYS_ROOT_DIR]txFiles[SLASH]inbound[SLASH]diagResults[SLASH]"
+      diagnosisDownloadDIr: "[MANAGER_SYS_ROOT_DIR]txFiles[SLASH]outbound[SLASH]diags[SLASH]work[SLASH]"
+      getManualUploadDir: "[SLASH]home[SLASH]sgwas[SLASH]diagnosis[SLASH]"
+      getManualUploadDirWin: "[SLASH]home[SLASH]sgwas[SLASH]diagnosis[SLASH]"
+      diagnosisManualUploadDir: "[SLASH]home[SLASH]sgwas[SLASH]diagnosis[SLASH]"
+      diagnosisManualUploadDirWin: "[SLASH]home[SLASH]sgwas[SLASH]diagnosis[SLASH]"
+      logFileManagerDir: "[MANAGER_SYS_ROOT_DIR]txFiles[SLASH]inbound[SLASH]logdir[SLASH]"
+      initAgentDir: "/usr/local/snet/agent/libs/"
+      doDiagLastLog: "[MANAGER_SYS_ROOT_DIR]txFiles[SLASH]lastLog[SLASH]"
+    context:
+      getForDiag: "_get"
+      diagForEvent: "_diag"
+      passWordType: ".conf"
+      passWordOptionType: ".option"
+      agentPatchFiles: "patchfiles"
+      jobDGTimeOut: 1800000           #30분
+      jobGSTimeOut: 1800000           #30분
+      jobNWTimeOut: 1800000           #30분
+      jobSetupTimeOut: 600000         #10분
+      jobControlTimeOut: 1800000      #30분
+      JobApiTimeOut: 1800000          #30분
+      JobLogTimeOut: 1800000           #30분
+      defaultAgentCnt: 10000          #한개의 AgentManager 서버에서 처리가능한 최대 에이전트 개수 default : 10000개
+      sizePerDelayTime: 100           #같은 시간에 호출 가능한 에이전트 개수  default : 100개
+      multiServices: N                #AgentManager서버가 멀티로 동작하는지.
+      diagExcept: Y                   #진단기준 제외 (3.1 부터 사용 가능)
+      useNotification: Y              #알림사용여부 (3.1 부터 사용 가능)
+    schedule:
+      diagnosis: "30 * * * * *"
+      get: "50 * * * * *"
+
+#spring.profiles.active=local
+

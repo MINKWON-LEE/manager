@@ -1,0 +1,81 @@
+jasypt:
+  encryptor:
+    algorithm: "PBEWithMD5AndDES"
+    password: "igloosec@2019"
+    property:
+      prefix: "ENC["
+      suffix: "]"
+    poolSize: 1
+
+#database
+spring:
+  datasource:
+    hikari:
+#     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+#     jdbc-url: jdbc:log4jdbc:mariadb://localhost:13306/snet
+      driver-class-name: org.mariadb.jdbc.Driver
+      jdbc-url: "ENC[N8TJ91Mja5488kdlAF6WSzeA5zETAlS3nUnhvF7ZtXrLLW2Fk3PliYZx4TbsjsDh]"
+#      jdbc-url: jdbc:mariadb://192.168.80.119:13306/snet
+      username: "ENC[vfKNKiEmFcLrSxnCwox1oQ==]"
+      password: "ENC[cJwN8yviVN740iDX7aumXQX+Y/KME+Ra]"
+      
+
+  servelt:
+    multipart:
+      enabled: true
+      file-size-threshold: 1MB
+      location: ${java.io.tmpdir}
+      max-file-size: 2MB
+      max-request-size: 2MB
+
+#Local Test
+#ServerIP=150.23.24.39
+
+#SERVER
+server:
+  port: 10225
+  ssl:
+    enabled: false
+    key-store: /home/sgwas/tomcat/cert/svmsKeyStore
+    #key-store: D:\\1.dev\\v3\\sg_setup\\apache-tomcat-9.0.30\\cert\svmsKeyStore
+    key-store-type: PKCS12
+    key-store-password: igloosec
+
+##language
+smartguard:
+  v3:
+    lang: KO
+    debug:
+      async: true
+      diagnosis: false
+    context:
+      jobDGTimeOut: 1800000            #30분
+      jobGSTimeOut: 1800000            #30분
+      jobNWTimeOut: 1800000            #30분
+      jobSetupTimeOut: 600000          #10분
+      jobControlTimeOut: 1800000       #30분
+      JobApiTimeOut: 1800000           #30분
+      JobLogTimeOut: 1800000           #30분
+      multiServices: N
+      diagExcept: Y                    #진단기준 제외 (3.1 부터 사용 가능)
+      useNotification: Y               #알림사용여부 (3.1 부터 사용 가능)
+      useLog4JChecker: N               #Log4J CVE 취약점 수집 사용 여부 (default N)
+      useLog4JgetCnt:  0               #수집할 개수 제한 (default 0)
+      autoUrlTypeUse: false             #Auto Diagnosis Type Setting
+      autoUrlSwName: JSP               # ASP,PHP,JSP,ASP.NET
+
+##file-location
+#sgn.file.default-path=d:/filetest
+#sgn.file.default-was-home=d:/filetest
+
+
+#\uac1c\ubc1c\uc6a9
+#temp-directory=c:/test
+#audit-directory=c:/test/home/mobigen
+#NET_CONF_FILE-directory=c:/test/home/mobigen
+#WEB_AUDIT_REG-directory=c:/test/home/sgwas
+#audit_asset-directory=c:/test/home/mobigen/service/systemInfo
+#LIB_FILE-directory=c:/test/home/sgwas
+#excel-directory=c:/test/home/sgwas/excel/
+#excel.temp-directory=c:/test/home/excel/temp
+

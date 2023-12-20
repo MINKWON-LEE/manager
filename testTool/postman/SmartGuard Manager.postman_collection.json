@@ -1,0 +1,2363 @@
+{
+	"id": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+	"name": "SmartGuard Manager",
+	"description": "",
+	"order": [
+		"fae49344-a517-3542-9103-ce8296484781"
+	],
+	"folders": [
+		{
+			"id": "ef6a1dce-33fc-8b98-3fa2-8431e3fdc136",
+			"name": "0.diags",
+			"description": "",
+			"order": [
+				"02a855eb-89dc-201d-7e0f-17e809e62e9c",
+				"6d60bf8b-13b7-de57-1e3e-212d1005253f",
+				"08602161-2e4e-7fea-bfe8-f3ac768e9b63",
+				"b3be5938-8f0c-0a7f-331f-ecf635712be4",
+				"e93119e0-53f6-7922-3d27-df141e1f4629",
+				"658421d1-faaf-02ca-1fe9-6d08b2da84ca",
+				"a34d4b35-3feb-c429-2208-1c058e4eba40"
+			],
+			"folders_order": [],
+			"owner": "1181952",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d"
+		},
+		{
+			"id": "816dfd31-661d-398b-01cd-cbfc0ad6edd5",
+			"name": "1.agentStatusMng",
+			"description": "",
+			"order": [
+				"577688de-3762-432f-df57-4a2ef78a673e",
+				"808e6c16-d7ad-e892-8273-5b74fffc7323"
+			],
+			"folders_order": [],
+			"owner": "1181952",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d"
+		},
+		{
+			"id": "9d90bc48-c0a0-3d25-e1ce-b3c0b1ee63ff",
+			"name": "10.nw-manual",
+			"description": "",
+			"order": [
+				"ab7d7d08-a3f3-3947-221d-e9407d3f073f",
+				"534eacc3-c7af-32eb-182e-bd4038f229da",
+				"29869535-ee8d-b479-da65-4c8b4c4d0680",
+				"983c59f7-9ef7-d184-9d26-bc2e89bc3019"
+			],
+			"folders_order": [],
+			"owner": "1181952",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d"
+		},
+		{
+			"id": "8d58f356-3663-b653-247f-f138a78cf8bb",
+			"name": "11.nw(online)",
+			"description": "",
+			"order": [
+				"1ac54635-ca5e-2713-96ef-26118ed097f6",
+				"82b48184-0c17-93f5-7430-f37f4d5319d2"
+			],
+			"folders_order": [],
+			"owner": "1181952",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d"
+		},
+		{
+			"id": "31449a6e-68eb-d5bf-529c-3d9e60059fc3",
+			"name": "12.checksum",
+			"description": "",
+			"order": [
+				"8e59cfa7-c530-2a0d-b234-cf527332bcdf",
+				"a12c5cdf-2e0f-05e8-c687-3c2add0aad06"
+			],
+			"folders_order": [],
+			"owner": "1181952",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d"
+		},
+		{
+			"id": "a32986c2-8e68-9361-3927-98dd062741c6",
+			"name": "2.agentStatusCheck(For update)",
+			"description": "",
+			"order": [
+				"36984cc9-bfad-f90e-ac4d-a54eb60f838e",
+				"4b5e3a46-4a0e-47d4-d55c-fe79c816f091"
+			],
+			"folders_order": [],
+			"owner": "1181952",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d"
+		},
+		{
+			"id": "351f215e-b5d4-5e1c-acaa-cc284315be77",
+			"name": "3.get",
+			"description": "",
+			"order": [
+				"56fa4a61-736d-eae9-852c-29a999de7a82",
+				"8cd5fc77-dec2-bcac-2058-067e9f488fb9",
+				"a295157d-a37f-c0b8-cd80-1f5edc87d19b",
+				"21d07fee-8461-4fab-9267-6559be39c621",
+				"dc9bbb33-bca6-0f3d-88eb-0f0157476643",
+				"6af3e354-89f1-07ce-91a1-01a18627c4c7",
+				"c731a970-6faf-4379-97f2-92a15f85faf6"
+			],
+			"folders_order": [],
+			"owner": "1181952",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d"
+		},
+		{
+			"id": "059fd694-61f6-c137-71f7-4332b5cbc387",
+			"name": "5.agentlog",
+			"description": "",
+			"order": [
+				"8b62b97d-117c-a691-f87b-d23bdb00ab7b",
+				"61f6b237-d8d8-abc2-ba14-78da0b3df5a2",
+				"e9aa1def-6208-1903-a405-dfa09161dbe2"
+			],
+			"folders_order": [],
+			"owner": "1181952",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d"
+		},
+		{
+			"id": "9705a757-ed2e-b09a-6db0-fd56b41923fb",
+			"name": "6.eventdiags",
+			"description": "",
+			"order": [
+				"f36d57a1-2d80-a50c-ddd7-8939ef4e4a3c",
+				"1063da24-21f9-a68c-3820-48fea5615520",
+				"c13e5706-0675-cd55-e3f8-95f39bc97d16",
+				"510fbb4e-762e-f17a-6e63-d3b9d88518b2",
+				"f7be4033-3eff-75fd-9130-1d81cc6c1515"
+			],
+			"folders_order": [],
+			"owner": "1181952",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d"
+		},
+		{
+			"id": "b48111da-3e5c-946b-8acd-f5c099d9acd6",
+			"name": "7.newdiags",
+			"description": "",
+			"order": [
+				"7f7b6c75-1db7-f6fc-8603-79d73f179dc8",
+				"1cb2955b-a830-e1ad-ef1c-931e86cca3ee",
+				"92493096-5a0a-eb82-e057-17045797fbd9",
+				"ab8bcf8e-27cf-24ec-3ce5-9a4faa4bafe2",
+				"3386bd16-b289-d3de-626b-63d8d8e36ba6"
+			],
+			"folders_order": [],
+			"owner": "1181952",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d"
+		},
+		{
+			"id": "0f9e3923-f407-b100-8d1c-14e65e0a01c7",
+			"name": "8.get (manual)",
+			"description": "",
+			"order": [
+				"a7f3083d-ad75-d2d3-b168-468f31b01bbc",
+				"f1b5586e-8ab6-b630-bcff-e6736794a490"
+			],
+			"folders_order": [],
+			"owner": "1181952",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d"
+		},
+		{
+			"id": "cf9c013c-1663-be53-d4c1-21270f3492de",
+			"name": "9.diags (manual)",
+			"description": "",
+			"order": [
+				"9786cb1b-f686-4cb1-573f-a3fb8bbe0e31",
+				"f2c249f6-fca3-3079-964c-17600aad0375"
+			],
+			"folders_order": [],
+			"owner": "1181952",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d"
+		},
+		{
+			"id": "42ceaa67-50d8-9cfb-1c45-95bc970a6c34",
+			"name": "Test",
+			"description": "",
+			"order": [
+				"650961ef-284d-b1dd-1557-260b6234d757",
+				"4274ec3d-322d-2fb9-0d0e-c84c36c1d240",
+				"05286e79-65bb-9d28-e77b-31f852a4c036",
+				"a4cddf2b-1d81-1dcd-3fca-e78cdf2431de",
+				"78761b06-7771-9a8f-4775-5f42ee6d0a17"
+			],
+			"folders_order": [],
+			"owner": "1181952",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d"
+		},
+		{
+			"id": "d686081a-5d0c-50da-528d-22386b3ad776",
+			"name": "edge-server",
+			"description": "",
+			"order": [
+				"be06beca-c134-17e0-8408-994660d8d557"
+			],
+			"folders_order": [],
+			"owner": "1181952",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d"
+		}
+	],
+	"folders_order": [
+		"d686081a-5d0c-50da-528d-22386b3ad776",
+		"ef6a1dce-33fc-8b98-3fa2-8431e3fdc136",
+		"816dfd31-661d-398b-01cd-cbfc0ad6edd5",
+		"a32986c2-8e68-9361-3927-98dd062741c6",
+		"351f215e-b5d4-5e1c-acaa-cc284315be77",
+		"059fd694-61f6-c137-71f7-4332b5cbc387",
+		"9705a757-ed2e-b09a-6db0-fd56b41923fb",
+		"b48111da-3e5c-946b-8acd-f5c099d9acd6",
+		"0f9e3923-f407-b100-8d1c-14e65e0a01c7",
+		"cf9c013c-1663-be53-d4c1-21270f3492de",
+		"9d90bc48-c0a0-3d25-e1ce-b3c0b1ee63ff",
+		"8d58f356-3663-b653-247f-f138a78cf8bb",
+		"31449a6e-68eb-d5bf-529c-3d9e60059fc3",
+		"42ceaa67-50d8-9cfb-1c45-95bc970a6c34"
+	],
+	"timestamp": 0,
+	"owner": "1181952",
+	"public": false,
+	"requests": [
+		{
+			"id": "02a855eb-89dc-201d-7e0f-17e809e62e9c",
+			"headers": "Authorization: {{agentAuth}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{agentAuth}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sga}}/agent/auth?ip=192.168.80.115&hostName=vision&os=unix",
+			"folder": "ef6a1dce-33fc-8b98-3fa2-8431e3fdc136",
+			"queryParams": [
+				{
+					"key": "ip",
+					"value": "192.168.80.115",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "hostName",
+					"value": "vision",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "os",
+					"value": "unix",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1591934975001,
+			"name": "auth api",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": []
+		},
+		{
+			"id": "05286e79-65bb-9d28-e77b-31f852a4c036",
+			"name": "diagFileUpload Test - restTemplate",
+			"description": "diagFileUpload Test",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"method": "POST",
+			"headers": "Authorization: {{autorization}}",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "",
+			"url": "{{host}}:{{port}}/manager/fileUpload/diag?assetCd={{assetCd_1}}&agentCd={{agentCd_1}}&auditFileCd=AFC160425121417&path=D:\\dev\\NEXT\\source\\sg_manager\\testTool\\sampledata\\diagnosis\\zip\\aes\\tmp&uri=http://192.168.80.118:10225/manager/v3/sga-api/asset/diagnosis/results/file/up&fileName=6366918285029216046.des",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [
+				{
+					"key": "assetCd",
+					"value": "{{assetCd_1}}"
+				},
+				{
+					"key": "agentCd",
+					"value": "{{agentCd_1}}"
+				},
+				{
+					"key": "auditFileCd",
+					"value": "AFC160425121417"
+				},
+				{
+					"key": "path",
+					"value": "D:\\dev\\NEXT\\source\\sg_manager\\testTool\\sampledata\\diagnosis\\zip\\aes\\tmp"
+				},
+				{
+					"key": "uri",
+					"value": "http://192.168.80.118:10225/manager/v3/sga-api/asset/diagnosis/results/file/up"
+				},
+				{
+					"key": "fileName",
+					"value": "6366918285029216046.des"
+				}
+			],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{autorization}}",
+					"type": "text"
+				}
+			],
+			"collection_id": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"folder": "42ceaa67-50d8-9cfb-1c45-95bc970a6c34"
+		},
+		{
+			"id": "08602161-2e4e-7fea-bfe8-f3ac768e9b63",
+			"headers": "Authorization: {{wasAuth}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{wasAuth}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sgs}}/asset/diagnosis/regist",
+			"folder": "ef6a1dce-33fc-8b98-3fa2-8431e3fdc136",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1592294401711,
+			"name": "diags request (was)",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": [],
+			"rawModeData": "[\r\n\t{\r\n\t\t\"assetCd\":\"{{assetCd_1}}\",\r\n\t\t\"jobType\":\"AJ100\",\r\n\t\t\"swType\":\"OS\",\r\n\t\t\"swNm\":\"Linux\",\r\n\t\t\"swInfo\":\"CentOS Linux release 7.5.1804 (Core)\",\r\n\t\t\"swDir\":\"-\",\r\n\t\t\"swUser\":\"-\",\r\n\t\t\"swEtc\":\"-\",\r\n\t\t\"managerCd\":\"T1sgmanager00000\",\r\n\t\t\"agentUseStime\":\"0001\",\r\n\t\t\"agentUseEtime\":\"2359\",\r\n\t\t\"auditSpeed\":\"1\"\r\n\t},\r\n\t{\r\n\t\t\"assetCd\":\"{{assetCd_2}}\",\r\n\t\t\"jobType\":\"AJ100\",\r\n\t\t\"swType\":\"OS\",\r\n\t\t\"swNm\":\"Linux\",\r\n\t\t\"swInfo\":\"CentOS Linux release 7.5.1804 (Core)\",\r\n\t\t\"swDir\":\"-\",\r\n\t\t\"swUser\":\"-\",\r\n\t\t\"swEtc\":\"-\",\r\n\t\t\"managerCd\":\"T1sgmanager00000\",\r\n\t\t\"agentUseStime\":\"0001\",\r\n\t\t\"agentUseEtime\":\"2359\",\r\n\t\t\"auditSpeed\":\"1\"\r\n\t}\r\n]\r\n"
+		},
+		{
+			"id": "1063da24-21f9-a68c-3820-48fea5615520",
+			"headers": "Authorization: {{agentAuth}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{agentAuth}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sgs}}/asset/diagnosis/regist",
+			"folder": "9705a757-ed2e-b09a-6db0-fd56b41923fb",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1593065010298,
+			"name": "event diags request (was)",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": [],
+			"rawModeData": "[\r\n\t{\r\n\t\t\"assetCd\":\"{{assetCd_115}}\",\r\n\t    \"jobType\":\"AJ101\",\r\n\t    \"prgId\":\"P20200131130653\",\r\n\t    \"swNm\":\"Linux\",\r\n\t    \"swInfo\":\"CentOS Linux release 7.5.1804 (Core)\",\r\n\t    \"swDir\":\"-\",\r\n\t    \"swUser\":\"-\",\r\n\t    \"swEtc\":\"-\",\r\n\t    \"managerCd\":\"T1sgmanager00000\",\r\n\t    \"agentUseStime\":\"0001\",\r\n\t    \"agentUseEtime\":\"2359\",\r\n\t    \"auditSpeed\":\"1\"\r\n\t}\r\n]"
+		},
+		{
+			"id": "1ac54635-ca5e-2713-96ef-26118ed097f6",
+			"headers": "Authorization: {{wasAuth}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{wasAuth}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sgs}}/asset/nw/get/regist",
+			"folder": "8d58f356-3663-b653-247f-f138a78cf8bb",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1593311598643,
+			"name": "nw get request - online (was)",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": [],
+			"rawModeData": "[\r\n\t{\r\n\t\t\"assetCd\":\"{{assetCd_nw1}}\",\r\n\t\t\"jobType\":\"WM300\",\r\n\t\t\"personManagerCd\":\"T1sgmanager00000\",\r\n\t\t\"swNm\":\"Juniper_SRX\"\r\n\t},\r\n\t{\r\n\t\t\"assetCd\":\"{{assetCd_nw2}}\",\r\n\t\t\"jobType\":\"WM300\",\r\n\t\t\"personManagerCd\":\"T1sgmanager00000\",\r\n\t\t\"swNm\":\"Cisco\"\r\n\t}\r\n]"
+		},
+		{
+			"id": "1cb2955b-a830-e1ad-ef1c-931e86cca3ee",
+			"name": "new diags request (srvmng) (was)",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"method": "POST",
+			"headers": "Authorization: {{autorization}}\nContent-Type: application/json",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\r\n    \"assetCd\":\"{{assetCd_115}}\",\r\n    \"jobType\":\"AJ102\",\r\n    \"swType\":\"DB\",\r\n    \"swNm\":\"MariaDB\",\r\n    \"swInfo\":\"10.1.32\",\r\n    \"swDir\":\"/usr/local/src/mariadb\",\r\n    \"swUser\":\"mysql\",\r\n    \"swEtc\":\"-\",\r\n    \"managerCd\":\"T1sgmanager00000\",\r\n    \"agentUseStime\":\"0001\",\r\n    \"agentUseEtime\":\"2359\",\r\n    \"auditSpeed\":\"1\"\r\n}",
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sgs}}/asset/diagnosis/srvmng/regist",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{autorization}}",
+					"type": "text"
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"type": "text"
+				}
+			],
+			"collection_id": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"folder": "b48111da-3e5c-946b-8acd-f5c099d9acd6"
+		},
+		{
+			"id": "21d07fee-8461-4fab-9267-6559be39c621",
+			"headers": "Authorization: {{wasAuth}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{wasAuth}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sgs}}/asset/get/list/regist",
+			"folder": "351f215e-b5d4-5e1c-acaa-cc284315be77",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1593083834525,
+			"name": "get request of list with only queue  (was)",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": [],
+			"rawModeData": "[\r\n\t{\r\n\t\"assetCd\":\"{{assetCd_1}}\",\r\n\t\"jobType\":\"AJ200\",\r\n\t\"personManagerCd\":\"T1sgmanager00000\"\r\n\t},\r\n\t{\r\n\t\"assetCd\":\"{{assetCd_2}}\",\r\n\t\"jobType\":\"AJ200\",\r\n\t\"personManagerCd\":\"T1sgmanager00000\"\r\n\t},\r\n\t{\r\n\t\"assetCd\":\"{{assetCd_3}}\",\r\n\t\"jobType\":\"AJ200\",\r\n\t\"personManagerCd\":\"T1sgmanager00000\"\r\n\t},\r\n\t{\r\n\t\"assetCd\":\"{{assetCd_115}}\",\r\n\t\"jobType\":\"AJ200\",\r\n\t\"personManagerCd\":\"T1sgmanager00000\"\r\n\t}\r\n]"
+		},
+		{
+			"id": "29869535-ee8d-b479-da65-4c8b4c4d0680",
+			"headers": "Authorization: {{wasAuth}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{wasAuth}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sgs}}/manual/asset/nw/diagnosis/regist",
+			"folder": "9d90bc48-c0a0-3d25-e1ce-b3c0b1ee63ff",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1593314494027,
+			"name": "nw diagnosis request - manual (was)",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": [],
+			"rawModeData": "[\r\n\t{\r\n\t\t\"assetCd\":\"{{assetCd_nwManual1}}\",\r\n\t\t\"jobType\":\"WM200\",\r\n\t\t\"personManagerCd\":\"T1sgmanager00000\",\r\n\t\t\"swNm\":\"Juniper_SRX\",\r\n\t\t\"fileNm\":\"20200108161703@_@_60.11.45.7.cfg\",\r\n\t\t\"message\":\"AUDIT\",\r\n\t\t\"swInfo\":\"12.3\"\r\n\t}\r\n]"
+		},
+		{
+			"id": "3386bd16-b289-d3de-626b-63d8d8e36ba6",
+			"name": "new diags result file upload (srvmng)",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"method": "POST",
+			"headers": "Authorization: {{autorization}}\nContent-Type: application/json",
+			"dataMode": "params",
+			"data": [
+				{
+					"key": "assetCd",
+					"value": "{{assetCd_1}}",
+					"type": "text"
+				},
+				{
+					"key": "agentCd",
+					"value": "{{assetCd_1}}",
+					"type": "text"
+				},
+				{
+					"key": "jobType",
+					"value": "AJ102",
+					"type": "text"
+				},
+				{
+					"key": "files",
+					"type": "file",
+					"src": [],
+					"value": ""
+				}
+			],
+			"rawModeData": "",
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sga}}/asset/file/up",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{autorization}}",
+					"type": "text"
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"type": "text"
+				}
+			],
+			"collection_id": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"folder": "b48111da-3e5c-946b-8acd-f5c099d9acd6"
+		},
+		{
+			"id": "36984cc9-bfad-f90e-ac4d-a54eb60f838e",
+			"headers": "Authorization: {{agentAuth}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{agentAuth}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sga}}/agent/jobs?version=1.2.2.PRODUCT&assetCd={{assetCd_115}}&agentCd={{agentCd_115}}",
+			"folder": "a32986c2-8e68-9361-3927-98dd062741c6",
+			"queryParams": [
+				{
+					"key": "version",
+					"value": "1.2.2.PRODUCT",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "assetCd",
+					"value": "{{assetCd_115}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "agentCd",
+					"value": "{{agentCd_115}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1592464192973,
+			"name": "jobapi - agentStatusMng",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": []
+		},
+		{
+			"id": "4274ec3d-322d-2fb9-0d0e-c84c36c1d240",
+			"headers": "Authorization: {{agentAuth}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{agentAuth}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/uploadTest/diagnosis?fileName=832341158364371119&path=D:/1.dev/v3/sg_manager/testTool/sampledata&assetCd=AC20191002133134",
+			"folder": "42ceaa67-50d8-9cfb-1c45-95bc970a6c34",
+			"queryParams": [
+				{
+					"key": "fileName",
+					"value": "832341158364371119",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "path",
+					"value": "D:/1.dev/v3/sg_manager/testTool/sampledata",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "assetCd",
+					"value": "AC20191002133134",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1592473037447,
+			"name": "make uploadFileTest - Diagnosis",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": []
+		},
+		{
+			"id": "4b5e3a46-4a0e-47d4-d55c-fe79c816f091",
+			"headers": "Authorization: {{agentAuth}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{agentAuth}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sga}}/asset/file/dn?assetCd={{assetCd_115}}&agentCd={{agentCd_115}}&jobType=AJ603",
+			"folder": "a32986c2-8e68-9361-3927-98dd062741c6",
+			"queryParams": [
+				{
+					"key": "assetCd",
+					"value": "{{assetCd_115}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "agentCd",
+					"value": "{{agentCd_115}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "jobType",
+					"value": "AJ603",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1592464183355,
+			"name": "agent update file download",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": []
+		},
+		{
+			"id": "510fbb4e-762e-f17a-6e63-d3b9d88518b2",
+			"headers": "Authorization: {{agentAuth}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{agentAuth}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sga}}/asset/process?assetCd={{assetCd_115}}&agentCd={{assetCd_115}}&auditFileCd={{auditFileCd_115}}&notiType=AN060&jobType=AJ101&message=sudo가 안된다.",
+			"folder": "9705a757-ed2e-b09a-6db0-fd56b41923fb",
+			"queryParams": [
+				{
+					"key": "assetCd",
+					"value": "{{assetCd_115}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "agentCd",
+					"value": "{{assetCd_115}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "auditFileCd",
+					"value": "{{auditFileCd_115}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "notiType",
+					"value": "AN060",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "jobType",
+					"value": "AJ101",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "message",
+					"value": "sudo가 안된다.",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1592547764098,
+			"name": "event diags process",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": [],
+			"rawModeData": "{\r\n\t\"assetCd\":\"{{assetCd_115}}\",\r\n\t\"agentCd\":\"{{agentCd_115}}\",\r\n\t\"auditFileCd\":\"{{auditFileCd_115}}\",\r\n\t\"notiType\":\"AN060\",\r\n\t\"jobType\":\"AJ101\",\r\n\t\"message\":\"sudo가 안된다.\"\r\n}"
+		},
+		{
+			"id": "534eacc3-c7af-32eb-182e-bd4038f229da",
+			"headers": "Authorization: {{wasAuth}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{wasAuth}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sgs}}/manual/asset/nw/get/regist",
+			"folder": "9d90bc48-c0a0-3d25-e1ce-b3c0b1ee63ff",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1593314488704,
+			"name": "nw get multi request - manual (was)",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": [],
+			"rawModeData": "[\r\n\t{\r\n\t\t\"assetCd\":\"{{assetCd_nwManual1}}\",\r\n\t\t\"jobType\":\"WM201\",\r\n\t\t\"personManagerCd\":\"T1sgmanager00000\",\r\n\t\t\"swNm\":\"Juniper_SRX\",\r\n\t\t\"fileNm\":\"20200108161703@_@_60.11.45.7.cfg\",\r\n\t\t\"message\":\"REGI\",\r\n\t\t\"nwUrlCd\":\"/home/sgwas/diagnosis/NWURL200511104824/\" \r\n\t},\r\n\t{\r\n\t\t\"assetCd\":\"{{assetCd_nwManual2}}\",\r\n\t\t\"jobType\":\"WM201\",\r\n\t\t\"personManagerCd\":\"T1sgmanager00000\",\r\n\t\t\"swNm\":\"Juniper_SRX\",\r\n\t\t\"fileNm\":\"20200108161703@_@_RRA_I_BB_2_display_set.cfg\",\r\n\t\t\"message\":\"REGI\",\r\n\t\t\"nwUrlCd\":\"/home/sgwas/diagnosis/NWURL200511104824/\"\r\n\t}\r\n]"
+		},
+		{
+			"id": "56fa4a61-736d-eae9-852c-29a999de7a82",
+			"headers": "Authorization: {{agentAuth}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{agentAuth}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sga}}/agent/jobs?version=1.2.2.PRODUCT&assetCd={{assetCd_115}}&agentCd={{agentCd_115}}",
+			"folder": "351f215e-b5d4-5e1c-acaa-cc284315be77",
+			"queryParams": [
+				{
+					"key": "version",
+					"value": "1.2.2.PRODUCT",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "assetCd",
+					"value": "{{assetCd_115}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "agentCd",
+					"value": "{{agentCd_115}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1592545634018,
+			"name": "jobapi - get",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": []
+		},
+		{
+			"id": "577688de-3762-432f-df57-4a2ef78a673e",
+			"headers": "Authorization: {{wasAuth}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{wasAuth}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sgs}}/agent/control/regist",
+			"folder": "816dfd31-661d-398b-01cd-cbfc0ad6edd5",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1592381264767,
+			"name": "agentStatusMng (was)",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": [],
+			"rawModeData": "[\r\n\t{\r\n\t\t\"assetCd\": \"AC20200616180424\",\r\n\t\t\"agentCd\": \"\",\r\n\t\t\"jobType\": \"AJ600\"\r\n\t}\r\n]"
+		},
+		{
+			"id": "61f6b237-d8d8-abc2-ba14-78da0b3df5a2",
+			"name": "agent log collection - request (was)",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"method": "POST",
+			"headers": "Authorization: {{autorization}}\nContent-Type: application/json",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "[\r\n\t{\r\n\t\t\"assetCd\":\"{{assetCd_115}}\",\r\n\t\t\"jobType\":\"AJ300\"\r\n\t}\r\n]",
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sgs}}/agent/collection/logs/regist",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{autorization}}",
+					"type": "text"
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"type": "text"
+				}
+			],
+			"collection_id": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"folder": "059fd694-61f6-c137-71f7-4332b5cbc387"
+		},
+		{
+			"id": "650961ef-284d-b1dd-1557-260b6234d757",
+			"headers": "Authorization: {{agentAuth}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{agentAuth}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/uploadTest/get?fileName=2617807940932159205&path=D:/1.dev/v3/sg_manager/testTool/sampledata&assetCd=AC20191002133134",
+			"folder": "42ceaa67-50d8-9cfb-1c45-95bc970a6c34",
+			"queryParams": [
+				{
+					"key": "fileName",
+					"value": "2617807940932159205",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "path",
+					"value": "D:/1.dev/v3/sg_manager/testTool/sampledata",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "assetCd",
+					"value": "AC20191002133134",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1592987282583,
+			"name": "make uploadFileTest - Get",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": []
+		},
+		{
+			"id": "658421d1-faaf-02ca-1fe9-6d08b2da84ca",
+			"headers": "Authorization: {{agentAuth}}\n//Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{agentAuth}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": false
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sga}}/asset/file/up",
+			"folder": "ef6a1dce-33fc-8b98-3fa2-8431e3fdc136",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [
+				{
+					"key": "assetCd",
+					"value": "AC20200616180424",
+					"type": "text"
+				},
+				{
+					"key": "agentCd",
+					"value": "AC20200616180424120",
+					"type": "text"
+				},
+				{
+					"key": "jobType",
+					"value": "AJ100",
+					"type": "text"
+				},
+				{
+					"key": "files",
+					"type": "file",
+					"src": "/D:/dev/NEXT/source/sg_manager/testTool/sampledata/diagnosis/zip/aes/tmp/3308157690576261466.des",
+					"value": "3863659614993360913.des"
+				}
+			],
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1592367794785,
+			"name": "diags result file upload",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": []
+		},
+		{
+			"id": "6af3e354-89f1-07ce-91a1-01a18627c4c7",
+			"headers": "Authorization: {{agentAuth}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{agentAuth}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sga}}/asset/process?assetCd={{assetCd_1}}&agentCd={{agentCd_1}}&auditFileCd={{auditFileCd_115}}&notiType=AN001&jobType=AJ200",
+			"folder": "351f215e-b5d4-5e1c-acaa-cc284315be77",
+			"queryParams": [
+				{
+					"key": "assetCd",
+					"value": "{{assetCd_1}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "agentCd",
+					"value": "{{agentCd_1}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "auditFileCd",
+					"value": "{{auditFileCd_115}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "notiType",
+					"value": "AN001",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "jobType",
+					"value": "AJ200",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1592545716799,
+			"name": "get process",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": [],
+			"rawModeData": "{\r\n  \"assetCd\": \"{{assetCd_1}}\",\r\n  \"agentCd\": \"{{agentCd_1}}\",\r\n  \"auditFileCd\": \"{{auditFileCd_115}}\",\r\n  \"notiType\": \"AN001\",\r\n  \"jobType\": \"AJ100\"\r\n}"
+		},
+		{
+			"id": "6d60bf8b-13b7-de57-1e3e-212d1005253f",
+			"headers": "Authorization: {{agentAuth}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{agentAuth}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sga}}/agent/jobs?version=3.2.2.PRODUCT&assetCd={{assetCd_1}}&agentCd={{agentCd_1}}",
+			"folder": "ef6a1dce-33fc-8b98-3fa2-8431e3fdc136",
+			"queryParams": [
+				{
+					"key": "version",
+					"value": "3.2.2.PRODUCT",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "assetCd",
+					"value": "{{assetCd_1}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "agentCd",
+					"value": "{{agentCd_1}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1593161969698,
+			"name": "jobapi - diags",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": []
+		},
+		{
+			"id": "78761b06-7771-9a8f-4775-5f42ee6d0a17",
+			"name": "make NeAgentLog",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"method": "POST",
+			"headers": "Authorization: {{autorization}}",
+			"data": [],
+			"rawModeData": "",
+			"pathVariables": {},
+			"url": "{{host}}:{{port}}/manager/logFileTest/NeAgent?fileName=3969186666607122756&path=D:\\dev\\NEXT\\source\\sg_manager\\testTool\\sampledata&assetCd=AC20191002133134",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [
+				{
+					"key": "fileName",
+					"value": "3969186666607122756"
+				},
+				{
+					"key": "path",
+					"value": "D:\\dev\\NEXT\\source\\sg_manager\\testTool\\sampledata"
+				},
+				{
+					"key": "assetCd",
+					"value": "AC20191002133134"
+				}
+			],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"type": "text",
+					"value": "{{autorization}}"
+				}
+			],
+			"collection_id": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"isFromCollection": true,
+			"collectionRequestId": "78761b06-7771-9a8f-4775-5f42ee6d0a17",
+			"folder": "42ceaa67-50d8-9cfb-1c45-95bc970a6c34"
+		},
+		{
+			"id": "7f7b6c75-1db7-f6fc-8603-79d73f179dc8",
+			"name": "jobapi - new diags (srvmng)",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"method": "GET",
+			"headers": "Authorization: {{autorization}}",
+			"data": [],
+			"rawModeData": "",
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sga}}/agent/jobs?version=1.2.2.PRODUCT&assetCd={{assetCd_115}}&agentCd={{agentCd_115}}",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [
+				{
+					"key": "version",
+					"value": "1.2.2.PRODUCT"
+				},
+				{
+					"key": "assetCd",
+					"value": "{{assetCd_115}}"
+				},
+				{
+					"key": "agentCd",
+					"value": "{{agentCd_115}}"
+				}
+			],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"type": "text",
+					"value": "{{autorization}}"
+				}
+			],
+			"collection_id": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"folder": "b48111da-3e5c-946b-8acd-f5c099d9acd6"
+		},
+		{
+			"id": "808e6c16-d7ad-e892-8273-5b74fffc7323",
+			"headers": "Authorization: {{agentAuth}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{agentAuth}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sga}}/agent/jobs?version=1.2.2.PRODUCT&assetCd=AC20200616180424&agentCd=AG20191008132553507",
+			"folder": "816dfd31-661d-398b-01cd-cbfc0ad6edd5",
+			"queryParams": [
+				{
+					"key": "version",
+					"value": "1.2.2.PRODUCT",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "assetCd",
+					"value": "AC20200616180424",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "agentCd",
+					"value": "AG20191008132553507",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1592381557831,
+			"name": "jobapi - agentStatusMng",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": []
+		},
+		{
+			"id": "82b48184-0c17-93f5-7430-f37f4d5319d2",
+			"headers": "Authorization: {{wasAuth}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{wasAuth}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sgs}}/asset/nw/diagnosis/regist",
+			"folder": "8d58f356-3663-b653-247f-f138a78cf8bb",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1593312348092,
+			"name": "nw diagnosis request - online (was)",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": [],
+			"rawModeData": "[\r\n\t{\r\n\t\t\"assetCd\":\"{{assetCd_nw1}}\",\r\n\t\t\"jobType\":\"WM302\",\r\n\t\t\"swType\":\"NW\",\r\n\t\t\"swNm\":\"Juniper_SRX\",\r\n\t\t\"swInfo\":\"12.3\",\r\n\t\t\"swDir\":\"-\",\r\n\t\t\"swUser\":\"-\",\r\n\t\t\"swEtc\":\"-\",\r\n\t\t\"managerCd\":\"T1sgmanager00000\",\r\n\t\t\"agentUseStime\":\"0001\",\r\n\t\t\"agentUseEtime\":\"2359\",\r\n\t\t\"auditSpeed\":\"1\"\r\n\t},\r\n\t{\r\n\t\t\"assetCd\":\"{{assetCd_nw2}}\",\r\n\t\t\"jobType\":\"WM302\",\r\n\t\t\"swType\":\"NW\",\r\n\t\t\"swNm\":\"Cisco\",\r\n\t\t\"swInfo\":\"15.0\",\r\n\t\t\"swDir\":\"-\",\r\n\t\t\"swUser\":\"-\",\r\n\t\t\"swEtc\":\"-\",\r\n\t\t\"managerCd\":\"T1sgmanager00000\",\r\n\t\t\"agentUseStime\":\"0001\",\r\n\t\t\"agentUseEtime\":\"2359\",\r\n\t\t\"auditSpeed\":\"1\"\r\n\t}\r\n]"
+		},
+		{
+			"id": "8b62b97d-117c-a691-f87b-d23bdb00ab7b",
+			"name": "jobapi - agent log collection",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"method": "GET",
+			"headers": "Authorization: {{autorization}}",
+			"data": [],
+			"rawModeData": "",
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sga}}/agent/jobs?version=1.2.2.PRODUCT&assetCd={{assetCd_115}}&agentCd={{agentCd_115}}",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [
+				{
+					"key": "version",
+					"value": "1.2.2.PRODUCT"
+				},
+				{
+					"key": "assetCd",
+					"value": "{{assetCd_115}}"
+				},
+				{
+					"key": "agentCd",
+					"value": "{{agentCd_115}}"
+				}
+			],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"type": "text",
+					"value": "{{autorization}}"
+				}
+			],
+			"collection_id": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"folder": "059fd694-61f6-c137-71f7-4332b5cbc387"
+		},
+		{
+			"id": "8cd5fc77-dec2-bcac-2058-067e9f488fb9",
+			"headers": "Authorization: {{wasAuth}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{wasAuth}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sgs}}/asset/get/list/regist",
+			"folder": "351f215e-b5d4-5e1c-acaa-cc284315be77",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1593159791400,
+			"name": "get request of list  (was)",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": [],
+			"rawModeData": "[\r\n\t{\r\n\t\"assetCd\":\"{{assetCd_1}}\",\r\n\t\"jobType\":\"AJ200\",\r\n\t\"personManagerCd\":\"T1sgmanager00000\"\r\n\t},\r\n\t{\r\n\t\"assetCd\":\"{{assetCd_2}}\",\r\n\t\"jobType\":\"AJ200\",\r\n\t\"personManagerCd\":\"T1sgmanager00000\"\r\n\t},\r\n\t{\r\n\t\"assetCd\":\"{{assetCd_3}}\",\r\n\t\"jobType\":\"AJ200\",\r\n\t\"personManagerCd\":\"T1sgmanager00000\"\r\n\t},\r\n\t{\r\n\t\"assetCd\":\"{{assetCd_nA_1}}\",\r\n\t\"jobType\":\"AJ200\",\r\n\t\"personManagerCd\":\"T1sgmanager00000\"\r\n\t},\r\n\t{\r\n\t\"assetCd\":\"{{assetCd_nA_2}}\",\r\n\t\"jobType\":\"AJ200\",\r\n\t\"personManagerCd\":\"T1sgmanager00000\"\r\n\t},\r\n\t{\r\n\t\"assetCd\":\"{{assetCd_nA_3}}\",\r\n\t\"jobType\":\"AJ200\",\r\n\t\"personManagerCd\":\"T1sgmanager00000\"\r\n\t},\r\n\t{\r\n\t\"assetCd\":\"{{assetCd_nA_4}}\",\r\n\t\"jobType\":\"AJ200\",\r\n\t\"personManagerCd\":\"T1sgmanager00000\"\r\n\t}\r\n]"
+		},
+		{
+			"id": "8e59cfa7-c530-2a0d-b234-cf527332bcdf",
+			"headers": "Authorization: {{wasAuth}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{wasAuth}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sgs}}/checksum/updates",
+			"folder": "31449a6e-68eb-d5bf-529c-3d9e60059fc3",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1592963138178,
+			"name": "checksum-updates - get (was)",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": [],
+			"rawModeData": "[\r\n\t{\r\n\t\t\"jobType\":\"WM400\",\r\n\t\t\"fileType\":\"scripts\",\r\n\t\t\"special\":\"gunix\"\r\n\t}\r\n]"
+		},
+		{
+			"id": "92493096-5a0a-eb82-e057-17045797fbd9",
+			"name": "new diag file request (srvmng)",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"method": "GET",
+			"headers": "Authorization: {{autorization}}",
+			"data": [],
+			"rawModeData": "",
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sga}}/asset/file/dn?assetCd={{assetCd_115}}&agentCd={{agentCd_115}}&auditFileCd={{auditFileCd_115}}&jobType=AJ102",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [
+				{
+					"key": "assetCd",
+					"value": "{{assetCd_115}}"
+				},
+				{
+					"key": "agentCd",
+					"value": "{{agentCd_115}}"
+				},
+				{
+					"key": "auditFileCd",
+					"value": "{{auditFileCd_115}}"
+				},
+				{
+					"key": "jobType",
+					"value": "AJ102"
+				}
+			],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{autorization}}",
+					"type": "text"
+				}
+			],
+			"collection_id": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"folder": "b48111da-3e5c-946b-8acd-f5c099d9acd6"
+		},
+		{
+			"id": "9786cb1b-f686-4cb1-573f-a3fb8bbe0e31",
+			"headers": "Authorization: {{wasAuth}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{wasAuth}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sgs}}/manual/asset/diagnosis/regist",
+			"folder": "cf9c013c-1663-be53-d4c1-21270f3492de",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1592212716762,
+			"name": "diags request - manual (was)",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": [],
+			"rawModeData": "[\r\n\t{\r\n\t\t\"assetCd\":\"{{assetCd_manual1}}\",\r\n    \t\"jobType\":\"WM102\",\r\n    \t\"fileNm\":\"20200507170425@_@_vision200_20200507_CLNX_76\",\r\n    \t\"swType\":\"OS\",\r\n    \t\"swNm\":\"Linux\",\r\n    \t\"swInfo\":\"CentOS Linux release 7.5.1804 (Core)\",\r\n    \t\"swDir\":\"-\",\r\n    \t\"swUser\":\"-\",\r\n    \t\"swEtc\":\"-\",\r\n    \t\"ipAddress\":\"192.168.80.200\",\r\n    \t\"hostNm\":\"vision200\"\r\n\t}\r\n]"
+		},
+		{
+			"id": "983c59f7-9ef7-d184-9d26-bc2e89bc3019",
+			"headers": "Authorization: {{wasAuth}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{wasAuth}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sgs}}/manual/asset/nw/diagnosis/regist",
+			"folder": "9d90bc48-c0a0-3d25-e1ce-b3c0b1ee63ff",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1593314499309,
+			"name": "nw diagnosis multi request - manual (was)",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": [],
+			"rawModeData": "[\r\n\t{\r\n\t\t\"assetCd\":\"{{assetCd_nwManual1}}\",\r\n\t\t\"jobType\":\"WM201\",\r\n\t\t\"personManagerCd\":\"T1sgmanager00000\",\r\n\t\t\"swNm\":\"Juniper_SRX\",\r\n\t\t\"fileNm\":\"20200108161703@_@_60.11.45.7.cfg\",\r\n\t\t\"message\":\"AUDIT\",\r\n\t\t\"nwUrlCd\":\"/home/sgwas/diagnosis/NWURL200511104824/\" \r\n\t},\r\n\t{\r\n\t\t\"assetCd\":\"{{assetCd_nwManual2}}\",\r\n\t\t\"jobType\":\"WM201\",\r\n\t\t\"personManagerCd\":\"T1sgmanager00000\",\r\n\t\t\"swNm\":\"Cisco\",\r\n\t\t\"fileNm\":\"20200108161703@_@_RRA_I_BB_2_display_set.cfg\",\r\n\t\t\"message\":\"AUDIT\",\r\n\t\t\"nwUrlCd\":\"/home/sgwas/diagnosis/NWURL200511104824/\",\r\n\t\t\"swInfo\":\"15.0\"\r\n\t}\r\n]"
+		},
+		{
+			"id": "a12c5cdf-2e0f-05e8-c687-3c2add0aad06",
+			"headers": "Authorization: {{wasAuth}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{wasAuth}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sgs}}/checksum/updates",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"data": [],
+			"dataMode": "raw",
+			"name": "checksum-updates - installer (was)",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1592963121199,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"folder": "31449a6e-68eb-d5bf-529c-3d9e60059fc3",
+			"rawModeData": "[\r\n\t{\r\n\t\t\"jobType\":\"WM401\",\r\n\t\t\"fileType\":\"installer\"\r\n\t}\r\n]"
+		},
+		{
+			"id": "a295157d-a37f-c0b8-cd80-1f5edc87d19b",
+			"headers": "Authorization: {{wasAuth}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{wasAuth}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sgs}}/asset/get/regist",
+			"folder": "351f215e-b5d4-5e1c-acaa-cc284315be77",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1593157218913,
+			"name": "get request for ssh(was)",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": [],
+			"rawModeData": "[\r\n\t{\r\n\t\t\"assetCd\":\"{{assetCd_nA_1}}\",\r\n\t\t\"jobType\":\"AJ200\",\r\n\t\t\"personManagerCd\":\"T1sgmanager00000\"\r\n\t}\r\n]"
+		},
+		{
+			"id": "a34d4b35-3feb-c429-2208-1c058e4eba40",
+			"headers": "Authorization: {{wasAuth}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{wasAuth}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sgs}}/asset/diagnosis/delete",
+			"folder": "ef6a1dce-33fc-8b98-3fa2-8431e3fdc136",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1592905868467,
+			"name": "diags delete (was)",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": [],
+			"rawModeData": "[\r\n    {\r\n        \"assetCd\":\"AC20181022133600\",\r\n        \"jobType\":\"AJ150\",\r\n        \"swType\":\"OS\",\r\n        \"swNm\": \"Linux\",\r\n        \"swInfo\":\"Red Hat Enterprise Linux Server release 7.3 (Maipo)\",\r\n        \"swDir\":\"-\",\r\n        \"swUser\": \"-\",\r\n        \"swEtc\": \"-\",\r\n        \"managerCd\":  \"T1899589511187\",\r\n        \"agentUserStime\": \"0001\",\r\n        \"agentEtime\": \"2359\"\r\n    }\r\n]"
+		},
+		{
+			"id": "a4cddf2b-1d81-1dcd-3fca-e78cdf2431de",
+			"name": "diagFileUpload Test - url Connection",
+			"description": "diagFileUpload Test",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"method": "POST",
+			"headers": "Authorization: {{autorization}}",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "",
+			"url": "{{host}}:{{port}}/manager/fileUpload/urlcon/diag?assetCd={{assetCd_1}}&agentCd={{agentCd_1}}&auditFileCd=AFC160425121417&path=D:\\dev\\NEXT\\source\\sg_manager\\testTool\\sampledata\\diagnosis\\zip\\aes\\tmp&uri=http://192.168.80.118:10225/manager/v3/sga-api/asset/diagnosis/results/file/up&fileName=2142341118625339005.des",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [
+				{
+					"key": "assetCd",
+					"value": "{{assetCd_1}}"
+				},
+				{
+					"key": "agentCd",
+					"value": "{{agentCd_1}}"
+				},
+				{
+					"key": "auditFileCd",
+					"value": "AFC160425121417"
+				},
+				{
+					"key": "path",
+					"value": "D:\\dev\\NEXT\\source\\sg_manager\\testTool\\sampledata\\diagnosis\\zip\\aes\\tmp"
+				},
+				{
+					"key": "uri",
+					"value": "http://192.168.80.118:10225/manager/v3/sga-api/asset/diagnosis/results/file/up"
+				},
+				{
+					"key": "fileName",
+					"value": "2142341118625339005.des"
+				}
+			],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"type": "text",
+					"value": "{{autorization}}"
+				}
+			],
+			"collection_id": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"folder": "42ceaa67-50d8-9cfb-1c45-95bc970a6c34"
+		},
+		{
+			"id": "a7f3083d-ad75-d2d3-b168-468f31b01bbc",
+			"headers": "Authorization: {{wasAuth}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{wasAuth}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sgs}}/manual/asset/get/regist",
+			"folder": "0f9e3923-f407-b100-8d1c-14e65e0a01c7",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1593312494980,
+			"name": "get request - manual (was)",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": [],
+			"rawModeData": "[\r\n\t{\r\n\t\t\"assetCd\":\"{{assetCd_manual1}}\",\r\n\t\t\"jobType\":\"WM100\",\r\n\t\t\"fileNm\":\"AC20209999999200\",\r\n\t\t\"managerCd\":\"T1sgmanager00000\"\r\n\t}\r\n]"
+		},
+		{
+			"id": "ab7d7d08-a3f3-3947-221d-e9407d3f073f",
+			"headers": "Authorization: {{wasAuth}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{wasAuth}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sgs}}/manual/asset/nw/get/regist",
+			"folder": "9d90bc48-c0a0-3d25-e1ce-b3c0b1ee63ff",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1593314481312,
+			"name": "nw get request - manual (was)",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": [],
+			"rawModeData": "[\r\n\t{\r\n\t\t\"assetCd\":\"{{assetCd_nwManual1}}\",\r\n\t\t\"jobType\":\"WM200\",\r\n\t\t\"personManagerCd\":\"T1sgmanager00000\",\r\n\t\t\"swNm\":\"Juniper_SRX\",\r\n\t\t\"fileNm\":\"20200108161703@_@_60.11.45.7.cfg\",\r\n\t\t\"message\":\"REGI\"\r\n\t}\r\n]"
+		},
+		{
+			"id": "ab8bcf8e-27cf-24ec-3ce5-9a4faa4bafe2",
+			"name": "new diags process (srvmng)",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"method": "POST",
+			"headers": "Authorization: {{autorization}}\nContent-Type: application/json",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\r\n\t\"assetCd\":\"{{assetCd_115}}\",\r\n\t\"agentCd\":\"{{agentCd_115}}\",\r\n\t\"auditFileCd\":\"{{auditFileCd_115}}\",\r\n\t\"notiType\":\"AN001\",\r\n\t\"jobType\":\"AJ102\"\r\n}",
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sga}}/asset/process",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{autorization}}",
+					"type": "text"
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"type": "text"
+				}
+			],
+			"collection_id": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"folder": "b48111da-3e5c-946b-8acd-f5c099d9acd6"
+		},
+		{
+			"id": "b3be5938-8f0c-0a7f-331f-ecf635712be4",
+			"headers": "Authorization: {{agentAuth}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{agentAuth}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sga}}/asset/file/dn?assetCd={{assetCd_1}}&agentCd={{agentCd_1}}&auditFileCd={{auditFileCd_115}}&jobType=AJ100",
+			"folder": "ef6a1dce-33fc-8b98-3fa2-8431e3fdc136",
+			"queryParams": [
+				{
+					"key": "assetCd",
+					"value": "{{assetCd_1}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "agentCd",
+					"value": "{{agentCd_1}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "auditFileCd",
+					"value": "{{auditFileCd_115}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "jobType",
+					"value": "AJ100",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1592294515395,
+			"name": "diag file request",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": []
+		},
+		{
+			"id": "be06beca-c134-17e0-8408-994660d8d557",
+			"name": "agent jobs",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"method": "GET",
+			"headers": "Authorization: bf4907c0926c7ed9d50235477748b48e3f80039d890136544b2ffc83393a58a6",
+			"data": [],
+			"rawModeData": "",
+			"url": "{{ehost}}:{{eport}}/api/manager-service/manager/{{ver}}/{{sgs}}/agent/jobs?agentCd=AG20190219092600157",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [
+				{
+					"key": "agentCd",
+					"value": "AG20190219092600157"
+				}
+			],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "bf4907c0926c7ed9d50235477748b48e3f80039d890136544b2ffc83393a58a6"
+				}
+			],
+			"collection_id": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"folder": "d686081a-5d0c-50da-528d-22386b3ad776"
+		},
+		{
+			"id": "c13e5706-0675-cd55-e3f8-95f39bc97d16",
+			"name": "event diag file request",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"method": "GET",
+			"headers": "Authorization: {{autorization}}",
+			"data": [],
+			"rawModeData": "",
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sga}}/asset/file/dn?assetCd={{assetCd_115}}&agentCd={{agentCd_115}}&auditFileCd={{auditFileCd_115}}&jobType=AJ101",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [
+				{
+					"key": "assetCd",
+					"value": "{{assetCd_115}}"
+				},
+				{
+					"key": "agentCd",
+					"value": "{{agentCd_115}}"
+				},
+				{
+					"key": "auditFileCd",
+					"value": "{{auditFileCd_115}}"
+				},
+				{
+					"key": "jobType",
+					"value": "AJ101"
+				}
+			],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{autorization}}",
+					"type": "text"
+				}
+			],
+			"collection_id": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"folder": "9705a757-ed2e-b09a-6db0-fd56b41923fb"
+		},
+		{
+			"id": "c731a970-6faf-4379-97f2-92a15f85faf6",
+			"headers": "Authorization: {{agentAuth}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{agentAuth}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sga}}/asset/file/up",
+			"folder": "351f215e-b5d4-5e1c-acaa-cc284315be77",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [
+				{
+					"key": "assetCd",
+					"value": "{{assetCd_115}}",
+					"type": "text"
+				},
+				{
+					"key": "agentCd",
+					"value": "{{agentCd_115}}",
+					"type": "text"
+				},
+				{
+					"key": "jobType",
+					"value": "AJ200",
+					"type": "text"
+				},
+				{
+					"key": "files",
+					"type": "file",
+					"src": "/D:/dev/NEXT/source/sg_manager/testTool/sampledata/get/zip/aes/tmp/8940105379587265948.des",
+					"value": "2617807940932159205.des"
+				}
+			],
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1592987390967,
+			"name": "get result file upload",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": []
+		},
+		{
+			"id": "dc9bbb33-bca6-0f3d-88eb-0f0157476643",
+			"headers": "Authorization: {{agentAuth}}\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{agentAuth}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sga}}/asset/file/dn?assetCd={{assetCd_115}}&agentCd={{agentCd_115}}&auditFileCd={{auditFileCd_115}}&jobType=AJ200",
+			"folder": "351f215e-b5d4-5e1c-acaa-cc284315be77",
+			"queryParams": [
+				{
+					"key": "assetCd",
+					"value": "{{assetCd_115}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "agentCd",
+					"value": "{{agentCd_115}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "auditFileCd",
+					"value": "{{auditFileCd_115}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "jobType",
+					"value": "AJ200",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1592545650578,
+			"name": "get file request",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": []
+		},
+		{
+			"id": "e93119e0-53f6-7922-3d27-df141e1f4629",
+			"headers": "Authorization: {{agentAuth}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{agentAuth}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sga}}/asset/process?assetCd={{assetCd_1}}&agentCd={{agentCd_1}}&auditFileCd={{auditFileCd_115}}&notiType=AN001&jobType=AJ100",
+			"folder": "ef6a1dce-33fc-8b98-3fa2-8431e3fdc136",
+			"queryParams": [
+				{
+					"key": "assetCd",
+					"value": "{{assetCd_1}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "agentCd",
+					"value": "{{agentCd_1}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "auditFileCd",
+					"value": "{{auditFileCd_115}}",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "notiType",
+					"value": "AN001",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "jobType",
+					"value": "AJ100",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1592366088826,
+			"name": "diags process",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": [],
+			"rawModeData": "{\r\n  \"assetCd\": \"{{assetCd_1}}\",\r\n  \"agentCd\": \"{{agentCd_1}}\",\r\n  \"auditFileCd\": \"{{auditFileCd_115}}\",\r\n  \"notiType\": \"AN001\",\r\n  \"jobType\": \"AJ100\"\r\n}"
+		},
+		{
+			"id": "e9aa1def-6208-1903-a405-dfa09161dbe2",
+			"name": "agent log collection result file upload",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"method": "POST",
+			"headers": "Authorization: {{autorization}}\nContent-Type: application/json",
+			"dataMode": "params",
+			"data": [
+				{
+					"key": "assetCd",
+					"value": "{{assetCd_115}}",
+					"type": "text"
+				},
+				{
+					"key": "agentCd",
+					"value": "{{agentCd_115}}",
+					"type": "text"
+				},
+				{
+					"key": "jobType",
+					"value": "AJ300",
+					"type": "text"
+				},
+				{
+					"key": "files",
+					"type": "file",
+					"src": "/D:/dev/NEXT/source/sg_manager/testTool/sampledata/NeAgentLog/zip/aes/tmp/4631539116374776636.des",
+					"value": ""
+				}
+			],
+			"rawModeData": "",
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sga}}/asset/file/up",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{autorization}}",
+					"type": "text"
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"type": "text"
+				}
+			],
+			"collection_id": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"folder": "059fd694-61f6-c137-71f7-4332b5cbc387"
+		},
+		{
+			"id": "f1b5586e-8ab6-b630-bcff-e6736794a490",
+			"headers": "Authorization: {{wasAuth}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{wasAuth}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sgs}}/manual/asset/get/regist",
+			"folder": "0f9e3923-f407-b100-8d1c-14e65e0a01c7",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1593312866585,
+			"name": "get request multi - manual (was)",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": [],
+			"rawModeData": "[\r\n\t{\r\n\t\t\"assetCd\":\"{{assetCd_manual1}}\",\r\n\t\t\"jobType\":\"WM101\",\r\n\t\t\"fileNm\":\"AC20209999999200\",\r\n\t\t\"managerCd\":\"T1sgmanager00000\",\r\n\t\t\"swUrlCd\":\"SWURL200507101538\"\r\n\t},\r\n\t{\r\n\t\t\"assetCd\":\"{{assetCd_manual2}}\",\r\n\t\t\"jobType\":\"WM101\",\r\n\t\t\"fileNm\":\"AC20209999999201\",\r\n\t\t\"managerCd\":\"T1sgmanager00000\",\r\n\t\t\"swUrlCd\":\"SWURL200507101538\"\r\n\t}\r\n]\t\r\n"
+		},
+		{
+			"id": "f2c249f6-fca3-3079-964c-17600aad0375",
+			"headers": "Authorization: {{wasAuth}}\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{wasAuth}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sgs}}/manual/asset/diagnosis/regist",
+			"folder": "cf9c013c-1663-be53-d4c1-21270f3492de",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1593313282913,
+			"name": "diags request multi - manual (was)",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"responses": [],
+			"rawModeData": "[\r\n\t{\r\n\t\t\"jobType\":\"WM103\",\r\n\t\t\"fileNm\":\"vision200_20200507_CLNX_76\",\r\n\t\t\"swUrlCd\":\"/home/sgwas/diagnosis/UPXML20200507172949\"\r\n\t},\r\n\t{\r\n\t\t\"jobType\":\"WM103\",\r\n\t\t\"fileNm\":\"vision201_20200507_CLNX_77\",\r\n\t\t\"swUrlCd\":\"/home/sgwas/diagnosis/UPXML20200507172949\"\r\n\t}\r\n]"
+		},
+		{
+			"id": "f36d57a1-2d80-a50c-ddd7-8939ef4e4a3c",
+			"name": "jobapi - event diags",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"method": "GET",
+			"headers": "Authorization: {{autorization}}",
+			"data": [],
+			"rawModeData": "",
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sga}}/agent/jobs?version=1.2.2.PRODUCT&assetCd={{assetCd_115}}&agentCd={{agentCd_115}}",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [
+				{
+					"key": "version",
+					"value": "1.2.2.PRODUCT"
+				},
+				{
+					"key": "assetCd",
+					"value": "{{assetCd_115}}"
+				},
+				{
+					"key": "agentCd",
+					"value": "{{agentCd_115}}"
+				}
+			],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"type": "text",
+					"value": "{{autorization}}"
+				}
+			],
+			"collection_id": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"folder": "9705a757-ed2e-b09a-6db0-fd56b41923fb"
+		},
+		{
+			"id": "f7be4033-3eff-75fd-9130-1d81cc6c1515",
+			"name": "event diags result file upload",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"method": "POST",
+			"headers": "Authorization: {{autorization}}\nContent-Type: application/json",
+			"dataMode": "params",
+			"data": [
+				{
+					"key": "assetCd",
+					"value": "{{assetCd_1}}",
+					"type": "text"
+				},
+				{
+					"key": "agentCd",
+					"value": "{{assetCd_1}}",
+					"type": "text"
+				},
+				{
+					"key": "jobType",
+					"value": "AJ101",
+					"type": "text"
+				},
+				{
+					"key": "files",
+					"type": "file",
+					"src": [],
+					"value": ""
+				}
+			],
+			"rawModeData": "",
+			"url": "{{host}}:{{port}}/manager/{{ver}}/{{sga}}/asset/file/up",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "{{autorization}}",
+					"type": "text"
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"type": "text"
+				}
+			],
+			"collection_id": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"folder": "9705a757-ed2e-b09a-6db0-fd56b41923fb"
+		},
+		{
+			"id": "fae49344-a517-3542-9103-ce8296484781",
+			"name": "ping",
+			"description": "",
+			"collectionId": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d",
+			"method": "GET",
+			"headers": "",
+			"data": [],
+			"rawModeData": "",
+			"url": "{{host}}:{{port}}/ping",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [],
+			"collection_id": "e8077bb5-ad36-8b47-a2d8-a6e3f22b914d"
+		}
+	]
+}

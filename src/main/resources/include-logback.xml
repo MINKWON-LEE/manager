@@ -1,0 +1,94 @@
+<included>
+	<!--<property name="LOG_HOME" value="/usr/local/snetManager/logs" />-->
+	<property name="LOG_PATTERN"
+		value="%d{yyyy-MM-dd HH:mm:ss} [%-5level] [%class{0}.%M-%line] [%thread] - %msg%n%throwable" />
+	<property name="LOG_PATTERN_2"
+		value="%d{yyyy-MM-dd HH:mm:ss} [%-5level] [%class{0}.%M-%line] [%thread] - %msg%n%throwable" />
+
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/agentManager.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${LOG_PATH}/agentManager.%d{yyyy.MM.dd}.log
+			</fileNamePattern>
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${LOG_PATTERN}</pattern>
+		</encoder>
+	</appender>
+	<appender name="FILE_2"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/agentManager_connection.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${LOG_PATH}/agentManager_connection.%d{yyyy.MM.dd}.log
+			</fileNamePattern>
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${LOG_PATTERN_2}</pattern>
+		</encoder>
+	</appender>
+	<appender name="FILE_AGENT_COMM"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/agentManager_agent.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${LOG_PATH}/agentManager_agentcomm.%d{yyyy.MM.dd}.log
+			</fileNamePattern>
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${LOG_PATTERN_2}</pattern>
+		</encoder>
+	</appender>
+	<appender name="FILE_3"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/agentManager_diagnosis.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${LOG_PATH}/agentManager_diagnosis.%d{yyyy.MM.dd}.log
+			</fileNamePattern>
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${LOG_PATTERN_2}</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE_4"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/agentManager_healthchk.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${LOG_PATH}/agentManager_healthchk.%d{yyyy.MM.dd}.log
+			</fileNamePattern>
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${LOG_PATTERN}</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<withJansi>true</withJansi>
+		<encoder>
+			<pattern>
+				${LOG_PATTERN}
+			</pattern>
+		</encoder>
+	</appender>
+	
+	<!-- turn OFF all logging (children can override) -->
+	<root level="info">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+	</root>	
+</included>

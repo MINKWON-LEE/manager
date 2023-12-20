@@ -1,0 +1,68 @@
+#database
+spring:
+  datasource:
+    hikari:
+      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      jdbc-url: jdbc:log4jdbc:mariadb://192.168.80.115:13306/snet
+      username: sgdbadm
+      password: sgdbadm$2015
+      #192.168.80.110
+      #jdbc-url: "ENC[kna8LPe6tBJVDXSgFXfYgyxTj3dwhNgI/1RbuKZEh1DBlH39yhcz1geFZOkTmxr95nFsyOkRZq8bd+86EDHS6w==]"
+      #192.168.80.120
+      #jdbc-url: "ENC[kqtSR7EyDUBZ4+mHylN2Qa9XHnDF8dfiTJDxk9wsrP/x/MSHehcY9wSBcTFkGD31e6je9GyLTdDIuG2opgNWtQ==]"
+      #idbc-url: jdbc:log4jdbc:mariadb://localhost:3306/snet
+      #username: root
+      #password: 1234
+  servelt:
+    multipart:
+      #멀티파트 업로드 지원여부 (default: true)
+      enabled: true
+      #파일이 메모리에 기록되는 임계값 (default: 0B). 파일 크기가  file-size-threshold 값 이하면
+      #임시파일을 생성하지않고 메모리에 즉시 파일을 읽어서 생성
+      file-size-threshold: 1MB
+      #업로드된 파일의 임시 저장 공간
+      location: ${java.io.tmpdir}
+      #파일 최대 사이즈
+      max-file-size: 2MB
+      #파일 요청 최대 사이즈
+      max-request-size: 2MB
+
+server:
+  port: 10225
+#Local Test
+#ServerIP=150.23.24.39
+
+##language
+smartguard:
+  v3:
+    lang: KO
+    debug:
+      async: true
+      diagnosis: true
+    context:
+      jobDGTimeOut: 60000            #300000
+      jobGSTimeOut: 60000            #240000
+      jobNWTimeOut: 60000            #180000
+      jobSetupTimeOut: 60000         #300000
+      jobControlTimeOut: 60000       #300000
+      JobApiTimeOut: 6000            #30분
+      defaultAgentCnt: 100           #한개의 AgentManager 서버에서 처리가능한 최대 에이전트 개수는 100개 default : 10000개
+      sizePerDelayTime: 5            #같은 시간에 호출 가능한 에이전트 개수는 5개  default : 100개
+      multiServices: N
+      diagExcept: Y                  #진단기준 제외 (3.1 부터 사용 가능)
+      useNotification: Y             #알림사용여부 (3.1 부터 사용 가능)
+##file-location
+#sgn.file.default-path=d:/filetest
+#sgn.file.default-was-home=d:/filetest
+
+
+#\uac1c\ubc1c\uc6a9
+#temp-directory=c:/test
+#audit-directory=c:/test/home/mobigen
+#NET_CONF_FILE-directory=c:/test/home/mobigen
+#WEB_AUDIT_REG-directory=c:/test/home/sgwas
+#audit_asset-directory=c:/test/home/mobigen/service/systemInfo
+#LIB_FILE-directory=c:/test/home/sgwas
+#excel-directory=c:/test/home/sgwas/excel/
+#excel.temp-directory=c:/test/home/excel/temp
+

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+
+    <!-- user spring default values dev -->
+    <include resource = "org/springframework/boot/logging/logback/defaults.xml" />
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <!--jdbc logging-->
+    <logger name="jdbc.sqltiming" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </logger>
+    <logger name="jdbc.sqlonly" level="OFF" additivity="false"/>
+    <logger name="jdbc.audit" level="OFF" additivity="false"/>
+    <logger name="jdbc.resultset" level="OFF" additivity="false"/>
+    <logger name="jdbc.resultsettable" level="OFF" additivity="false"/>
+    <logger name="jdbc.connection" level="OFF" additivity="false"/>
+
+    <logger name="org.springframework" level="ERROR"/>
+ 	<logger name="com.igloosec.smartguard.next.agentmanager" level="DEBUG"/>
+    <logger name="com.zaxxer.hikari" level="DEBUG"/>
+
+    <root level="ERROR">
+    <appender-ref ref="console"/>
+</root>
+</configuration>

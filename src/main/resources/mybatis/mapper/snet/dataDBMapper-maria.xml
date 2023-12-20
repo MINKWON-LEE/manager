@@ -1,0 +1,4011 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//com.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--suppress ALL -->
+<mapper namespace="snet">
+
+	<resultMap id="AgentInfoList"
+			   type="com.igloosec.smartguard.next.agentmanager.entity.AgentInfo">
+		<result column="Ip" property="Ip" jdbcType="VARCHAR" />
+		<result column="Id" property="Id" jdbcType="VARCHAR" />
+		<result column="channelType" property="channelType" jdbcType="VARCHAR" />
+		<result column="port" property="port" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap
+			type="com.igloosec.smartguard.next.agentmanager.entity.ConfigUserViewDBEntity" id="configUserView">
+		<result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+		<result column="USER_NM" property="userNm" jdbcType="VARCHAR" />
+		<result column="USER_MS" property="userMs" jdbcType="VARCHAR" />
+		<result column="USER_MAIL" property="userMail" jdbcType="VARCHAR" />
+		<result column="BRANCH_ID" property="branchId" jdbcType="VARCHAR" />
+		<result column="BRANCH_NM" property="branchNm" jdbcType="VARCHAR" />
+		<result column="TEAM_ID" property="teamId" jdbcType="VARCHAR" />
+		<result column="TEAM_NM" property="teamNm" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap type="com.igloosec.smartguard.next.agentmanager.entity.AssetMasterDBEntity"
+			   id="assetMaster">
+		<result column="ASSET_CD" property="assetCd" jdbcType="VARCHAR" />
+		<result column="AGENT_CD" property="agentCd" jdbcType="VARCHAR" />
+		<result column="AUDIT_DAY" property="auditDay" jdbcType="VARCHAR"/>
+		<result column="AUDIT_RATE" property="auditRate" jdbcType="FLOAT"/>
+		<result column="BRANCH_ID" property="branchId" jdbcType="VARCHAR" />
+		<result column="BRANCH_NM" property="branchNm" jdbcType="VARCHAR" />
+		<result column="TEAM_ID" property="teamId" jdbcType="VARCHAR" />
+		<result column="TEAM_NM" property="teamNm" jdbcType="VARCHAR" />
+		<result column="IP_ADDRESS" property="ipAddress" jdbcType="VARCHAR" />
+		<result column="HOST_NM" property="hostNm" jdbcType="VARCHAR" />
+		<result column="SGW_REGI" property="sgwRegi" jdbcType="INTEGER" />
+		<result column="ALIVE_CHK" property="aliveChk" jdbcType="INTEGER" />
+		<result column="SVR_ROOM_ID" property="svrRoomId" jdbcType="VARCHAR" />
+		<result column="PERSONAL_DATA" property="personalData" jdbcType="INTEGER" />
+		<result column="GOV_FLAG" property="govFlag" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="selectConfigUserView"
+			parameterType="com.igloosec.smartguard.next.agentmanager.entity.GscriptResultEntity"
+			resultMap="configUserView">
+		SELECT
+			USER_ID,
+			USER_NM,
+			USER_MS,
+			USER_MAIL,
+			BRANCH_ID,
+			BRANCH_NM,
+			TEAM_ID,
+			TEAM_NM
+		FROM
+			SNET_CONFIG_USER_VIEW
+		WHERE
+			MANAGER_CD =
+			#{managerCd,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectAuditDayFileCd" parameterType="com.igloosec.smartguard.next.agentmanager.entity.SwAuditDayDBEntity" resultType="java.util.HashMap">
+		SELECT
+		DISTINCT SW_TYPE,
+		AUDIT_FILE_CD,
+		SW_OPERATOR,
+		CVE_CODE,
+		CVE_CODE_CNT,
+		CVE_UPDATE_DATE,
+		ASSET_NAME
+		FROM
+		SNET_ASSET_SW_AUDIT_DAY
+		WHERE
+		ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+		AND	SW_NM = #{swNm,jdbcType=VARCHAR} AND SW_INFO = #{swInfo,jdbcType=VARCHAR} AND SW_ETC = #{swEtc,jdbcType=VARCHAR}
+		AND SW_USER = #{swUser,jdbcType=VARCHAR} AND SW_DIR = #{swDir,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectAssetMaster" parameterType="String" resultMap="assetMaster">
+		SELECT
+			ASSET_CD,
+			AGENT_CD,
+			BRANCH_ID,
+			AUDIT_DAY,
+			AUDIT_RATE,
+			BRANCH_NM,
+			TEAM_ID,
+			TEAM_NM,
+			IP_ADDRESS,
+			HOST_NM,
+			SGW_REGI,
+			ALIVE_CHK,
+			SVR_ROOM_ID,
+			PERSONAL_DATA,
+			GOV_FLAG,
+			ASSET_RMK
+		FROM
+			SNET_ASSET_MASTER
+		WHERE
+			ASSET_CD =
+			#{assetCd,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectAssetMasterchk" parameterType="String"
+			resultType="int">
+		SELECT
+			COUNT(ASSET_CD)
+		FROM
+			SNET_ASSET_MASTER
+		WHERE
+			ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectAssetMasterAll" resultType="com.igloosec.smartguard.next.agentmanager.entity.AssetMasterStatusDBEntity">
+		SELECT
+			DISTINCT (R.ASSET_CD) AS assetCd
+						, R.HOST_NM AS HOSTNAME
+						, R.IP_ADDRESS AS masterIp
+						, R.ALIVE_CHK AS aliveChk
+						, R.SSH
+						, R.TELNET
+						, R.FTP
+						, R.SFTP
+						, R.WINDOW
+		  FROM (SELECT SAM.ASSET_CD,
+		               SAM.HOST_NM,
+		               SAM.IP_ADDRESS,
+					   SAM.ALIVE_CHK,
+		               ACS.SSH,
+		               ACS.TELNET,
+		               ACS.FTP,
+		               ACS.SFTP,
+		               ACS.WINDOW
+		          FROM AUDIT_CONFIG_SG ACS
+		               LEFT OUTER JOIN SNET_ASSET_MASTER SAM
+		                  ON (    LOWER (SAM.HOST_NM) = LOWER (ACS.HOSTNAME)
+		                      AND SAM.IP_ADDRESS = ACS.IPADDR)
+		         WHERE SAM.ASSET_CD IS NOT NULL
+		        UNION
+		        SELECT SAM.ASSET_CD,
+		               SAM.HOST_NM,
+		               SAM.IP_ADDRESS,
+					   SAM.ALIVE_CHK,
+		               ACS.SSH,
+		               ACS.TELNET,
+		               ACS.FTP,
+		               ACS.SFTP,
+		               ACS.WINDOW
+		          FROM AUDIT_CONFIG_SG ACS
+		               LEFT OUTER JOIN
+		               (SELECT SAM.ASSET_CD, SAM.HOST_NM, SAI.IP_ADDRESS, SAM.ALIVE_CHK
+		                  FROM SNET_ASSET_MASTER SAM
+		                       LEFT OUTER JOIN SNET_ASSET_IP SAI
+		                          ON (SAM.ASSET_CD = SAI.ASSET_CD)) SAM
+		                  ON (    LOWER (SAM.HOST_NM) = LOWER (ACS.HOSTNAME)
+		                      AND SAM.IP_ADDRESS = ACS.IPADDR)
+		         WHERE SAM.ASSET_CD IS NOT NULL) R
+	</select>
+
+	<select id="selectConfigAuditFile" parameterType="com.igloosec.smartguard.next.agentmanager.entity.SwAuditDayDBEntity" resultType="String">
+		SELECT
+		af.AUDIT_FILE_CD
+		FROM
+		SNET_CONFIG_AUDIT_FILE af ,
+		(SELECT SUBSTR(REGEXP_REPLACE(#{swInfo,jdbcType=VARCHAR},'[^0-9]', ''),1,4) AS SW_INFO FROM DUAL) v
+		WHERE
+		af.SW_TYPE=#{swType,jdbcType=VARCHAR}
+		AND
+		af.FILE_TYPE = #{fileType,jdbcType=INTEGER}
+		AND
+		<if test='!swNm.equalsIgnoreCase("VMwareESXi")'>
+		af.SW_NM=#{swNm,jdbcType=VARCHAR}
+		</if>
+		<if test='swNm.equalsIgnoreCase("VMwareESXi")'>
+		af.SW_NM='ESXi'
+		</if>
+		<if test='((swType.equalsIgnoreCase("OS") and swNm.equalsIgnoreCase("Windows")) or (swNm.equalsIgnoreCase("MSSQL")) or ((swNm.equalsIgnoreCase("IIS")))) and ("1".equalsIgnoreCase(fileType))'>
+		AND REGEXP_REPLACE(af.FILE_NM,'[^0-9]', '') = v.SW_INFO
+		</if>
+		<if test="temp != null and temp != ''">
+			AND REGEXP_REPLACE(af.FILE_NM,'[^0-9]', '') = #{temp,jdbcType=VARCHAR}
+		</if>
+		<choose>
+			<when test='(swType.equalsIgnoreCase("NW"))'>
+				AND af.file_NM LIKE '%.java%'
+			</when>
+			<when test='("Windows".equalsIgnoreCase(osKind))'>
+				AND af.file_NM LIKE '%.zip%'
+			</when>
+			<otherwise>
+				AND af.file_NM LIKE '%.class%'
+			</otherwise>
+		</choose>
+
+	</select>
+
+	<select id="selectConfigAuditItem" parameterType="java.util.HashMap" resultType="com.igloosec.smartguard.next.agentmanager.entity.ConfigAuditItem">
+		SELECT
+			AUDIT_FILE_CD as auditFileCd,
+			DIAGNOSIS_CD as diagnosisCd,
+			DIAGNOSIS_TYPE as diagnosisType,
+			SW_NM as swNm,
+			ITEM_GRP_NM as itemGrpNm,
+			ITEM_NM as itemNm,
+			ITEM_GRADE as itemGrade,
+			ITEM_STANDARD as itemStandard,
+			ITEM_COUNTERMEASURE as itemCounterMeasure,
+			ITEM_COUNTERMEASURE_DETAIL as itemCounterMeasureDetail,
+			diagnosis_Function as diagnosisFunction,
+			CREATE_DATE as createDate,
+			UPDATE_DATE as updateDate,
+			WEIGHT_TOT as weightTot,
+			RESULT_TOT as resultTot,
+			ITEM_REASON as itemReason
+		FROM
+			SNET_CONFIG_AUDIT_ITEM
+		WHERE
+			AUDIT_FILE_CD = #{auditFileCd,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectConfigAuditItemList" parameterType="String" resultType="com.igloosec.smartguard.next.agentmanager.entity.ConfigAuditItem">
+		SELECT
+			AUDIT_FILE_CD as auditFileCd,
+			DIAGNOSIS_CD as diagnosisCd,
+			DIAGNOSIS_TYPE as diagnosisType,
+			SW_NM as swNm,
+			ITEM_GRP_NM as itemGrpNm,
+			ITEM_NM as itemNm,
+			ITEM_GRADE as itemGrade,
+			ITEM_STANDARD as itemStandard,
+			ITEM_COUNTERMEASURE as itemCounterMeasure,
+			ITEM_COUNTERMEASURE_DETAIL as itemCounterMeasureDetail,
+			diagnosis_Function as diagnosisFunction,
+			CREATE_DATE as createDate,
+			UPDATE_DATE as updateDate,
+			WEIGHT_TOT as weightTot,
+			RESULT_TOT as resultTot,
+			ITEM_REASON as itemReason
+		FROM
+			SNET_CONFIG_AUDIT_ITEM
+		WHERE
+			AUDIT_FILE_CD = #{auditFileCd,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectConfigAuditItemExceptList" parameterType="String" resultType="com.igloosec.smartguard.next.agentmanager.entity.ConfigAuditItemExcept">
+		SELECT
+			AUDIT_FILE_CD as auditFileCd,
+			DIAGNOSIS_CD as diagnosisCd,
+			DIAGNOSIS_TYPE as diagnosisType,
+			CREATE_DATE as createDate,
+			CREATE_USER_ID as createUserId
+		FROM
+			SNET_CONFIG_AUDIT_ITEM_EXCEPT
+		WHERE
+			AUDIT_FILE_CD = #{auditFileCd,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectConfigAuditFileCd" parameterType="com.igloosec.smartguard.next.agentmanager.entity.SystemInfoEntity" resultType="String">
+		SELECT
+			AUDIT_FILE_CD
+		FROM
+			SNET_CONFIG_AUDIT_FILE
+		WHERE
+			FILE_NM=#{script,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectSwAuditHistory" parameterType="com.igloosec.smartguard.next.agentmanager.entity.SwAuditDayDBEntity" resultType="String">
+		SELECT
+			MAX(AUDIT_DAY)
+		FROM
+			SNET_ASSET_SW_AUDIT_HISTORY
+		WHERE
+		ASSET_CD=#{assetCd,jdbcType=VARCHAR}
+		AND SW_TYPE=#{swType,jdbcType=VARCHAR}
+		AND	SW_NM=#{swNm,jdbcType=VARCHAR}
+		AND SW_INFO=#{swInfo, jdbcType=VARCHAR}
+		AND	SW_DIR=#{swDir,jdbcType=VARCHAR}
+		AND	SW_USER=#{swUser,jdbcType=VARCHAR}
+		AND SW_ETC=#{swEtc,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectAuditRate" parameterType="String" resultType="Float">
+		SELECT
+		   IFNULL(ROUND(
+			   CASE (SUM(A.AD_WEIGHT_TOTAL)-SUM(A.AD_WEIGHT_PASS)-SUM(A.AD_WEIGHT_NA))*100
+		         WHEN 0 THEN 0
+		         WHEN null THEN 0
+			 	 ELSE SUM(A.AD_WEIGHT_OK)/(SUM(A.AD_WEIGHT_TOTAL)-SUM(A.AD_WEIGHT_PASS)-SUM(A.AD_WEIGHT_NA))*100
+			   END, 2), 0) AS AUDIT_RATE		  
+		FROM SNET_ASSET_SW_AUDIT_HISTORY A
+			, SNET_ASSET_SW_AUDIT_DAY B
+		WHERE 
+		   A.ASSET_CD = B.ASSET_CD
+		   AND A.SW_TYPE = B.SW_TYPE
+		   AND A.SW_NM = B.SW_NM
+		   AND A.SW_INFO = B.SW_INFO
+		   AND A.SW_DIR = B.SW_DIR
+		   AND A.SW_USER = B.SW_USER
+		   AND A.SW_ETC = B.SW_ETC
+		   AND A.AUDIT_DAY = B.AUDIT_DAY
+		   AND A.ASSET_CD= #{assetCd,jdbcType=VARCHAR}
+	</select>
+
+	<select id="setAssetCd" parameterType="com.igloosec.smartguard.next.agentmanager.entity.GscriptResultEntity" resultType="String">
+		SELECT masterAssetCd
+		FROM
+		(SELECT ASSET_CD as ipassetCD
+		FROM SNET_ASSET_IP
+		WHERE  IP_ADDRESS IN
+		<foreach collection="listAssetIp" item="listAssetIp" separator="," open="(" close=")" >
+			#{listAssetIp.ipAddress,jdbcType=VARCHAR}
+		</foreach>
+		)s1, (SELECT ASSET_CD as masterAssetCd
+		FROM SNET_ASSET_MASTER
+		WHERE UPPER(HOST_NM)=UPPER(#{assetMasterDBEntity.hostNm,jdbcType=VARCHAR})) s
+		WHERE s1.ipassetCD = s.masterAssetCd
+		GROUP BY masterAssetCd
+	</select>
+
+	<select id="setDscriptAssetCd" parameterType="com.igloosec.smartguard.next.agentmanager.entity.SystemInfoEntity" resultType="String">
+		SELECT masterAssetCd
+		FROM
+		(SELECT ASSET_CD as ipassetCD
+		FROM SNET_ASSET_IP
+		WHERE
+          IP_ADDRESS IN
+		<foreach collection="listipAddress" item="listipAddress" separator="," open="(" close=")" >
+			#{listipAddress,jdbcType=VARCHAR}
+		</foreach>
+		)s1, (SELECT ASSET_CD as masterAssetCd
+		FROM SNET_ASSET_MASTER
+		WHERE UPPER(HOST_NM)=UPPER(#{hostNm,jdbcType=VARCHAR})) s
+		WHERE s1.ipassetCD = s.masterAssetCd
+		GROUP BY masterAssetCd limit 1
+	</select>
+
+	<select id="selectAssetSwAuditDayUserRegi" parameterType="com.igloosec.smartguard.next.agentmanager.entity.SwAuditDayDBEntity" resultType="Integer">
+		SELECT
+			COUNT(ASSET_CD) AS CNT
+		FROM
+			SNET_ASSET_SW_AUDIT_DAY
+		WHERE
+		ASSET_CD=#{assetCd,jdbcType=VARCHAR}
+		AND SW_TYPE=#{swType,jdbcType=VARCHAR}
+		AND	SW_NM=#{swNm,jdbcType=VARCHAR}
+		AND SW_INFO=#{swInfo, jdbcType=VARCHAR}
+		AND	SW_USER=#{swUser,jdbcType=VARCHAR}
+		AND	SW_DIR_ORG=#{swDir,jdbcType=VARCHAR}
+		AND SW_ETC_ORG=#{swEtc,jdbcType=VARCHAR}
+		AND USER_REGI = 1
+	</select>
+
+	<select id="selectChkConnectMaster" parameterType="String" resultType="int">
+		 SELECT
+		 	COUNT(ASSET_CD)
+		 FROM
+		 	SNET_CONNECT_MASTER
+		 WHERE
+		 	ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectAssetIpCnt" parameterType="com.igloosec.smartguard.next.agentmanager.entity.AssetMasterStatusDBEntity" resultType="Integer">
+		SELECT 
+			COUNT(*) AS CNT
+		FROM SNET_ASSET_IP
+		WHERE 
+			ASSET_CD =  #{assetCd}
+			AND IP_ADDRESS = #{masterIp}
+	</select>
+
+	<select id="selectAssetSwAuditCok"
+			parameterType="com.igloosec.smartguard.next.agentmanager.entity.DscriptResultEntity"
+			resultType="com.igloosec.smartguard.next.agentmanager.entity.AssetSwAuditCok">
+		<![CDATA[
+		SELECT
+			ASSET_CD as assetCd,
+			SW_TYPE as swType,
+			SW_NM as swNm,
+			SW_INFO  as swInfo,
+			DIAGNOSIS_CD  as diagnosisCd,
+			ITEM_COK_REASON as itemCokReason,
+			ACTION_ITEM_RESULT as actionItemResult
+		FROM
+			SNET_ASSET_SW_AUDIT_COK
+		WHERE
+			ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+		AND
+			SW_TYPE = #{systemInfoEntity.swType,jdbcType=VARCHAR}
+		AND
+			SW_NM = #{systemInfoEntity.swNm,jdbcType=VARCHAR}
+		AND
+			SW_INFO = #{systemInfoEntity.swInfo,jdbcType=VARCHAR}
+		AND
+			SW_DIR = #{systemInfoEntity.swDir,jdbcType=VARCHAR}
+		AND
+			SW_USER = #{systemInfoEntity.swUser,jdbcType=VARCHAR}
+		AND
+			SW_ETC = #{systemInfoEntity.swEtc,jdbcType=VARCHAR}			
+		AND 
+			ITEM_COK_REQ_VALID_DATE >= now()
+		AND
+			ADMIN_OK_FLAG = 1
+		]]>
+	</select>
+
+	<select id="selectDiagnosisJob_old" resultType="String">
+		SELECT 
+				CONCAT('DGEXECREQ', '|'
+				,B.ASSET_CD, '|' 
+				,B.SW_TYPE, '|' 
+				,B.SW_NM, '|' 
+				,B.SW_INFO, '|' 
+				,B.SW_DIR, '|' 
+				,B.SW_USER, '|' 
+				,B.SW_ETC, '|' 
+				,(SELECT MANAGER_CD FROM SNET_ASSET_MASTER AA, SNET_ASSET_USER BB, SNET_CONFIG_USER_VIEW CC WHERE AA.ASSET_CD = BB.ASSET_CD AND BB.USER_TYPE = 'OP' AND AA.AGENT_CD = B.AGENT_CD AND BB.USER_ID = CC.USER_ID), '|' 
+		        ,C.AGENT_USE_STIME, '|' 
+		        ,C.AGENT_USE_ETIME)
+		FROM SNET_AGENT_JOB_HISTORY B
+		      LEFT OUTER JOIN SNET_AGENT_MASTER C ON (C.AGENT_CD = B.AGENT_CD)
+		WHERE     B.AGENT_JOB_FLAG = 1
+		      AND B.AGENT_CD IN
+		             (
+						SELECT AGENT_CD
+						FROM SNET_AGENT_MASTER
+						WHERE DATE_FORMAT(NOW(), '%Y%m%d%H%i') BETWEEN CONCAT(DATE_FORMAT(NOW(), '%Y%m%d'), AGENT_USE_STIME) AND CONCAT(DATE_FORMAT(NOW(), '%Y%m%d'), AGENT_USE_ETIME)      
+		             )
+	</select>
+
+	<select id="selectDiagnosisJob" resultType="com.igloosec.smartguard.next.agentmanager.api.asset.model.DiagnosisReq">
+		SELECT
+		    'AJ100' as jobType,
+            B.ASSET_CD,
+            K.SW_TYPE as swType,
+            K.SW_NM as swNm,
+            K.SW_INFO as swInfo,
+            K.SW_DIR as swDir,
+            K.SW_USER as swUser,
+            K.SW_ETC as swEtc,
+            (SELECT 
+                    MANAGER_CD
+                FROM
+                    SNET_ASSET_USER BB,
+                    SNET_CONFIG_USER_VIEW CC
+                WHERE
+                    BB.ASSET_CD = B.ASSET_CD
+                        AND BB.USER_TYPE = 'OP'
+                        AND BB.USER_ID = CC.USER_ID) as managerCd,
+            C.AGENT_USE_STIME as agentUseStime,
+            C.AGENT_USE_ETIME as agentUseEtime,
+            0 as auditSpeed,
+            (SELECT DIAG_INFO_USE FROM SNET_CONFIG_AUDIT_FILE CAF WHERE CAF.AUDIT_FILE_CD = B.AUDIT_FILE_CD) as diagInfoUse
+FROM
+    SNET_AGENT_JOB_HISTORY B
+        LEFT OUTER JOIN
+    SNET_AGENT_MASTER C ON (C.AGENT_CD = B.AGENT_CD),
+    SNET_AGENT_JOB_RDATE K,
+    SNET_ASSET_SW_AUDIT_DAY P
+WHERE
+    B.AGENT_JOB_FLAG = 1
+        AND B.AGENT_JOB_RDATE = K.AGENT_JOB_RDATE
+        AND B.AGENT_CD = K.AGENT_CD
+        AND B.SW_TYPE = K.SW_TYPE
+        AND B.SW_NM = K.SW_NM
+        AND B.SW_INFO = K.SW_INFO
+        AND B.SW_DIR = K.SW_DIR
+        AND B.SW_USER = K.SW_USER
+        AND B.SW_ETC = K.SW_ETC
+        AND B.ASSET_CD = P.ASSET_CD
+        AND B.SW_TYPE = P.SW_TYPE
+        AND B.SW_NM = P.SW_NM
+        AND B.SW_INFO = P.SW_INFO
+        AND B.SW_DIR = P.SW_DIR
+        AND B.SW_USER = P.SW_USER
+        AND B.SW_ETC = P.SW_ETC
+        AND K.AGENT_CD IN (SELECT 
+            AGENT_CD
+        FROM
+            SNET_AGENT_MASTER
+        WHERE
+            DATE_FORMAT(NOW(), '%Y%m%d%H%i') BETWEEN CONCAT(DATE_FORMAT(NOW(), '%Y%m%d'),
+                    AGENT_USE_STIME) AND CONCAT(DATE_FORMAT(NOW(), '%Y%m%d'),
+                    AGENT_USE_ETIME))
+	</select>
+
+	<select id="selectDiagnosisJobMultiServices" resultType="com.igloosec.smartguard.next.agentmanager.api.asset.model.DiagnosisReq">
+		SELECT
+		    'AJ100' as jobType,
+            B.ASSET_CD,
+            K.SW_TYPE as swType,
+            K.SW_NM as swNm,
+            K.SW_INFO as swInfo,
+            K.SW_DIR as swDir,
+            K.SW_USER as swUser,
+            K.SW_ETC as swEtc,
+            (SELECT
+                    MANAGER_CD
+                FROM
+                    SNET_ASSET_USER BB,
+                    SNET_CONFIG_USER_VIEW CC
+                WHERE
+                    BB.ASSET_CD = B.ASSET_CD
+                        AND BB.USER_TYPE = 'OP'
+                        AND BB.USER_ID = CC.USER_ID) as managerCd,
+            C.AGENT_USE_STIME as agentUseStime,
+            C.AGENT_USE_ETIME as agentUseEtime,
+            0 as auditSpeed
+FROM
+    SNET_AGENT_JOB_HISTORY B
+        LEFT OUTER JOIN
+    SNET_AGENT_MASTER C ON (C.AGENT_CD = B.AGENT_CD),
+    SNET_AGENT_JOB_RDATE K,
+    SNET_ASSET_SW_AUDIT_DAY P
+WHERE
+    B.AGENT_JOB_FLAG = 1
+        AND B.AGENT_JOB_RDATE = K.AGENT_JOB_RDATE
+        AND B.AGENT_CD = K.AGENT_CD
+        AND B.SW_TYPE = K.SW_TYPE
+        AND B.SW_NM = K.SW_NM
+        AND B.SW_INFO = K.SW_INFO
+        AND B.SW_DIR = K.SW_DIR
+        AND B.SW_USER = K.SW_USER
+        AND B.SW_ETC = K.SW_ETC
+        AND B.ASSET_CD = P.ASSET_CD
+        AND B.SW_TYPE = P.SW_TYPE
+        AND B.SW_NM = P.SW_NM
+        AND B.SW_INFO = P.SW_INFO
+        AND B.SW_DIR = P.SW_DIR
+        AND B.SW_USER = P.SW_USER
+        AND B.SW_ETC = P.SW_ETC
+        AND K.AGENT_CD IN (SELECT
+            AGENT_CD
+        FROM
+            SNET_AGENT_MASTER
+        WHERE
+            DATE_FORMAT(NOW(), '%Y%m%d%H%i') BETWEEN CONCAT(DATE_FORMAT(NOW(), '%Y%m%d'),
+                    AGENT_USE_STIME) AND CONCAT(DATE_FORMAT(NOW(), '%Y%m%d'),
+                    AGENT_USE_ETIME))
+        AND
+        	B.AGENT_JOB_RDATE =
+            (SELECT MAX(AGENT_JOB_RDATE) FROM SNET_AGENT_JOB_RDATE INAJH WHERE
+            	INAJH.SW_TYPE = B.SW_TYPE
+        		AND
+            	INAJH.SW_NM = B.SW_NM
+        		AND
+            	INAJH.SW_INFO = B.SW_INFO
+        		AND
+        	    INAJH.SW_DIR = B.SW_DIR
+        		AND
+            	INAJH.SW_USER = B.SW_USER
+        		AND
+           		INAJH.SW_ETC = B.SW_ETC
+        		AND
+        		INAJH.ASSET_CD = B.ASSET_CD)
+	</select>
+
+	<select id="selectConnectIp" parameterType="com.igloosec.smartguard.next.agentmanager.entity.GscriptResultEntity" resultType="String">
+			SELECT CONNECT_IP_ADDRESS FROM SNET_CONNECT_MASTER
+			WHERE ASSET_CD = #{assetCd,jdbcType=VARCHAR} 
+	</select>
+
+	<select id="selectAssetUser" parameterType="com.igloosec.smartguard.next.agentmanager.entity.AssetUserDBEntity" resultType="com.igloosec.smartguard.next.agentmanager.entity.AssetUserDBEntity">
+			SELECT USER_ID as userId, USER_NM as userNm
+			FROM SNET_ASSET_USER
+			WHERE USER_TYPE='OP'
+			AND ASSET_CD = #{assetCd}
+	</select>
+
+	<update id="updateAgentSetupStatus" parameterType="com.igloosec.smartguard.next.agentmanager.entity.AgentInfo">
+		UPDATE SNET_AGENT_MASTER
+		SET  AGENT_REGI_FLAG = #{agentRegiFlag}
+		, AGENT_REGI_DESC = #{setupStatus}
+		<if test="agentRegiFlag == 2">
+			, AGENT_START_DATE = now()
+		</if>
+		WHERE
+		AGENT_CD = #{agentCd}
+	</update>
+
+	<update id="updateAgentMasterCd" parameterType="String">
+		UPDATE SNET_ASSET_MASTER
+		SET  AGENT_CD = #{asset}
+		WHERE
+		ASSET_CD = #{asset}
+	</update>
+
+	<insert id="insertAgentMasterCd" parameterType="com.igloosec.smartguard.next.agentmanager.entity.AgentInfo">
+		INSERT INTO
+		SNET_AGENT_MASTER (AGENT_CD)
+		VALUES (#{assetCd})
+	</insert>
+
+	<select id="selectAgentMasterCd" parameterType="String" resultType="int">
+		SELECT count(*) FROM SNET_AGENT_MASTER WHERE AGENT_CD = #{assetCd,jdbcType=VARCHAR}
+	</select>
+
+	<update id="updateGsAssetMaster"
+			parameterType="com.igloosec.smartguard.next.agentmanager.entity.AssetMasterDBEntity">
+		UPDATE
+		SNET_ASSET_MASTER
+		<set>
+			<if test="branchId !=null">
+				BRANCH_ID = #{branchId,jdbcType=VARCHAR},
+			</if>
+			<if test="branchNm !=null">
+				BRANCH_NM = #{branchNm,jdbcType=VARCHAR},
+			</if>
+			<if test="teamId !=null">
+				TEAM_ID = #{teamId,jdbcType=VARCHAR},
+			</if>
+			<if test="teamNm !=null">
+				TEAM_NM = #{teamNm,jdbcType=VARCHAR},
+			</if>
+			<if test="ipAddress != null">
+				IP_ADDRESS = #{ipAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="hostNm != null">
+				HOST_NM = #{hostNm,jdbcType=VARCHAR},
+			</if>
+			<if test="auditDay != null">
+				AUDIT_DAY = #{auditDay,jdbcType=VARCHAR},
+			</if>
+			<if test="getDay != null">
+				GET_DAY = #{getDay,jdbcType=VARCHAR},
+			</if>
+			UPDATE_DATE = SYSDATE
+		</set>
+		WHERE
+		ASSET_CD =	#{assetCd,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateGsAssetMaster2"
+			parameterType="com.igloosec.smartguard.next.agentmanager.entity.AssetMasterDBEntity">
+		UPDATE
+		SNET_ASSET_MASTER
+		<set>
+			<if test="ipAddress != null">
+				IP_ADDRESS = #{ipAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="hostNm != null">
+				HOST_NM = #{hostNm,jdbcType=VARCHAR},
+			</if>
+			<if test="auditDay != null">
+				AUDIT_DAY = #{auditDay,jdbcType=VARCHAR},
+			</if>
+			<if test="getDay != null">
+				GET_DAY = #{getDay,jdbcType=VARCHAR},
+			</if>
+			UPDATE_DATE = SYSDATE
+		</set>
+		WHERE
+		ASSET_CD =	#{assetCd,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateAssetMaster"
+			parameterType="com.igloosec.smartguard.next.agentmanager.entity.AssetMasterDBEntity">
+		UPDATE
+		SNET_ASSET_MASTER
+		<set>
+			<if test="branchId !=null">
+				BRANCH_ID = #{branchId,jdbcType=VARCHAR},
+			</if>
+			<if test="branchNm !=null">
+				BRANCH_NM = #{branchNm,jdbcType=VARCHAR},
+			</if>
+			<if test="teamId !=null">
+				TEAM_ID = #{teamId,jdbcType=VARCHAR},
+			</if>
+			<if test="teamNm !=null">
+				TEAM_NM = #{teamNm,jdbcType=VARCHAR},
+			</if>
+			<if test="hostNm != null">
+				HOST_NM = #{hostNm,jdbcType=VARCHAR},
+			</if>
+			<if test="auditDay != null">
+				AUDIT_DAY = #{auditDay,jdbcType=VARCHAR},
+			</if>
+			<if test="auditRate != null">
+				AUDIT_RATE = #{auditRate,jdbcType=FLOAT},
+			</if>
+			<if test="auditRateFirewall != null">
+				AUDIT_RATE_FIREWALL = #{auditRateFirewall,jdbcType=FLOAT},
+			</if>
+			<if test="vendor != null">
+				VENDOR = #{vendor,jdbcType=VARCHAR},
+			</if>
+			<if test="serial != null">
+				SERIAL = #{serial,jdbcType=VARCHAR},
+			</if>
+			<if test="cpu != null">
+				CPU = #{cpu,jdbcType=VARCHAR},
+			</if>
+			<if test="mem != null">
+				MEM = #{mem,jdbcType=VARCHAR},
+			</if>
+			<if test="disk != null">
+				DISK = #{disk,jdbcType=VARCHAR},
+			</if>
+			<if test="assetRmk != null">
+				ASSET_RMK = #{assetRmk,jdbcType=VARCHAR},
+			</if>
+			UPDATE_DATE = SYSDATE()
+		</set>
+		WHERE
+		ASSET_CD =	#{assetCd,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateAssetMaster2"
+			parameterType="com.igloosec.smartguard.next.agentmanager.entity.AssetMasterDBEntity">
+		UPDATE
+		SNET_ASSET_MASTER
+		<set>
+			<if test="hostNm != null">
+				HOST_NM = #{hostNm,jdbcType=VARCHAR},
+			</if>
+			<if test="auditDay != null">
+				AUDIT_DAY = #{auditDay,jdbcType=VARCHAR},
+			</if>
+			<if test="auditRate != null">
+				AUDIT_RATE = #{auditRate,jdbcType=FLOAT},
+			</if>
+			<if test="auditRateFirewall != null">
+				AUDIT_RATE_FIREWALL = #{auditRateFirewall,jdbcType=FLOAT},
+			</if>
+			<if test="vendor != null">
+				VENDOR = #{vendor,jdbcType=VARCHAR},
+			</if>
+			<if test="serial != null">
+				SERIAL = #{serial,jdbcType=VARCHAR},
+			</if>
+			<if test="cpu != null">
+				CPU = #{cpu,jdbcType=VARCHAR},
+			</if>
+			<if test="mem != null">
+				MEM = #{mem,jdbcType=VARCHAR},
+			</if>
+			<if test="disk != null">
+				DISK = #{disk,jdbcType=VARCHAR},
+			</if>
+			<if test="assetRmk != null">
+				ASSET_RMK = #{assetRmk,jdbcType=VARCHAR},
+			</if>
+			UPDATE_DATE = SYSDATE()
+		</set>
+		WHERE
+		ASSET_CD =	#{assetCd,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateAssetMasterGetDay" parameterType="string" useGeneratedKeys="true" keyProperty="getDay">
+		<!--
+		UPDATE SNET_ASSET_MASTER
+		<set>
+			<if test="getDay != null">
+				GET_DAY = #{getDay,jdbcType=VARCHAR},
+			</if>
+			UPDATE_DATE = now()
+		</set>
+		WHERE ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+		-->
+		UPDATE SNET_ASSET_MASTER
+		SET	  GET_DAY = DATE_FORMAT(UPDATE_DATE,  '%Y%m%d%H%i%s')
+		WHERE ASSET_CD = #{assetCd}
+
+	</update>
+
+	<update id="updateAssetMasterSgwRegiIn">
+		UPDATE SNET_ASSET_MASTER SET
+		SGW_REGI = 1
+		WHERE ASSET_CD IN (
+			SELECT DISTINCT (R.ASSET_CD) AS ASSET_CD
+			FROM (
+				SELECT
+					SAM.ASSET_CD
+					, SAM.HOST_NM 
+					,SAM.IP_ADDRESS
+				FROM AUDIT_CONFIG_SG ACS
+				LEFT OUTER JOIN SNET_ASSET_MASTER SAM
+				ON (LOWER(SAM.HOST_NM) = LOWER(ACS.HOSTNAME) AND SAM.IP_ADDRESS = ACS.IPADDR)
+				WHERE SAM.ASSET_CD IS NOT NULL
+				UNION
+				SELECT
+					SAM.ASSET_CD
+					, SAM.HOST_NM 
+					,SAM.IP_ADDRESS
+				FROM AUDIT_CONFIG_SG ACS	
+				LEFT OUTER JOIN (
+					SELECT 
+					SAM.ASSET_CD
+					, SAM.HOST_NM
+					, SAI.IP_ADDRESS
+					FROM SNET_ASSET_MASTER SAM
+					LEFT OUTER JOIN SNET_ASSET_IP SAI
+					ON(SAM.ASSET_CD = SAI.ASSET_CD)
+				) SAM
+				ON (LOWER(SAM.HOST_NM) = LOWER(ACS.HOSTNAME) AND SAM.IP_ADDRESS = ACS.IPADDR)
+				WHERE SAM.ASSET_CD IS NOT NULL
+			) R
+		)
+		AND SGW_REGI = 0
+	</update>
+
+	<update id="updateAssetMasterSgwRegiNotIn">
+		UPDATE SNET_ASSET_MASTER SET
+		SGW_REGI = 0
+		WHERE ASSET_CD NOT IN (
+			SELECT DISTINCT (R.ASSET_CD) AS ASSET_CD
+			FROM (
+				SELECT
+					SAM.ASSET_CD
+					, SAM.HOST_NM 
+					,SAM.IP_ADDRESS
+				FROM AUDIT_CONFIG_SG ACS
+				LEFT OUTER JOIN SNET_ASSET_MASTER SAM
+				ON (LOWER(SAM.HOST_NM) = LOWER(ACS.HOSTNAME) AND SAM.IP_ADDRESS = ACS.IPADDR)
+				WHERE SAM.ASSET_CD IS NOT NULL
+				UNION
+				SELECT
+					SAM.ASSET_CD
+					, SAM.HOST_NM 
+					,SAM.IP_ADDRESS
+				FROM AUDIT_CONFIG_SG ACS	
+				LEFT OUTER JOIN (
+					SELECT 
+					SAM.ASSET_CD
+					, SAM.HOST_NM
+					, SAI.IP_ADDRESS
+					FROM SNET_ASSET_MASTER SAM
+					LEFT OUTER JOIN SNET_ASSET_IP SAI
+					ON(SAM.ASSET_CD = SAI.ASSET_CD)
+				) SAM
+				ON (LOWER(SAM.HOST_NM) = LOWER(ACS.HOSTNAME) AND SAM.IP_ADDRESS = ACS.IPADDR)
+				WHERE SAM.ASSET_CD IS NOT NULL
+			) R
+		)
+		AND SGW_REGI = 1
+	</update>
+
+	<update id="updateAssetMasterAliveChkNotIn">
+		UPDATE SNET_ASSET_MASTER SET
+		ALIVE_CHK = 0
+		WHERE ASSET_CD NOT IN (
+			SELECT DISTINCT (R.ASSET_CD) AS ASSET_CD
+			FROM (
+				SELECT
+					SAM.ASSET_CD
+					, SAM.HOST_NM 
+					,SAM.IP_ADDRESS
+				FROM AUDIT_CONFIG_SG ACS
+				LEFT OUTER JOIN SNET_ASSET_MASTER SAM
+				ON (LOWER(SAM.HOST_NM) = LOWER(ACS.HOSTNAME) AND SAM.IP_ADDRESS = ACS.IPADDR)
+				WHERE SAM.ASSET_CD IS NOT NULL
+				UNION
+				SELECT
+					SAM.ASSET_CD
+					, SAM.HOST_NM 
+					,SAM.IP_ADDRESS
+				FROM AUDIT_CONFIG_SG ACS	
+				LEFT OUTER JOIN (
+					SELECT 
+					SAM.ASSET_CD
+					, SAM.HOST_NM
+					, SAI.IP_ADDRESS
+					FROM SNET_ASSET_MASTER SAM
+					LEFT OUTER JOIN SNET_ASSET_IP SAI
+					ON(SAM.ASSET_CD = SAI.ASSET_CD)
+				) SAM
+				ON (LOWER(SAM.HOST_NM) = LOWER(ACS.HOSTNAME) AND SAM.IP_ADDRESS = ACS.IPADDR)
+				WHERE SAM.ASSET_CD IS NOT NULL
+			) R
+		)
+		AND ALIVE_CHK =1
+	</update>
+
+	<update id="insertDiagInfo" parameterType="com.igloosec.smartguard.next.agentmanager.entity.JobEntity">
+		INSERT INTO
+		SNET_DIAG_INFO_FILE
+		(ASSET_CD, SW_TYPE, SW_NM, SW_INFO, SW_DIR, SW_USER, SW_ETC, AUDIT_FILE_CD, DIAG_INFO_FLAG, DIAG_INFO_DESC, FILE_PATH, FILE_PATH_DES, CREATE_DATE, UPDATE_DATE)
+		VALUES
+		(#{assetCd,jdbcType=VARCHAR},
+		#{swType,jdbcType=VARCHAR},
+		#{swNm,jdbcType=VARCHAR},
+		#{swInfo,jdbcType=VARCHAR},
+		#{swDir,jdbcType=VARCHAR},
+		#{swUser,jdbcType=VARCHAR},
+		#{swEtc,jdbcType=VARCHAR},
+		#{auditFileCd,jdbcType=VARCHAR},
+		4,
+		#{diagInfoJobDesc,jdbcType=VARCHAR},
+		#{diagInfoFilePath,jdbcType=VARCHAR},
+		#{diagInfoFilePathDes,jdbcType=VARCHAR},
+		now(),
+		now())
+	</update>
+
+	<select id="selectDiagInfo" parameterType="com.igloosec.smartguard.next.agentmanager.entity.JobEntity" resultType="com.igloosec.smartguard.next.agentmanager.entity.JobEntity">
+		SELECT
+		   ASSET_CD AS assetCd
+		  ,SW_TYPE AS swType
+		  ,SW_NM AS swNm
+		  ,SW_INFO AS swInfo
+		  ,SW_DIR AS swDir
+		  ,SW_USER AS swUser
+		  ,SW_ETC AS swEtc
+		  ,AUDIT_FILE_CD AS auditFileCd
+		  ,FILE_PATH AS diagInfoFilePath
+		  ,FILE_PATH_DES AS diagInfoFilePathDes
+		FROM
+		  SNET_DIAG_INFO_FILE
+		WHERE
+		  1=1
+		  AND
+			ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+			AND
+			SW_TYPE = #{swType,jdbcType=VARCHAR}
+			AND
+			SW_NM = #{swNm,jdbcType=VARCHAR}
+			AND
+			SW_INFO = #{swInfo,jdbcType=VARCHAR}
+			AND
+			SW_DIR = #{swDir,jdbcType=VARCHAR}
+			AND
+			SW_USER = #{swUser,jdbcType=VARCHAR}
+			AND
+			SW_ETC = #{swEtc,jdbcType=VARCHAR}
+	</select>
+
+	<update id="updateDiagInfo" parameterType="com.igloosec.smartguard.next.agentmanager.entity.JobEntity">
+		UPDATE
+        SNET_DIAG_INFO_FILE
+		<set>
+		    <if test="auditFileCd != null">
+				AUDIT_FILE_CD = #{auditFileCd,jdbcType=INTEGER},
+			</if>
+			<if test="diagInfoFlag != null">
+				DIAG_INFO_FLAG = #{diagInfoFlag,jdbcType=INTEGER},
+			</if>
+			<if test="diagInfoFilePath != null">
+				FILE_PATH = #{diagInfoFilePath,jdbcType=VARCHAR},
+			</if>
+			<if test="diagInfoFilePathDes != null">
+				FILE_PATH_DES = #{diagInfoFilePathDes,jdbcType=VARCHAR},
+			</if>
+			<if test="diagInfoJobDesc != null">
+				DIAG_INFO_DESC = #{diagInfoJobDesc,jdbcType=VARCHAR},
+			</if>
+			UPDATE_DATE = now()
+		</set>
+		WHERE
+		ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+		AND
+		SW_TYPE = #{swType,jdbcType=VARCHAR}
+		AND
+		SW_NM = #{swNm,jdbcType=VARCHAR}
+		AND
+		SW_INFO = #{swInfo,jdbcType=VARCHAR}
+		AND
+		SW_DIR = #{swDir,jdbcType=VARCHAR}
+		AND
+		SW_USER = #{swUser,jdbcType=VARCHAR}
+		AND
+		SW_ETC = #{swEtc,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="deleteDiagInfo"
+			parameterType="com.igloosec.smartguard.next.agentmanager.entity.JobEntity">
+		DELETE FROM
+			SNET_DIAG_INFO_FILE
+		WHERE
+			ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+        	AND
+        	SW_TYPE = #{swType,jdbcType=VARCHAR}
+        	AND
+        	SW_NM = #{swNm,jdbcType=VARCHAR}
+        	AND
+        	SW_INFO = #{swInfo,jdbcType=VARCHAR}
+        	AND
+        	SW_DIR = #{swDir,jdbcType=VARCHAR}
+        	AND
+        	SW_USER = #{swUser,jdbcType=VARCHAR}
+        	AND
+        	SW_ETC = #{swEtc,jdbcType=VARCHAR}
+	</delete>
+
+	<select id="selectAgentGetJobHistory" parameterType="String" resultType="String">
+		SELECT
+		GET_SEQ AS getSeq
+        FROM
+		SNET_GET_HISTORY
+		<where>
+		ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+		AND (JOB_FLAG NOT IN (3,4)) ORDER BY GET_SEQ DESC LIMIT 1
+		</where>
+	</select>
+
+	<insert id="insertAgentGetJobHistory" parameterType="com.igloosec.smartguard.next.agentmanager.entity.AgentInfo">
+		INSERT INTO SNET_GET_HISTORY
+		(ASSET_CD, AGENT_CD, BRANCH_ID, BRANCH_NM, TEAM_ID, TEAM_NM, IP_ADDRESS, HOST_NM, USER_ID, USER_NM, JOB_TYPE, JOB_FLAG, JOB_RDATE, JOB_DESC)
+		VALUES
+		(
+		 #{assetCd},
+		 #{agentCd},
+		 #{branchId},
+		 #{branchNm},
+		 #{teamId},
+		 #{teamNm},
+		 #{connectIpAddress},
+		 #{hostNm},
+		 #{dgUserId},
+		 #{dgUserNm},
+		 #{jobType},
+		 1,
+		 now(),
+		 #{connectLog}
+		 )
+	</insert>
+
+	<insert id="insertAgentGetJobHistoryByManIns" parameterType="com.igloosec.smartguard.next.agentmanager.entity.AssetMasterDBEntity">
+		INSERT INTO SNET_GET_HISTORY
+		(ASSET_CD, AGENT_CD, BRANCH_ID, BRANCH_NM, TEAM_ID, TEAM_NM, IP_ADDRESS, HOST_NM, USER_ID, USER_NM, JOB_TYPE, JOB_FLAG, JOB_RDATE, JOB_EDATE, JOB_DESC)
+		VALUES
+			(
+				#{assetCd},
+				#{agentCd},
+				#{branchId},
+				#{branchNm},
+				#{teamId},
+				#{teamNm},
+				#{ipAddress},
+				#{hostNm},
+				#{dgUserId},
+				#{dgUserNm},
+				"AJ201",
+				3,
+				now(),
+				now(),
+				"SUCCESS"
+			)
+	</insert>
+
+	<update id="updateAgentGetJobHistory" parameterType="com.igloosec.smartguard.next.agentmanager.entity.JobEntity">
+		UPDATE
+		SNET_GET_HISTORY
+		<set>
+			<if test="agentJobEDate != null and agentJobEDate != ''">
+				JOB_EDATE = #{agentJobEDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="agentJobFlag != null">
+				JOB_FLAG = #{agentJobFlag,jdbcType=INTEGER},
+			</if>
+			<if test="agentJobDesc != null">
+				JOB_DESC = #{agentJobDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="statusLog != null and statusLog != ''">
+				STATUS_LOG = <![CDATA[ #{statusLog,jdbcType=VARCHAR} ]]>,
+			</if>
+			ASSET_CD = ASSET_CD
+		</set>
+		WHERE
+		ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+		AND (JOB_FLAG NOT IN (3,4))
+	</update>
+
+	<update id="updateAgentGetJobHistorySuccess" parameterType="com.igloosec.smartguard.next.agentmanager.entity.JobEntity">
+		UPDATE
+		SNET_GET_HISTORY
+		<set>
+			<if test="agentJobEDate != null and agentJobEDate != ''">
+				JOB_EDATE = #{agentJobEDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="agentJobFlag != null">
+				JOB_FLAG = #{agentJobFlag,jdbcType=INTEGER},
+			</if>
+			<if test="agentJobDesc != null">
+				JOB_DESC = #{agentJobDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="statusLog != null and statusLog != ''">
+				STATUS_LOG = <![CDATA[ #{statusLog,jdbcType=VARCHAR} ]]>,
+			</if>
+			ASSET_CD = ASSET_CD
+		</set>
+		WHERE
+			ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+			AND (JOB_FLAG NOT IN (3,4))
+			AND	GET_SEQ = #{getSeq}
+	</update>
+
+	<update id="updateAgentGetJobHistoryOtherSuccess" parameterType="com.igloosec.smartguard.next.agentmanager.entity.JobEntity">
+		UPDATE
+		SNET_GET_HISTORY
+		<set>
+			<if test="agentJobEDate != null and agentJobEDate != ''">
+				JOB_EDATE = #{agentJobEDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="agentJobFlag != null">
+				JOB_FLAG = #{agentJobFlag,jdbcType=INTEGER},
+			</if>
+			<if test="agentJobDesc != null">
+				JOB_DESC = #{agentJobDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="statusLog != null and statusLog != ''">
+				STATUS_LOG = <![CDATA[ #{statusLog,jdbcType=VARCHAR} ]]>,
+			</if>
+			ASSET_CD = ASSET_CD
+		</set>
+		WHERE
+			ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+			AND (JOB_FLAG NOT IN (3,4))
+			AND	GET_SEQ <![CDATA[<>]]> #{getSeq}
+	</update>
+
+	<update id="updateAgentGetJobHistoryCheckOld" parameterType="java.util.Map">
+		UPDATE
+		SNET_GET_HISTORY
+		<set>
+			<if test="agentJobEDate != null and agentJobSDate != null">
+				JOB_EDATE = now(),
+			</if>
+			<if test="agentJobFlag != null">
+				JOB_FLAG = #{agentJobFlag,jdbcType=INTEGER},
+			</if>
+			<if test="agentJobDesc != null">
+				JOB_DESC = #{agentJobDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="statusLog != null and statusLog != ''">
+				STATUS_LOG = <![CDATA[ #{statusLog,jdbcType=VARCHAR} ]]>,
+			</if>
+			ASSET_CD = ASSET_CD
+		</set>
+		WHERE
+		ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+		AND AGENT_CD = #{agentCd,jdbcType=VARCHAR}
+		AND (JOB_FLAG NOT IN (3,4))
+		AND JOB_RDATE <![CDATA[<=]]> DATE_SUB(now(), INTERVAL 3 HOUR)
+	</update>
+
+    <update id="updateAgentJobHistory" parameterType="com.igloosec.smartguard.next.agentmanager.entity.JobEntity">
+        UPDATE
+        SNET_AGENT_JOB_HISTORY
+        <set>
+            <if test="agentJobSDate != null and agentJobEDate == null" >
+                AGENT_JOB_SDATE = now(),
+            </if>
+            <if test="agentJobEDate != null and agentJobSDate != null">
+                AGENT_JOB_EDATE = now(),
+            </if>
+            <if test="agentJobFlag != null">
+                AGENT_JOB_FLAG = #{agentJobFlag,jdbcType=INTEGER},
+            </if>
+            <if test="agentJobDesc != null">
+                AGENT_JOB_DESC = #{agentJobDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="statusLog != null and statusLog != ''">
+                STATUS_LOG = <![CDATA[ #{statusLog,jdbcType=VARCHAR} ]]>,
+            </if>
+            ASSET_CD = ASSET_CD
+        </set>
+        WHERE
+        ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+        AND
+        SW_TYPE = #{swType,jdbcType=VARCHAR}
+        AND
+        SW_NM = #{swNm,jdbcType=VARCHAR}
+        AND
+        SW_INFO = #{swInfo,jdbcType=VARCHAR}
+        AND
+        SW_DIR = #{swDir,jdbcType=VARCHAR}
+        AND
+        SW_USER = #{swUser,jdbcType=VARCHAR}
+        AND
+        SW_ETC = #{swEtc,jdbcType=VARCHAR}
+        AND
+        AGENT_JOB_RDATE = (
+        SELECT MAX(AGENT_JOB_RDATE) FROM SNET_AGENT_JOB_RDATE
+        WHERE
+        ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+        AND
+        SW_TYPE = #{swType,jdbcType=VARCHAR}
+        AND
+        SW_NM = #{swNm,jdbcType=VARCHAR}
+        AND
+        SW_INFO = #{swInfo,jdbcType=VARCHAR}
+        AND
+        SW_DIR = #{swDir,jdbcType=VARCHAR}
+        AND
+        SW_USER = #{swUser,jdbcType=VARCHAR}
+        AND
+        SW_ETC = #{swEtc,jdbcType=VARCHAR}
+        AND
+		AGENT_JOB_FLAG NOT IN (3,4)
+        <choose>
+            <when test="jobType.equals('WM102') or jobType.equals('WM202')" >
+            </when>
+            <otherwise>
+                AND
+                AGENT_CD = (select AGENT_CD from SNET_ASSET_MASTER where ASSET_CD = #{assetCd,jdbcType=VARCHAR})
+            </otherwise>
+
+        </choose>
+        )
+    </update>
+
+	<update id="updateAgentJobHistoryCheckOld" parameterType="java.util.Map">
+		UPDATE
+        SNET_AGENT_JOB_HISTORY
+        SET
+        AGENT_JOB_EDATE = now(),
+        AGENT_JOB_FLAG = 4,
+        AGENT_JOB_DESC = #{agentJobDesc,jdbcType=VARCHAR}
+        WHERE
+		ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+		AND AGENT_CD = #{agentCd,jdbcType=VARCHAR}
+		AND AGENT_JOB_FLAG = 2
+		AND AGENT_JOB_RDATE <![CDATA[<=]]> DATE_SUB(now(), INTERVAL 3 HOUR)
+	</update>
+
+	<update id="updateLogFileAgentJobHistory" parameterType="com.igloosec.smartguard.next.agentmanager.entity.JobEntity">
+		UPDATE
+		SNET_AGENT_JOB_HISTORY
+		<set>
+			<if test="statusLog != null and statusLog != ''">
+				STATUS_LOG = <![CDATA[ #{statusLog,jdbcType=VARCHAR} ]]>,
+			</if>
+		</set>
+		WHERE
+		ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+		AND
+		SW_TYPE = #{swType,jdbcType=VARCHAR}
+		AND
+		SW_NM = #{swNm,jdbcType=VARCHAR}
+		AND
+		SW_INFO = #{swInfo,jdbcType=VARCHAR}
+		AND
+		SW_DIR = #{swDir,jdbcType=VARCHAR}
+		AND
+		SW_USER = #{swUser,jdbcType=VARCHAR}
+		AND
+		SW_ETC = #{swEtc,jdbcType=VARCHAR}
+		AND
+		AGENT_JOB_FLAG = 4
+		AND
+		AGENT_JOB_RDATE = (
+		SELECT AGENT_JOB_RDATE FROM SNET_AGENT_JOB_RDATE
+		WHERE
+		ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+		AND
+		SW_TYPE = #{swType,jdbcType=VARCHAR}
+		AND
+		SW_NM = #{swNm,jdbcType=VARCHAR}
+		AND
+		SW_INFO = #{swInfo,jdbcType=VARCHAR}
+		AND
+		SW_DIR = #{swDir,jdbcType=VARCHAR}
+		AND
+		SW_USER = #{swUser,jdbcType=VARCHAR}
+		AND
+		SW_ETC = #{swEtc,jdbcType=VARCHAR}
+		AND
+		AGENT_JOB_RDATE = #{agentJobRdate,jdbcType=VARCHAR}
+		)
+	</update>
+
+
+	<update id="updateAssetMasterAliveChk"
+			parameterType="com.igloosec.smartguard.next.agentmanager.entity.AssetMasterDBEntity">
+		UPDATE
+			SNET_ASSET_MASTER
+		SET
+			ALIVE_CHK = #{aliveChk}
+		WHERE
+			ASSET_CD = #{assetCd}
+	</update>
+
+	<update id="updateEventAgentJobHistory" parameterType="com.igloosec.smartguard.next.agentmanager.entity.JobEntity">
+		UPDATE SNET_DIRECT_USER_JOB_HISTORY
+		<set>
+			<if test="agentJobSDate != null and agentJobEDate == null" >
+				JOB_STIME = now(),
+			</if>
+			<if test="agentJobEDate != null and agentJobSDate != null">
+				JOB_ETIME = now(),
+			</if>
+			<if test="agentJobDesc != null">
+				JOB_DESC = #{agentJobDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="agentJobFlag != null">
+				JOB_FLAG = #{agentJobFlag,jdbcType=INTEGER}
+			</if>
+		</set>
+		WHERE
+		ASSET_CD = #{assetCd}
+		AND PRG_ID = #{auditFileCd}
+		AND JOB_RTIME =
+		(
+		SELECT JOB_RTIME
+		FROM SNET_DIRECT_USER_JOB
+		WHERE ASSET_CD = #{assetCd}
+		AND PRG_ID = #{auditFileCd}
+		)
+	</update>
+
+	<update id="deleteAgentMaster" parameterType="com.igloosec.smartguard.next.agentmanager.entity.JobEntity">
+		DELETE FROM SNET_AGENT_MASTER WHERE AGENT_CD = 
+		(SELECT AGENT_CD FROM SNET_ASSET_MASTER WHERE ASSET_CD = #{assetCd,jdbcType=VARCHAR})
+	</update>
+
+	<insert id="insertAssetMaster" parameterType="com.igloosec.smartguard.next.agentmanager.entity.AssetMasterDBEntity">
+	INSERT INTO 
+		SNET_ASSET_MASTER
+		(ASSET_CD, BRANCH_ID, BRANCH_NM, TEAM_ID, TEAM_NM, IP_ADDRESS, HOST_NM, GOV_FLAG, ASSET_RMK, UPDATE_DATE)
+	VALUES
+		(#{assetCd,jdbcType=VARCHAR},
+		#{branchId,jdbcType=VARCHAR},
+		#{branchNm,jdbcType=VARCHAR},
+		#{teamId,jdbcType=VARCHAR},
+		#{teamNm,jdbcType=VARCHAR},
+		#{ipAddress,jdbcType=VARCHAR},
+		#{hostNm,jdbcType=VARCHAR},
+		#{govFlag,jdbcType=INTEGER},
+		#{assetRmk,jdbcType=VARCHAR},
+		now())
+	</insert>
+
+	<insert id="insertAssetMasterExt" parameterType="com.igloosec.smartguard.next.agentmanager.entity.AssetMasterDBEntity">
+	INSERT INTO
+		SNET_ASSET_MASTER
+		(ASSET_CD, BRANCH_ID, BRANCH_NM, TEAM_ID, TEAM_NM, IP_ADDRESS, HOST_NM, GOV_FLAG, VENDOR, SERIAL, CPU, MEM, DISK, ASSET_RMK, UPDATE_DATE)
+	VALUES
+		(#{assetCd,jdbcType=VARCHAR},
+		#{branchId,jdbcType=VARCHAR},
+		#{branchNm,jdbcType=VARCHAR},
+		#{teamId,jdbcType=VARCHAR},
+		#{teamNm,jdbcType=VARCHAR},
+		#{ipAddress,jdbcType=VARCHAR},
+		#{hostNm,jdbcType=VARCHAR},
+		#{govFlag,jdbcType=INTEGER},
+		#{vendor,jdbcType=VARCHAR},
+		#{serial,jdbcType=VARCHAR},
+		#{cpu,jdbcType=VARCHAR},
+		#{mem,jdbcType=VARCHAR},
+		#{disk,jdbcType=VARCHAR},
+		#{assetRmk,jdbcType=VARCHAR},
+        now())
+	</insert>
+
+	<insert id="insertGSResult" parameterType="com.igloosec.smartguard.next.agentmanager.entity.GscriptResultEntity">
+		INSERT INTO	SNET_ASSET_USER 
+		(
+			ASSET_CD
+			, USER_ID
+			, TEAM_ID
+			, TEAM_NM
+			, USER_NM
+			, USER_MS
+			, USER_MAIL
+			, USER_TYPE
+		)
+		VALUES
+		(
+			#{assetCd,jdbcType=VARCHAR},
+			#{userViewDBEntity.userId,jdbcType=VARCHAR},
+			#{userViewDBEntity.teamId,jdbcType=VARCHAR},
+			#{userViewDBEntity.teamNm,jdbcType=VARCHAR},
+			#{userViewDBEntity.userNm,jdbcType=VARCHAR},
+			#{userViewDBEntity.userMs,jdbcType=VARCHAR},
+			#{userViewDBEntity.userMail,jdbcType=VARCHAR},
+			'OP'
+		)
+	</insert>
+	<insert id="insertGSResultIP" parameterType="com.igloosec.smartguard.next.agentmanager.entity.AssetIpDBEntity">
+		INSERT INTO SNET_ASSET_IP (ASSET_CD, IP_ADDRESS, IP_REPRESENT, IP_VERSION)
+		VALUES
+		(
+			#{assetCd,jdbcType=VARCHAR},
+			#{ipAddress,jdbcType=VARCHAR},
+			#{ipRepresent,jdbcType=INTEGER},
+			#{ipVersion,jdbcType=INTEGER}
+		)
+	</insert>
+	<insert id="insertGSResultIPExt" parameterType="com.igloosec.smartguard.next.agentmanager.entity.AssetIpDBEntity">
+		INSERT INTO SNET_ASSET_IP (ASSET_CD, IP_ADDRESS, IP_REPRESENT, IP_VERSION, IF_NM, IP_V6_ADDRESS, MAC_ADDRESS, DEFAULT_GW)
+		VALUES
+		(
+			#{assetCd,jdbcType=VARCHAR},
+			#{ipAddress,jdbcType=VARCHAR},
+			#{ipRepresent,jdbcType=INTEGER},
+			#{ipVersion,jdbcType=INTEGER},
+			#{ifNm,jdbcType=VARCHAR},
+			#{ipV6Address,jdbcType=VARCHAR},
+			#{macAddress,jdbcType=VARCHAR},
+			#{defaultGw,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertGSResultPort" parameterType="com.igloosec.smartguard.next.agentmanager.entity.AssetOpenPort">
+		INSERT INTO SNET_ASSET_OPEN_PORT (ASSET_CD, IP_VERSION, OPEN_TYPE, OPEN_PORT, PROCESS_ID, PROCESS_NM, CDATE)
+		VALUES
+		(
+			#{assetCd,jdbcType=VARCHAR},
+			#{ipVersion,jdbcType=INTEGER},
+			#{openType,jdbcType=INTEGER},
+			#{openPort,jdbcType=INTEGER},
+			#{processId,jdbcType=INTEGER},
+			#{processNm,jdbcType=VARCHAR},
+			#{cdate,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertGSResultAuditDay"
+			parameterType="com.igloosec.smartguard.next.agentmanager.entity.SwAuditDayDBEntity">
+		INSERT INTO SNET_ASSET_SW_AUDIT_DAY 
+		(
+			ASSET_CD
+			, SW_TYPE
+			, SW_NM
+			, SW_INFO
+			, SW_DIR
+			, SW_USER
+			, SW_ETC
+			, SW_OPERATOR
+			, AUDIT_DAY
+			, AUDIT_FILE_CD
+			, CVE_CODE
+			, CVE_CODE_CNT
+			, CVE_UPDATE_DATE
+			, ASSET_NAME
+			, SW_DIR_ORG
+			, SW_ETC_ORG
+			, CONTAINER_ID
+			, CONTAINER_NM
+			, POD
+			, NAMESPACE
+		)
+		VALUES 
+		(
+			#{assetCd,jdbcType=VARCHAR},
+			#{swType,jdbcType=VARCHAR},
+			#{swNm,jdbcType=VARCHAR},
+			#{swInfo,jdbcType=VARCHAR},
+			#{swDir,jdbcType=VARCHAR},
+			#{swUser,jdbcType=VARCHAR},
+			#{swEtc,jdbcType=VARCHAR},
+			#{swOperator,jdbcType=VARCHAR},
+			#{auditDay,jdbcType=VARCHAR},
+			#{auditFileCd,jdbcType=VARCHAR},
+			#{cveCode,jdbcType=VARCHAR},
+			#{cveCodeCnt,jdbcType=INTEGER},
+			#{cveUpdateDate,jdbcType=VARCHAR},
+			#{assetName,jdbcType=VARCHAR},
+			#{swDir,jdbcType=VARCHAR},
+			#{swEtc,jdbcType=VARCHAR},
+			#{containerId,jdbcType=VARCHAR},
+			#{containerNm,jdbcType=VARCHAR},
+			#{pod,jdbcType=VARCHAR},
+			#{nameSpace,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<insert id="insertConnectMaster" parameterType="com.igloosec.smartguard.next.agentmanager.entity.GscriptResultEntity">
+		INSERT
+			INTO SNET_CONNECT_MASTER (ASSET_CD, OS_BIT,SW_NM,CONNECT_IP_ADDRESS,TMP_ASSET_FLAG, UPDATE_DATE)
+		VALUES
+			(#{assetCd,jdbcType=VARCHAR},
+			#{osArch,jdbcType=INTEGER},
+			#{listSwAuditDay[0].swNm,jdbcType=VARCHAR},
+			(SELECT IP_ADDRESS FROM SNET_ASSET_MASTER WHERE ASSET_CD = #{assetCd,jdbcType=VARCHAR}),
+			0,
+			now())
+	</insert>
+
+	<update id="updateConnectMaster">
+		UPDATE
+		SNET_CONNECT_MASTER
+		<set>
+			<if test="osArch != null">
+				OS_BIT = #{osArch,jdbcType=INTEGER},
+			</if>
+			<if test="ConnectLog != null">
+				CONNECT_LOG=#{ConnectLog,jdbcType=VARCHAR},
+			</if>
+			TMP_ASSET_FLAG = 0,
+			UPDATE_DATE = now()
+		</set>
+		WHERE
+		ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateConnectMasterIp">
+		UPDATE
+		SNET_CONNECT_MASTER
+		<set>
+			<if test="connectIpAddress != null">
+				CONNECT_IP_ADDRESS = #{connectIpAddress,jdbcType=VARCHAR},
+				UPDATE_DATE = now()
+			</if>
+		</set>
+		WHERE
+		ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateAssetMasterIp">
+		UPDATE
+		SNET_ASSET_MASTER
+		<set>
+			<if test="connectIpAddress != null">
+				IP_ADDRESS = #{connectIpAddress,jdbcType=VARCHAR},
+				UPDATE_DATE = now()
+			</if>
+		</set>
+		WHERE
+		ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateConnectMasterConnectLog">
+		UPDATE
+		SNET_CONNECT_MASTER
+		<set>
+			CONNECT_LOG = #{agentInfo.connectLog,jdbcType=VARCHAR},
+            UPDATE_DATE = now()
+		</set>
+		WHERE
+		ASSET_CD = #{agentInfo.assetCd,jdbcType=VARCHAR}
+	</update>
+
+    <update id="updateConnectMasterConnectLogS" parameterType="hashMap">
+        UPDATE
+        SNET_CONNECT_MASTER
+        <set>
+            CONNECT_LOG = #{connectLog,jdbcType=VARCHAR},
+            UPDATE_DATE = now()
+        </set>
+        WHERE
+        ASSET_CD IN
+        <foreach collection="assetCdList" item="item" separator="," open="(" close=")">
+            #{item,jdbcType=VARCHAR}
+        </foreach>
+        AND CONNECT_LOG != #{connectLog,jdbcType=VARCHAR}
+    </update>
+
+	<update id="updateConnectMasterLog">
+		UPDATE
+		SNET_CONNECT_MASTER
+		SET
+		CONNECT_LOG= #{ConnectLog,jdbcType=VARCHAR},
+		SW_NM = #{listSwAuditDay[0].swNm,jdbcType=VARCHAR},
+		TMP_ASSET_FLAG = 0,
+		UPDATE_DATE = now()
+		WHERE
+		ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateSwAuditDay" parameterType="com.igloosec.smartguard.next.agentmanager.entity.SwAuditHistoryDBEntity">
+		UPDATE SNET_ASSET_SW_AUDIT_DAY
+		SET AUDIT_DAY = #{auditDay,jdbcType=VARCHAR}
+		WHERE
+		ASSET_CD=#{assetCd,jdbcType=VARCHAR}
+		AND SW_TYPE = #{swType,jdbcType=VARCHAR}
+		AND SW_NM = #{swNm,jdbcType=VARCHAR}
+		AND	SW_INFO = #{swInfo,jdbcType=VARCHAR}
+		<choose>
+			<when test="swDir == null or swDir == ''">
+				AND SW_DIR = "-"
+			</when>
+			<otherwise>
+				AND SW_DIR = #{swDir, jdbcType=VARCHAR}
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="swUser == null or swUser == ''">
+				AND SW_USER = "-"
+			</when>
+			<otherwise>
+				AND SW_USER = #{swUser,jdbcType=VARCHAR}
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="swEtc == null or swEtc == ''">
+				AND SW_ETC = "-"
+			</when>
+			<otherwise>
+				AND SW_ETC = #{swEtc,jdbcType=VARCHAR}
+			</otherwise>
+		</choose>
+	</update>
+
+	<insert id="insertDSResultDummy"
+			parameterType="com.igloosec.smartguard.next.agentmanager.entity.SwAuditDayDBEntity">
+		INSERT INTO SNET_ASSET_SW_AUDIT_HISTORY
+		(
+			ASSET_CD,
+			AUDIT_DAY,
+			BRANCH_ID,
+			BRANCH_NM,
+			TEAM_ID,
+			TEAM_NM,
+			HOST_NM,
+			IP_ADDRESS,
+			SW_TYPE,
+			SW_NM,
+			SW_INFO,
+			SW_DIR,
+			SW_USER,
+			SW_ETC, 
+			AUDIT_RATE,
+			AD_WEIGHT_TOTAL,
+			AD_WEIGHT_NOK,
+			AD_RESULT_NOK,
+			AUDIT_FILE_CD,
+			USER_ID,
+			USER_NM,
+			ALL_IP_ADDRESS
+		)
+		
+		SELECT *
+		FROM 
+			(
+			SELECT 
+				ASSET_CD,
+				'19990101' AS AUDIT_DAY,
+				BRANCH_ID,
+				BRANCH_NM,
+				TEAM_ID,
+				TEAM_NM,
+				HOST_NM,
+				IP_ADDRESS
+			FROM SNET_ASSET_MASTER
+			WHERE ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+			) A, 
+			(
+				SELECT 
+					'${swType}' AS SW_TYPE,
+					'${swNm}' AS SW_NM,
+					'${swInfo}' AS SW_INFO,
+					'${swDir}' AS SW_DIR,
+					'${swUser}' AS SW_USER,
+					'${swEtc}' AS SW_ETC, 
+					0
+				FROM DUAL
+			)B,
+			(
+			SELECT
+			
+				WEIGHT_TOT AS AD_WEIGHT_TOTAL
+				, WEIGHT_TOT AS AD_WEIGHT_NOK
+				, RESULT_TOT AS AD_RESULT_NOK
+				, AUDIT_FILE_CD
+				
+			FROM SNET_CONFIG_AUDIT_FILE
+			WHERE AUDIT_FILE_CD = #{auditFileCd,jdbcType=VARCHAR}
+			) C
+			,(
+				SELECT USER_ID, USER_NM
+				FROM SNET_ASSET_USER
+				WHERE USER_TYPE='OP'
+				AND ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+			) D
+			,(SELECT GROUP_CONCAT(IP_ADDRESS) AS ALL_IP_ADDRESS  
+			    FROM SNET_ASSET_IP 
+			   WHERE ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+			)E
+	</insert>
+
+	<insert id="insertDSResult" parameterType="com.igloosec.smartguard.next.agentmanager.entity.DscriptResultEntity">
+		INSERT INTO	SNET_ASSET_SW_AUDIT_HISTORY 
+		(
+			ASSET_CD
+			, SW_TYPE
+			, SW_NM
+			, SW_INFO
+			, SW_DIR
+			, SW_USER
+			, SW_ETC
+			, AUDIT_DAY
+			, AUDIT_FILE_CD
+			, HOST_NM
+			, IP_ADDRESS
+			, BRANCH_ID
+			, BRANCH_NM
+			, TEAM_ID
+			, TEAM_NM
+			, AD_RESULT_OK
+			, AD_RESULT_NOK
+			, AD_RESULT_NA
+			, AD_RESULT_PASS
+			, AD_WEIGHT_TOTAL
+			, AD_WEIGHT_OK
+			, AD_WEIGHT_NOK
+			, AD_WEIGHT_PASS
+			, AD_WEIGHT_NA
+			, AUDIT_RATE
+			, AUDIT_RATE_FIREWALL
+			, AD_RESULT_REQ
+			, AD_WEIGHT_REQ
+			, USER_ID
+			, USER_NM
+			, ALL_IP_ADDRESS
+			, SERVICE_P_NM
+			, SERVICE_C_NM			
+		)	
+		VALUES 
+		(
+			#{auditHistoryDBEntity.assetCd,jdbcType=VARCHAR},
+			#{auditHistoryDBEntity.swType,jdbcType=VARCHAR},
+			#{auditHistoryDBEntity.swNm,jdbcType=VARCHAR},
+			#{auditHistoryDBEntity.swInfo,jdbcType=VARCHAR},
+			#{auditHistoryDBEntity.swDir,jdbcType=VARCHAR},
+			#{auditHistoryDBEntity.swUser,jdbcType=VARCHAR},
+			#{auditHistoryDBEntity.swEtc,jdbcType=VARCHAR},	
+			#{auditDay,jdbcType=VARCHAR},
+			#{auditHistoryDBEntity.auditFileCd,jdbcType=VARCHAR},
+			#{auditHistoryDBEntity.hostNm,jdbcType=VARCHAR},
+			#{auditHistoryDBEntity.ipAddress,jdbcType=VARCHAR},
+			#{auditHistoryDBEntity.branchId,jdbcType=VARCHAR},
+			#{auditHistoryDBEntity.branchNm,jdbcType=VARCHAR},
+			#{auditHistoryDBEntity.teamId,jdbcType=VARCHAR},
+			#{auditHistoryDBEntity.teamNm,jdbcType=VARCHAR},
+			#{auditHistoryDBEntity.adResultOk,jdbcType=INTEGER},
+			#{auditHistoryDBEntity.adResultNok,jdbcType=INTEGER},
+			#{auditHistoryDBEntity.adResultNa,jdbcType=INTEGER},
+			#{auditHistoryDBEntity.adResultPass,jdbcType=INTEGER},
+			#{auditHistoryDBEntity.adWeightTotal,jdbcType=INTEGER},
+			#{auditHistoryDBEntity.adWeightOk,jdbcType=INTEGER},
+			#{auditHistoryDBEntity.adWeightNok,jdbcType=INTEGER},
+			#{auditHistoryDBEntity.adWeightPass,jdbcType=INTEGER},
+			#{auditHistoryDBEntity.adWeightNa,jdbcType=INTEGER},
+			CASE
+			  WHEN (  #{auditHistoryDBEntity.adWeightTotal,jdbcType=INTEGER}
+					- #{auditHistoryDBEntity.adWeightPass,jdbcType=INTEGER}
+					- #{auditHistoryDBEntity.adWeightNa,jdbcType=INTEGER}) = 0
+			  THEN
+				 0
+			  ELSE
+				 ROUND (
+					 	IFNULL(#{auditHistoryDBEntity.adWeightOk,jdbcType=INTEGER},0)
+					/ (  IFNULL(#{auditHistoryDBEntity.adWeightTotal,jdbcType=INTEGER},0)
+					   - IFNULL(#{auditHistoryDBEntity.adWeightPass,jdbcType=INTEGER},0)
+					   - IFNULL(#{auditHistoryDBEntity.adWeightNa,jdbcType=INTEGER},0))
+					* 100,
+					2)
+		   END,
+		   CASE
+			  WHEN (  #{auditHistoryDBEntity.adWeightTotal,jdbcType=INTEGER}
+					- #{auditHistoryDBEntity.adWeightNa,jdbcType=INTEGER}) = 0
+			  THEN
+				 0
+			  ELSE
+				 ROUND (
+					 	IFNULL(#{auditHistoryDBEntity.adWeightOk,jdbcType=INTEGER},0)
+					/ (  IFNULL(#{auditHistoryDBEntity.adWeightTotal,jdbcType=INTEGER},0)
+					   - IFNULL(#{auditHistoryDBEntity.adWeightNa,jdbcType=INTEGER},0))
+					* 100,
+					2)
+		   END,
+			#{auditHistoryDBEntity.adResultReq,jdbcType=INTEGER},
+			#{auditHistoryDBEntity.adWeightReq,jdbcType=INTEGER},
+			#{auditHistoryDBEntity.userId,jdbcType=VARCHAR},
+			#{auditHistoryDBEntity.userNm,jdbcType=VARCHAR},
+			( SELECT GROUP_CONCAT(IP_ADDRESS) AS ALL_IP_ADDRESS FROM SNET_ASSET_IP WHERE ASSET_CD = #{auditHistoryDBEntity.assetCd,jdbcType=VARCHAR} ) ,
+			(
+				SELECT B.SERVICE_P_NM
+				FROM SNET_ASSET_MASTER A
+				LEFT OUTER JOIN SNET_CONFIG_SERVICE B
+				ON(A.SERVICE_ID = B.SERVICE_ID)
+			    WHERE A.ASSET_CD=#{auditHistoryDBEntity.assetCd,jdbcType=VARCHAR}
+			    limit 1
+			),
+			(
+				SELECT B.SERVICE_C_NM
+				FROM SNET_ASSET_MASTER A
+				LEFT OUTER JOIN SNET_CONFIG_SERVICE B
+				ON(A.SERVICE_ID = B.SERVICE_ID)
+			    WHERE A.ASSET_CD=#{auditHistoryDBEntity.assetCd,jdbcType=VARCHAR}
+			    limit 1
+			)			
+		)		
+	</insert>
+
+	<insert id="insertDSResultReport"
+			parameterType="com.igloosec.smartguard.next.agentmanager.entity.Diagnosis">
+		INSERT INTO SNET_ASSET_SW_AUDIT_REPORT 
+		(
+			ASSET_CD
+			, SW_TYPE
+			, SW_NM
+			, SW_INFO
+			, SW_DIR
+			, SW_USER
+			, SW_ETC
+			, ITEM_RESULT
+			, IP_ADDRESS
+			, AUDIT_DAY
+			, ITEM_GRADE
+			, ITEM_STATUS
+			, DIAGNOSIS_CD
+			, ITEM_STANDARD
+			, HOST_NM
+			, ITEM_NM
+			, ITEM_GRP_NM
+			, ITEM_COUNTERMEASURE
+			, ITEM_COUNTERMEASURE_DETAIL
+			, ITEM_COK_REASON
+			, ORG_ITEM_RESULT
+		)
+		VALUES
+		(	
+			#{assetCd,jdbcType=VARCHAR},
+			#{swType,jdbcType=VARCHAR},
+			#{swNm,jdbcType=VARCHAR},
+			#{swInfo,jdbcType=VARCHAR},
+			#{swDir,jdbcType=VARCHAR},
+			#{swUser,jdbcType=VARCHAR},
+			#{swEtc,jdbcType=VARCHAR},
+			#{result,jdbcType=VARCHAR},
+			#{ipAddress,jdbcType=VARCHAR},
+			#{auditDay,jdbcType=VARCHAR},
+			#{itemGrade,jdbcType=VARCHAR},
+			#{status,jdbcType=VARCHAR},
+			#{code,jdbcType=VARCHAR},
+			#{standard,jdbcType=VARCHAR},
+			#{hostNm,jdbcType=VARCHAR},
+			#{itemName,jdbcType=VARCHAR},
+			#{itemGroupName,jdbcType=VARCHAR},
+			#{countermeasure,jdbcType=VARCHAR},
+			#{tip,jdbcType=VARCHAR},
+			#{itemCokReason,jdbcType=VARCHAR} ,
+			#{orgItemResult,jdbcType=VARCHAR}
+		)	
+	</insert>
+
+	<insert id="insertDSResultReportDiagType"
+			parameterType="com.igloosec.smartguard.next.agentmanager.entity.Diagnosis">
+		INSERT INTO SNET_ASSET_SW_AUDIT_REPORT
+		(
+			ASSET_CD
+			, SW_TYPE
+			, SW_NM
+			, SW_INFO
+			, SW_DIR
+			, SW_USER
+			, SW_ETC
+			, ITEM_RESULT
+			, IP_ADDRESS
+			, AUDIT_DAY
+			, ITEM_GRADE
+			, ITEM_STATUS
+			, DIAGNOSIS_CD
+			, ITEM_STANDARD
+			, HOST_NM
+			, ITEM_NM
+			, ITEM_GRP_NM
+			, ITEM_COUNTERMEASURE
+			, ITEM_COUNTERMEASURE_DETAIL
+			, ITEM_COK_REASON
+			, ORG_ITEM_RESULT
+			, DIAGNOSIS_TYPE
+			, EXCEPT_YN
+		)
+		VALUES
+		(
+			#{assetCd,jdbcType=VARCHAR},
+			#{swType,jdbcType=VARCHAR},
+			#{swNm,jdbcType=VARCHAR},
+			#{swInfo,jdbcType=VARCHAR},
+			#{swDir,jdbcType=VARCHAR},
+			#{swUser,jdbcType=VARCHAR},
+			#{swEtc,jdbcType=VARCHAR},
+			#{result,jdbcType=VARCHAR},
+			#{ipAddress,jdbcType=VARCHAR},
+			#{auditDay,jdbcType=VARCHAR},
+			#{itemGrade,jdbcType=VARCHAR},
+			#{status,jdbcType=VARCHAR},
+			#{code,jdbcType=VARCHAR},
+			#{standard,jdbcType=VARCHAR},
+			#{hostNm,jdbcType=VARCHAR},
+			#{itemName,jdbcType=VARCHAR},
+			#{itemGroupName,jdbcType=VARCHAR},
+			#{countermeasure,jdbcType=VARCHAR},
+			#{tip,jdbcType=VARCHAR},
+			#{itemCokReason,jdbcType=VARCHAR},
+			#{orgItemResult,jdbcType=VARCHAR},
+			#{govFlag,jdbcType=INTEGER},
+			#{exceptYn,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<delete id="deleteAssetUser"
+			parameterType="com.igloosec.smartguard.next.agentmanager.entity.GscriptResultEntity">
+		DELETE FROM
+			SNET_ASSET_USER
+		WHERE 
+			ASSET_CD=#{assetCd,jdbcType=VARCHAR} AND USER_TYPE = 'OP'
+	</delete>
+
+	<delete id="deleteSwAuditDay"
+			parameterType="com.igloosec.smartguard.next.agentmanager.entity.GscriptResultEntity">
+		DELETE FROM
+			SNET_ASSET_SW_AUDIT_DAY
+		WHERE 
+			ASSET_CD=#{assetCd,jdbcType=VARCHAR}
+			AND USER_REGI = 0
+	</delete>
+
+	<delete id="deleteAssetIp"
+			parameterType="com.igloosec.smartguard.next.agentmanager.entity.GscriptResultEntity">
+	<![CDATA[ 
+		DELETE FROM 
+			SNET_ASSET_IP 
+		WHERE 
+			ASSET_CD=#{assetCd,jdbcType=VARCHAR}
+        AND
+            USER_REGI != '1';
+
+	]]>
+	</delete>
+
+	<delete id="deleteOpenPort"
+			parameterType="com.igloosec.smartguard.next.agentmanager.entity.GscriptResultEntity">
+		DELETE FROM
+			SNET_ASSET_OPEN_PORT
+		WHERE
+			ASSET_CD=#{assetCd,jdbcType=VARCHAR}
+		AND
+			CDATE=#{cdate,jdbcType=VARCHAR}
+	</delete>
+
+	<delete id="deleteAssetSwAuditHistory">
+		DELETE FROM SNET_ASSET_SW_AUDIT_HISTORY
+		<where>
+			ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+			AND SW_TYPE = #{auditHistoryDBEntity.swType,jdbcType=VARCHAR}
+			AND SW_NM = #{auditHistoryDBEntity.swNm,jdbcType=VARCHAR}
+			AND SW_INFO = #{auditHistoryDBEntity.swInfo,jdbcType=VARCHAR}
+			<choose>
+				<when test="auditHistoryDBEntity.swDir == null or auditHistoryDBEntity.swDir == ''">
+					AND SW_DIR = "-"
+				</when>
+				<otherwise>
+					AND SW_DIR = #{auditHistoryDBEntity.swDir,jdbcType=VARCHAR}
+				</otherwise>
+			</choose>
+			<choose>
+				<when test="auditHistoryDBEntity.swUser == null or auditHistoryDBEntity.swUser == ''">
+					AND SW_USER = "-"
+				</when>
+				<otherwise>
+					AND SW_USER = #{auditHistoryDBEntity.swUser,jdbcType=VARCHAR}
+				</otherwise>
+			</choose>
+			<choose>
+				<when test="auditHistoryDBEntity.swEtc == null or auditHistoryDBEntity.swEtc == ''">
+					AND SW_ETC = "-"
+				</when>
+				<otherwise>
+					AND SW_ETC = #{auditHistoryDBEntity.swEtc,jdbcType=VARCHAR}
+				</otherwise>
+			</choose>
+			AND AUDIT_DAY = #{auditDay,jdbcType=VARCHAR}
+		</where>
+	</delete>
+
+	<delete id="deleteDummyAssetSwAuditHistory" parameterType="com.igloosec.smartguard.next.agentmanager.entity.SwAuditDayDBEntity">
+		DELETE FROM SNET_ASSET_SW_AUDIT_HISTORY
+		WHERE
+		ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+		AND SW_TYPE = #{swType,jdbcType=VARCHAR}
+		AND SW_NM = #{swNm,jdbcType=VARCHAR}
+		AND SW_INFO = #{swInfo,jdbcType=VARCHAR}
+		AND SW_DIR = #{swDir,jdbcType=VARCHAR}
+		AND SW_USER = #{swUser,jdbcType=VARCHAR}
+		AND SW_ETC = #{swEtc,jdbcType=VARCHAR}
+		AND AUDIT_DAY = '19990101'
+	</delete>
+
+	<delete id="deleteAssetSwAuditReport">
+		DELETE FROM SNET_ASSET_SW_AUDIT_REPORT
+		<where>
+			ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+			AND SW_TYPE = #{systemInfoEntity.swType,jdbcType=VARCHAR}
+			AND SW_NM = #{systemInfoEntity.swNm,jdbcType=VARCHAR}
+			AND SW_INFO = #{systemInfoEntity.swInfo,jdbcType=VARCHAR}
+			<choose>
+				<when test="systemInfoEntity.swDir == null or systemInfoEntity.swDir == ''">
+					AND SW_DIR = "-"
+				</when>
+				<otherwise>
+					AND SW_DIR = #{systemInfoEntity.swDir, jdbcType=VARCHAR}
+				</otherwise>
+			</choose>
+			<choose>
+				<when test="systemInfoEntity.swUser == null or systemInfoEntity.swUser == ''">
+					AND SW_USER = "-"
+				</when>
+				<otherwise>
+					AND SW_USER = #{systemInfoEntity.swUser,jdbcType=VARCHAR}
+				</otherwise>
+			</choose>
+			<choose>
+				<when test="systemInfoEntity.swEtc == null or systemInfoEntity.swEtc == ''">
+					AND SW_ETC = "-"
+				</when>
+				<otherwise>
+					AND SW_ETC = #{systemInfoEntity.swEtc,jdbcType=VARCHAR}
+				</otherwise>
+			</choose>
+			AND AUDIT_DAY = #{auditDay,jdbcType=VARCHAR}
+		</where>
+	</delete>
+
+	<update id="updateAgentVersion" parameterType="com.igloosec.smartguard.next.agentmanager.entity.AgentInfo">
+		UPDATE SNET_AGENT_MASTER SET
+        AGENT_VERSION = #{agentVersion,jdbcType=VARCHAR}
+		<if test='agentOldVersion != null '>
+			,AGENT_OLD_VERSION = #{agentOldVersion,jdbcType=VARCHAR}
+			,AGENT_UPDATE_DATE = now()
+		</if>
+        where AGENT_CD = #{agentCd,jdbcType=VARCHAR}
+	</update>
+
+	<select id="selectCurrentAgentVersion" parameterType="String" resultType="String">
+		SELECT
+		  AGENT_VERSION
+		FROM
+		  SNET_AGENT_MASTER
+		WHERE
+		  1=1 AND AGENT_CD = #{agentCd,jdbcType=VARCHAR}
+	</select>
+
+	<update id="updateAgentVersion_v3" parameterType="com.igloosec.smartguard.next.agentmanager.entity.AgentInfo">
+		UPDATE SNET_AGENT_MASTER SET
+        AGENT_VERSION = #{agentVersion,jdbcType=VARCHAR}
+        where AGENT_CD = #{agentCd,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateAgentStatusAgentMaster" parameterType="com.igloosec.smartguard.next.agentmanager.entity.AgentInfo">
+	<![CDATA[ 
+	UPDATE SNET_AGENT_MASTER
+	SET AGENT_CD = #{agentCd}, AGENT_INSTALL_DATE = now()	
+	WHERE ASSET_CD = #{assetCD}
+	]]>
+	</update>
+
+	<update id="updateAgentStatusAssetMaster" parameterType="com.igloosec.smartguard.next.agentmanager.entity.AgentInfo">
+	<![CDATA[ 
+	UPDATE SNET_ASSET_MASTER
+	SET AGENT_CD = #{agentCd}	
+	WHERE ASSET_CD = #{assetCD}
+	]]>
+	</update>
+
+	<select id="selectAgentInfoAuth" parameterType="hashMap" resultType="com.igloosec.smartguard.next.agentmanager.entity.AgentInfo">
+		SELECT
+		   SAM.ASSET_CD AS assetCd
+		  ,SAM.AGENT_CD AS agentCd
+		  ,SCM.CONNECT_IP_ADDRESS AS connectIpAddress
+		FROM
+		  SNET_CONNECT_MASTER SCM
+		  LEFT OUTER JOIN SNET_ASSET_MASTER SAM
+		  ON ( SCM.ASSET_CD = SAM.ASSET_CD )
+		WHERE
+		  1=1
+		  AND
+		  SCM.CONNECT_IP_ADDRESS = #{ipAddr,jdbcType=VARCHAR} AND SAM.HOST_NM = #{hostNm,jdbcType=VARCHAR}
+		  AND
+		  SAM.AGENT_CD IS NOT NULL
+		  ORDER BY SCM.UPDATE_DATE DESC LIMIT 1
+	</select>
+
+	<select id="selectAgentInfoAuthWithAssetCd" parameterType="String" resultType="com.igloosec.smartguard.next.agentmanager.entity.AgentInfo">
+		SELECT
+		   SAM.ASSET_CD AS assetCd
+		  ,SAM.AGENT_CD AS agentCd
+		  ,SCM.CONNECT_IP_ADDRESS AS connectIpAddress
+		FROM
+		  SNET_CONNECT_MASTER SCM
+		  LEFT OUTER JOIN  SNET_ASSET_MASTER SAM
+		  ON ( SCM.ASSET_CD = SAM.ASSET_CD )
+		WHERE
+		  1=1
+		  AND
+		  SCM.ASSET_CD =#{assetCd,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectAgentInfo" parameterType="String" resultType="com.igloosec.smartguard.next.agentmanager.entity.AgentInfo">
+		<![CDATA[
+		SELECT
+		   SCM.ASSET_CD AS assetCd
+		  ,SCM.RELAY_ASSET_CD AS relayAssetCd
+		  ,SCM.RELAY2_ASSET_CD AS relay2AssetCd
+		  ,SCM.RELAY3_ASSET_CD AS relay3AssetCd
+		  ,AM.AGENT_CD AS agentCd
+		  ,SCM.SW_NM AS osType
+		  ,SCM.OS_BIT AS osBit
+		  ,SCM.CONNECT_IP_ADDRESS AS connectIpAddress
+		  ,SCM.USER_ID_OS AS userIdOs
+		  ,SCM.USER_ID_ROOT AS userIdRoot
+		  ,SCM.PASSWORD_OS AS passwordOs
+		  ,SCM.PASSWORD_ROOT AS passwordRoot
+		  ,SCM.ACCOUNT_CHK_OS AS accountChkOs
+		  ,SCM.ACCOUNT_CHK_DBA AS accountChkDba
+		  ,SCM.ACCOUNT_CHK_ROOT AS accountChkRoot
+		  ,SCM.ACCOUNT_CHK_URL AS accountChkUrl
+		  ,SCM.PORT_SSH AS portSsh
+		  ,SCM.PORT_SFTP AS portSftp
+		  ,SCM.PORT_TELNET AS portTelnet
+		  ,SCM.PORT_FTP AS portFtp
+		  ,SCM.CONNECT_LOG AS connectLog
+		  ,SCM.CONNECT_SHELL_OS AS connectShellOs
+		  ,SCM.CONNECT_SHELL_ROOT AS connectShellRoot
+		  ,SCM.PROMPT_USER_ID_OS AS promptUserIdOs
+		  ,SCM.PROMPT_USER_ID_ROOT AS promptUserIdRoot
+		  ,SCM.DIR_DBA as dirDba
+		  ,SCM.DIR_URL as dirUrl
+		  ,SCM.DIR_WEB as dirWeb
+		  ,SCM.DIR_WAS as dirWas
+		  ,SCM.INST_ACCOUNT_DBA as instAdba
+		  ,SCM.INST_ACCOUNT_URL as instAurl
+		  ,SCM.INST_ACCOUNT_WEB as instAweb
+		  ,SCM.INST_ACCOUNT_WAS as instAwas
+		  ,(SELECT CONNECT_IP_ADDRESS FROM SNET_CONNECT_MASTER WHERE ASSET_CD = SCM.RELAY_ASSET_CD) as relayIpAddress
+		  ,(SELECT CONNECT_IP_ADDRESS FROM SNET_CONNECT_MASTER WHERE ASSET_CD = SCM.RELAY2_ASSET_CD) as relay2IpAddress
+		  ,(SELECT CONNECT_IP_ADDRESS FROM SNET_CONNECT_MASTER WHERE ASSET_CD = SCM.RELAY3_ASSET_CD) as relay3IpAddress
+		  ,(SELECT (CASE WHEN COUNT(ASSET_CD) > 0 THEN 'Y' ELSE 'N'  END) FROM SNET_RELAY_MASTER WHERE 1=1 AND ASSET_CD = SCM.ASSET_CD AND USE_YN = 'Y') as isRelayManager
+		  ,AM.AGENT_TYPE AS agentType
+		  ,AM.AGENT_INSTALL_DATE AS agentInstallDate
+		  ,AM.AGENT_START_DATE AS agentStartDate
+		  ,AM.AGENT_USE_STIME AS agentUseSTime
+		  ,AM.AGENT_USE_ETIME AS agentUseETime
+		  ,AM.AGENT_REGI_FLAG AS agentRegiFlag
+		  ,(SELECT NW_GET_CONFIG_CMD
+			FROM SNET_CONFIG_NW_CMD WHERE NW_GET_CONFIG_CMD_CD = SCM.NW_GET_CONFIG_CMD_CD) as nwGetConfigCmd
+		  ,(SELECT GROUP_CONCAT(SB.IP_ADDRESS) 
+		    FROM SNET_ASSET_IP SB WHERE SB.ASSET_CD = (
+									SELECT SC.RELAY_ASSET_CD
+									FROM
+									SNET_CONNECT_MASTER SC
+									WHERE
+									SC.ASSET_CD = SCM.ASSET_CD
+									)
+			) AS relaySubIpAddress		  	
+		  ,SCM.LOGIN_TYPE  AS loginType
+		  ,SCM.USE_SUDO AS useSudo
+		  ,SCM.AGENT_INSTALL_PATH as agentInstallPath
+		  ,SCM.USE_DIAG_SUDO AS useDiagSudo
+		FROM
+		  SNET_CONNECT_MASTER SCM,
+		  SNET_AGENT_MASTER AM,
+		  SNET_ASSET_MASTER ASSM
+		WHERE
+		  1=1
+		  AND
+		  SCM.ASSET_CD = #{assetCd}
+		  AND
+		  ASSM.ASSET_CD = SCM.ASSET_CD
+		  AND
+		  ASSM.AGENT_CD = AM.AGENT_CD
+	]]>
+	</select>
+
+	<select id="selectAgentInfoUpdate" parameterType="String" resultType="com.igloosec.smartguard.next.agentmanager.entity.AgentInfo">
+		SELECT
+		   SCM.ASSET_CD AS assetCd
+		  ,AM.AGENT_CD AS agentCd
+		  ,SCM.SW_NM AS osType
+		  ,SCM.OS_BIT AS osBit
+		  ,SCM.CONNECT_IP_ADDRESS AS connectIpAddress
+		  ,SCM.USER_ID_OS AS userIdOs
+		  ,SCM.USER_ID_ROOT AS userIdRoot
+		  ,SCM.PASSWORD_OS AS passwordOs
+		  ,SCM.PASSWORD_ROOT AS passwordRoot
+		  ,SCM.ACCOUNT_CHK_OS AS accountChkOs
+		  ,SCM.ACCOUNT_CHK_DBA AS accountChkDba
+		  ,SCM.ACCOUNT_CHK_ROOT AS accountChkRoot
+		  ,SCM.ACCOUNT_CHK_URL AS accountChkUrl
+		  ,SCM.PORT_SSH AS portSsh
+		  ,SCM.PORT_SFTP AS portSftp
+		  ,SCM.PORT_TELNET AS portTelnet
+		  ,SCM.PORT_FTP AS portFtp
+		  ,SCM.CONNECT_LOG AS connectLog
+		  ,SCM.CONNECT_SHELL_OS AS connectShellOs
+		  ,SCM.CONNECT_SHELL_ROOT AS connectShellRoot
+		  ,SCM.PROMPT_USER_ID_OS AS promptUserIdOs
+		  ,SCM.PROMPT_USER_ID_ROOT AS promptUserIdRoot
+		  ,SCM.DIR_DBA as dirDba
+		  ,SCM.DIR_URL as dirUrl
+		  ,SCM.DIR_WEB as dirWeb
+		  ,SCM.DIR_WAS as dirWas
+		  ,SCM.INST_ACCOUNT_DBA as instAdba
+		  ,SCM.INST_ACCOUNT_URL as instAurl
+		  ,SCM.INST_ACCOUNT_WEB as instAweb
+		  ,SCM.INST_ACCOUNT_WAS as instAwas
+		  ,AM.AGENT_TYPE AS agentType
+		  ,AM.AGENT_INSTALL_DATE AS agentInstallDate
+		  ,AM.AGENT_START_DATE AS agentStartDate
+		  ,AM.AGENT_USE_STIME AS agentUseSTime
+		  ,AM.AGENT_USE_ETIME AS agentUseETime
+		  ,AM.AGENT_REGI_FLAG AS agentRegiFlag
+		  ,AM.AGENT_VERSION AS agentVersion
+		  ,SCM.LOGIN_TYPE  AS loginType
+		  ,SCM.USE_SUDO AS useSudo
+		  ,SCM.AGENT_INSTALL_PATH as agentInstallPath
+		  ,SCM.USE_DIAG_SUDO AS useDiagSudo
+		FROM
+		  SNET_CONNECT_MASTER SCM,
+		  SNET_AGENT_MASTER AM,
+		  SNET_ASSET_MASTER ASSM
+		WHERE
+		  1=1
+		  AND
+		  SCM.ASSET_CD = #{assetCd}
+		  AND
+		  ASSM.ASSET_CD = SCM.ASSET_CD
+		  AND
+		  ASSM.AGENT_CD = AM.AGENT_CD
+	</select>
+
+	<select id="selectAgentInfoMulti" parameterType="hashMap" resultType="com.igloosec.smartguard.next.agentmanager.entity.AgentInfo">
+		SELECT
+		   SCM.ASSET_CD AS assetCd
+		  ,SCM.RELAY_ASSET_CD AS relayAssetCd
+		  ,SCM.RELAY2_ASSET_CD AS relay2AssetCd
+		  ,SCM.RELAY3_ASSET_CD AS relay3AssetCd
+		  ,AM.AGENT_CD AS agentCd
+		  ,SCM.SW_NM AS osType
+		  ,SCM.OS_BIT AS osBit
+		  ,SCM.CONNECT_IP_ADDRESS AS connectIpAddress
+		  ,SCM.USER_ID_OS AS userIdOs
+		  ,SCM.USER_ID_ROOT AS userIdRoot
+		  ,SCM.PASSWORD_OS AS passwordOs
+		  ,SCM.PASSWORD_ROOT AS passwordRoot
+		  ,SCM.ACCOUNT_CHK_OS AS accountChkOs
+		  ,SCM.ACCOUNT_CHK_DBA AS accountChkDba
+		  ,SCM.ACCOUNT_CHK_ROOT AS accountChkRoot
+		  ,SCM.ACCOUNT_CHK_URL AS accountChkUrl
+		  ,SCM.PORT_SSH AS portSsh
+		  ,SCM.PORT_SFTP AS portSftp
+		  ,SCM.PORT_TELNET AS portTelnet
+		  ,SCM.PORT_FTP AS portFtp
+		  ,SCM.CONNECT_LOG AS connectLog
+		  ,SCM.CONNECT_SHELL_OS AS connectShellOs
+		  ,SCM.CONNECT_SHELL_ROOT AS connectShellRoot
+		  ,SCM.PROMPT_USER_ID_OS AS promptUserIdOs
+		  ,SCM.PROMPT_USER_ID_ROOT AS promptUserIdRoot
+		  ,SCM.DIR_DBA as dirDba
+		  ,SCM.DIR_URL as dirUrl
+		  ,SCM.DIR_WEB as dirWeb
+		  ,SCM.DIR_WAS as dirWas
+		  ,SCM.INST_ACCOUNT_DBA as instAdba
+		  ,SCM.INST_ACCOUNT_URL as instAurl
+		  ,SCM.INST_ACCOUNT_WEB as instAweb
+		  ,SCM.INST_ACCOUNT_WAS as instAwas
+		  ,AM.AGENT_TYPE AS agentType
+		  ,AM.AGENT_INSTALL_DATE AS agentInstallDate
+		  ,AM.AGENT_START_DATE AS agentStartDate
+		  ,AM.AGENT_USE_STIME AS agentUseSTime
+		  ,AM.AGENT_USE_ETIME AS agentUseETime
+		  ,AM.AGENT_REGI_FLAG AS agentRegiFlag
+		  ,(SELECT NW_GET_CONFIG_CMD
+			FROM SNET_CONFIG_NW_CMD WHERE NW_GET_CONFIG_CMD_CD = SCM.NW_GET_CONFIG_CMD_CD) as nwGetConfigCmd
+		  ,SCM.LOGIN_TYPE  AS loginType
+		  ,SCM.USE_SUDO AS useSudo
+		  ,SCM.AGENT_INSTALL_PATH as agentInstallPath
+		  ,SCM.USE_DIAG_SUDO AS useDiagSudo
+		  ,#{personManagerCd} AS managerCd
+		  ,ASSM.BRANCH_ID AS branchId
+		  ,ASSM.BRANCH_NM AS branchNm
+		  ,ASSM.TEAM_ID AS teamId
+		  ,ASSM.TEAM_NM AS teamNm
+		  ,ASSM.HOST_NM AS hostNm
+		FROM
+		  SNET_CONNECT_MASTER SCM,
+		  SNET_AGENT_MASTER AM,
+		  SNET_ASSET_MASTER ASSM
+		WHERE
+		  1=1
+		  AND
+		  SCM.ASSET_CD IN
+		<foreach collection="reqS" item="reqS" separator="," open="(" close=")">
+			#{reqS.assetCd,jdbcType=VARCHAR}
+		</foreach>
+		  AND
+		  ASSM.ASSET_CD = SCM.ASSET_CD
+		  AND
+		  ASSM.AGENT_CD = AM.AGENT_CD;
+	</select>
+
+	<select id="selectAgentInfoBF" parameterType="String" resultType="com.igloosec.smartguard.next.agentmanager.entity.AgentInfo">
+		<![CDATA[
+		SELECT
+			SCM.ASSET_CD AS assetCd
+			,SCM.RELAY_ASSET_CD AS relayAssetCd
+			,SCM.RELAY2_ASSET_CD AS relay2AssetCd
+			,SCM.RELAY3_ASSET_CD AS relay3AssetCd
+			,SCM.SW_NM AS osType
+			,SCM.OS_BIT AS osBit
+			,SCM.CONNECT_IP_ADDRESS AS connectIpAddress
+			,SCM.USER_ID_OS AS userIdOs
+			,SCM.USER_ID_DBA AS userIdDba
+			,SCM.USER_ID_URL AS userIdUrl
+			,SCM.USER_ID_ROOT AS userIdRoot
+			,SCM.USER_ID_WEB  AS userIdWeb
+			,SCM.USER_ID_WAS AS userIdWAS
+			,SCM.PASSWORD_OS AS passwordOs
+			,SCM.PASSWORD_DBA AS passwordDba
+			,SCM.PASSWORD_ROOT AS passwordRoot
+			,SCM.PASSWORD_URL AS passwordUrl
+			,SCM.PASSWORD_WEB AS passwordWeb
+			,SCM.PASSWORD_WAS AS passwordWas
+			,SCM.ACCOUNT_CHK_OS AS accountChkOs
+			,SCM.ACCOUNT_CHK_DBA AS accountChkDba
+			,SCM.ACCOUNT_CHK_ROOT AS accountChkRoot
+			,SCM.ACCOUNT_CHK_URL AS accountChkUrl
+			,SCM.PORT_SSH AS portSsh
+			,SCM.PORT_SFTP AS portSftp
+			,SCM.PORT_TELNET AS portTelnet
+			,SCM.PORT_FTP AS portFtp
+			,SCM.CONNECT_LOG AS connectLog
+			,SCM.CONNECT_SHELL_OS AS connectShellOs
+			,SCM.CONNECT_SHELL_ROOT AS connectShellRoot
+			,SCM.PROMPT_USER_ID_OS AS promptUserIdOs
+			,SCM.PROMPT_USER_ID_ROOT AS promptUserIdRoot
+			,(SELECT CONNECT_IP_ADDRESS FROM SNET_CONNECT_MASTER WHERE ASSET_CD = SCM.RELAY_ASSET_CD) as relayIpAddress
+			,(SELECT CONNECT_IP_ADDRESS FROM SNET_CONNECT_MASTER WHERE ASSET_CD = SCM.RELAY2_ASSET_CD) as relay2IpAddress
+			,(SELECT CONNECT_IP_ADDRESS FROM SNET_CONNECT_MASTER WHERE ASSET_CD = SCM.RELAY3_ASSET_CD) as relay3IpAddress
+			,(SELECT NW_GET_CONFIG_CMD
+    		  FROM SNET_CONFIG_NW_CMD WHERE NW_GET_CONFIG_CMD_CD = SCM.NW_GET_CONFIG_CMD_CD) as nwGetConfigCmd
+    		,SCM.LOGIN_TYPE  AS loginType
+		    ,SCM.USE_SUDO AS useSudo
+		    ,SCM.USE_DIAG_SUDO AS useDiagSudo
+		FROM
+			SNET_CONNECT_MASTER SCM
+		WHERE
+			1=1
+		AND
+			SCM.ASSET_CD = #{assetCD}
+	]]>
+	</select>
+
+	<select id="selectAgentInfoBFMulti" parameterType="hashMap" resultType="com.igloosec.smartguard.next.agentmanager.entity.AgentInfo">
+		SELECT
+			SCM.ASSET_CD AS assetCd
+			,SCM.RELAY_ASSET_CD AS relayAssetCd
+			,SCM.RELAY2_ASSET_CD AS relay2AssetCd
+			,SCM.RELAY3_ASSET_CD AS relay3AssetCd
+			,SCM.SW_NM AS osType
+			,SCM.OS_BIT AS osBit
+			,SCM.CONNECT_IP_ADDRESS AS connectIpAddress
+			,SCM.USER_ID_OS AS userIdOs
+			,SCM.USER_ID_DBA AS userIdDba
+			,SCM.USER_ID_URL AS userIdUrl
+			,SCM.USER_ID_ROOT AS userIdRoot
+			,SCM.USER_ID_WEB  AS userIdWeb
+			,SCM.USER_ID_WAS AS userIdWAS
+			,SCM.PASSWORD_OS AS passwordOs
+			,SCM.PASSWORD_DBA AS passwordDba
+			,SCM.PASSWORD_ROOT AS passwordRoot
+			,SCM.PASSWORD_URL AS passwordUrl
+			,SCM.PASSWORD_WEB AS passwordWeb
+			,SCM.PASSWORD_WAS AS passwordWas
+			,SCM.ACCOUNT_CHK_OS AS accountChkOs
+			,SCM.ACCOUNT_CHK_DBA AS accountChkDba
+			,SCM.ACCOUNT_CHK_ROOT AS accountChkRoot
+			,SCM.ACCOUNT_CHK_URL AS accountChkUrl
+			,SCM.PORT_SSH AS portSsh
+			,SCM.PORT_SFTP AS portSftp
+			,SCM.PORT_TELNET AS portTelnet
+			,SCM.PORT_FTP AS portFtp
+			,SCM.CONNECT_LOG AS connectLog
+			,SCM.CONNECT_SHELL_OS AS connectShellOs
+			,SCM.CONNECT_SHELL_ROOT AS connectShellRoot
+			,SCM.PROMPT_USER_ID_OS AS promptUserIdOs
+			,SCM.PROMPT_USER_ID_ROOT AS promptUserIdRoot
+			,(SELECT NW_GET_CONFIG_CMD
+    		  FROM SNET_CONFIG_NW_CMD WHERE NW_GET_CONFIG_CMD_CD = SCM.NW_GET_CONFIG_CMD_CD) as nwGetConfigCmd
+    		,SCM.LOGIN_TYPE  AS loginType
+		    ,SCM.USE_SUDO AS useSudo
+		    ,SCM.USE_DIAG_SUDO AS useDiagSudo
+		FROM
+			SNET_CONNECT_MASTER SCM
+		WHERE
+			1=1
+		AND
+			SCM.ASSET_CD
+		IN
+		<foreach collection="assetCdList" item="assetCd" separator="," open="(" close=")">
+			#{assetCd,jdbcType=VARCHAR}
+		</foreach>
+	</select>
+
+	<select id="selectConnectAuthInfo" parameterType="com.igloosec.smartguard.next.agentmanager.entity.JobEntity" resultType="com.igloosec.smartguard.next.agentmanager.entity.AgentInfo">
+		SELECT
+			PARAM1 as param1
+			, PARAM2 as param2
+			, PARAM3 as param3
+		FROM
+			SNET_CONNECT_SW_AUTH
+		WHERE
+			1=1
+			AND
+			ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+			AND
+			SW_TYPE = #{swType,jdbcType=VARCHAR}
+			AND
+			SW_NM = #{swNm,jdbcType=VARCHAR}
+			AND
+			SW_INFO = #{swInfo,jdbcType=VARCHAR}
+			AND
+			SW_DIR = #{swDir,jdbcType=VARCHAR}
+			AND
+			SW_USER = #{swUser,jdbcType=VARCHAR}
+			AND
+			SW_ETC = #{swEtc,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectDiagAgentInfo" parameterType="com.igloosec.smartguard.next.agentmanager.entity.JobEntity" resultType="com.igloosec.smartguard.next.agentmanager.entity.AgentInfo">
+
+		SELECT
+		SCM.ASSET_CD AS assetCd
+		,SCM.RELAY_ASSET_CD AS relayAssetCd
+		,SCM.RELAY2_ASSET_CD AS relay2AssetCd
+		,SCM.RELAY3_ASSET_CD AS relay3AssetCd
+		,AM.AGENT_CD AS agentCd
+		,SCM.SW_NM AS osType
+		,SCM.OS_BIT AS osBit
+		,SCM.CONNECT_IP_ADDRESS AS connectIpAddress
+		,SCM.USER_ID_OS AS userIdOs
+		,SCM.USER_ID_ROOT AS userIdRoot
+		,SCM.PASSWORD_OS AS passwordOs
+		,SCM.PASSWORD_ROOT AS passwordRoot
+		<if test='swType.equalsIgnoreCase("DB") '>
+			,SCSA.USER_ID AS userId
+			,SCSA.USER_PASSWORD AS password
+		</if>
+		<if test='swNm.equalsIgnoreCase("MARIADB") or swNm.equalsIgnoreCase("MYSQL") '>
+			,IFNULL(CASE SCSA.SOCKET_FILE_PATH WHEN '' THEN  '-' ELSE SOCKET_FILE_PATH END, '-') AS socketFilePath
+		</if>
+		,SCM.ACCOUNT_CHK_OS AS accountChkOs
+		,SCM.ACCOUNT_CHK_DBA AS accountChkDba
+		,SCM.ACCOUNT_CHK_ROOT AS accountChkRoot
+		,SCM.ACCOUNT_CHK_URL AS accountChkUrl
+		,SCM.PORT_SSH AS portSsh
+		,SCM.PORT_SFTP AS portSftp
+		,SCM.PORT_TELNET AS portTelnet
+		,SCM.PORT_FTP AS portFtp
+		,SCM.CONNECT_LOG AS connectLog
+		,SCM.CONNECT_SHELL_OS AS connectShellOs
+		,SCM.CONNECT_SHELL_ROOT AS connectShellRoot
+		,SCM.PROMPT_USER_ID_OS AS promptUserIdOs
+		,SCM.PROMPT_USER_ID_ROOT AS promptUserIdRoot
+		,(SELECT CONNECT_IP_ADDRESS FROM SNET_CONNECT_MASTER WHERE ASSET_CD = SCM.RELAY_ASSET_CD) as relayIpAddress
+		,(SELECT CONNECT_IP_ADDRESS FROM SNET_CONNECT_MASTER WHERE ASSET_CD = SCM.RELAY2_ASSET_CD) as relay2IpAddress
+		,(SELECT CONNECT_IP_ADDRESS FROM SNET_CONNECT_MASTER WHERE ASSET_CD = SCM.RELAY3_ASSET_CD) as relay3IpAddress
+		,(SELECT (CASE WHEN COUNT(ASSET_CD) > 0 THEN 'Y' ELSE 'N'  END) FROM SNET_RELAY_MASTER WHERE 1=1 AND ASSET_CD = SCM.ASSET_CD AND USE_YN = 'Y') as isRelayManager
+		,AM.AGENT_TYPE AS agentType
+		,AM.AGENT_INSTALL_DATE AS agentInstallDate
+		,AM.AGENT_START_DATE AS agentStartDate
+		,AM.AGENT_USE_STIME AS agentUseSTime
+		,AM.AGENT_USE_ETIME AS agentUseETime
+		,AM.AGENT_REGI_FLAG AS agentRegiFlag
+		,(SELECT NW_GET_CONFIG_CMD
+		FROM SNET_CONFIG_NW_CMD WHERE NW_GET_CONFIG_CMD_CD = SCM.NW_GET_CONFIG_CMD_CD) as nwGetConfigCmd
+		,(SELECT GROUP_CONCAT(SB.IP_ADDRESS) FROM SNET_ASSET_IP SB WHERE SB.ASSET_CD = SCM.ASSET_CD) AS relaySubIpAddress
+		,SCM.LOGIN_TYPE  AS loginType
+		,SCM.USE_SUDO AS useSudo
+		,SCM.USE_DIAG_SUDO AS useDiagSudo
+		FROM
+		SNET_CONNECT_MASTER SCM,
+		SNET_AGENT_MASTER AM,
+		SNET_ASSET_MASTER ASSM
+		<if test='swType.equalsIgnoreCase("DB") '>
+			,SNET_CONNECT_SW_AUTH SCSA
+		</if>
+		WHERE
+		1=1
+		AND
+		SCM.ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+		AND
+		ASSM.ASSET_CD = SCM.ASSET_CD
+		AND
+		ASSM.AGENT_CD = AM.AGENT_CD
+		<if test='swType.equalsIgnoreCase("DB") '>
+			AND
+			SCSA.ASSET_CD = SCM.ASSET_CD
+			AND
+			SCSA.SW_TYPE = #{swType,jdbcType=VARCHAR}
+			AND
+			SCSA.SW_NM = #{swNm,jdbcType=VARCHAR}
+			AND
+			SCSA.SW_INFO = #{swInfo,jdbcType=VARCHAR}
+			AND
+			SCSA.SW_DIR = #{swDir,jdbcType=VARCHAR}
+			AND
+			SCSA.SW_USER = #{swUser,jdbcType=VARCHAR}
+			AND
+			SCSA.SW_ETC = #{swEtc,jdbcType=VARCHAR}
+		</if>
+
+
+	</select>
+
+	<!-- Healthchk Agent List -->
+	<select id="selectAgentList" resultType="com.igloosec.smartguard.next.agentmanager.entity.AgentInfo">
+	<![CDATA[ 
+		SELECT 
+			SCM.ASSET_CD AS assetCd
+			,AM.AGENT_CD AS agentCd
+			,SCM.SW_NM AS osType
+			,SCM.OS_BIT AS osBit
+			,SCM.CONNECT_IP_ADDRESS AS connectIpAddress
+			,SCM.USER_ID_OS AS userIdOs
+			,SCM.USER_ID_DBA AS userIdDba
+			,SCM.USER_ID_URL AS userIdUrl
+			,SCM.USER_ID_ROOT AS userIdRoot
+			,SCM.USER_ID_WEB  AS userIdWeb
+			,SCM.USER_ID_WAS AS userIdWAS
+			,SCM.PASSWORD_OS AS passwordOs
+			,SCM.PASSWORD_DBA AS passwordDba
+			,SCM.PASSWORD_ROOT AS passwordRoot
+			,SCM.PASSWORD_URL AS passwordUrl
+			,SCM.PASSWORD_WEB AS passwordWeb
+			,SCM.PASSWORD_WAS AS passwordWas
+			,SCM.ACCOUNT_CHK_OS AS accountChkOs
+			,SCM.ACCOUNT_CHK_DBA AS accountChkDba
+			,SCM.ACCOUNT_CHK_ROOT AS accountChkRoot
+			,SCM.ACCOUNT_CHK_URL AS accountChkUrl
+			,SCM.PORT_SSH AS portSsh
+			,SCM.PORT_SFTP AS portSftp
+			,SCM.PORT_TELNET AS portTelnet
+			,SCM.PORT_FTP AS portFtp
+			,SCM.CONNECT_LOG AS connectLog
+			,SCM.CONNECT_SHELL_OS AS connectShellOs
+			,SCM.CONNECT_SHELL_ROOT AS connectShellRoot
+			,SCM.PROMPT_USER_ID_OS AS promptUserIdOs
+			,SCM.PROMPT_USER_ID_ROOT AS promptUserIdRoot
+			,AM.AGENT_TYPE AS agentType
+            ,AM.AGENT_INSTALL_DATE AS agentInstallDate
+            ,AM.AGENT_START_DATE AS agentStartDate
+            ,AM.AGENT_USE_STIME AS agentUseSTime
+            ,AM.AGENT_USE_ETIME AS agentUseETime 
+            ,SCM.LOGIN_TYPE  AS loginType
+		    ,SCM.USE_SUDO AS useSudo 
+		FROM 
+			SNET_CONNECT_MASTER SCM, 
+			SNET_AGENT_MASTER AM,
+			SNET_ASSET_MASTER ASSM
+		WHERE 
+			ASSM.ASSET_CD = SCM.ASSET_CD
+		AND ASSM.AGENT_CD = AM.AGENT_CD 
+		AND AM.AGENT_TYPE IN (2)
+		AND AM.AGENT_REGI_FLAG = 2
+	]]> 
+	</select>
+	<!-- Healthchk Relay Server List -->
+	<select id="selectRelayServerList" resultType="com.igloosec.smartguard.next.agentmanager.entity.AgentInfo">
+	<![CDATA[ 
+		SELECT 
+			SCM.ASSET_CD AS assetCd
+			,SCM.SW_NM AS osType
+			,SCM.OS_BIT AS osBit
+			,SCM.CONNECT_IP_ADDRESS AS connectIpAddress
+			,SCM.USER_ID_OS AS userIdOs
+			,SCM.USER_ID_DBA AS userIdDba
+			,SCM.USER_ID_URL AS userIdUrl
+			,SCM.USER_ID_ROOT AS userIdRoot
+			,SCM.USER_ID_WEB  AS userIdWeb
+			,SCM.USER_ID_WAS AS userIdWAS
+			,SCM.PASSWORD_OS AS passwordOs
+			,SCM.PASSWORD_DBA AS passwordDba
+			,SCM.PASSWORD_ROOT AS passwordRoot
+			,SCM.PASSWORD_URL AS passwordUrl
+			,SCM.PASSWORD_WEB AS passwordWeb
+			,SCM.PASSWORD_WAS AS passwordWas
+			,SCM.ACCOUNT_CHK_OS AS accountChkOs
+			,SCM.ACCOUNT_CHK_DBA AS accountChkDba
+			,SCM.ACCOUNT_CHK_ROOT AS accountChkRoot
+			,SCM.ACCOUNT_CHK_URL AS accountChkUrl
+			,SCM.PORT_SSH AS portSsh
+			,SCM.PORT_SFTP AS portSftp
+			,SCM.PORT_TELNET AS portTelnet
+			,SCM.PORT_FTP AS portFtp
+			,SCM.CONNECT_LOG AS connectLog
+			,SCM.CONNECT_SHELL_OS AS connectShellOs
+			,SCM.CONNECT_SHELL_ROOT AS connectShellRoot
+			,SCM.PROMPT_USER_ID_OS AS promptUserIdOs
+			,SCM.PROMPT_USER_ID_ROOT AS promptUserIdRoot
+			,SCM.LOGIN_TYPE  AS loginType
+		    ,SCM.USE_SUDO AS useSudo 
+		FROM 
+			SNET_CONNECT_MASTER SCM, 
+			SNET_ASSET_MASTER ASSM,
+			SNET_RELAY_MASTER SRM
+		WHERE 
+			ASSM.ASSET_CD = SCM.ASSET_CD
+		AND SRM.ASSET_CD = SCM.ASSET_CD 
+		AND SRM.RELAY_TYPE IN (2)
+		AND SRM.USE_YN='Y'
+	]]> 
+	</select>
+
+	<select id="selectAgentInfoList" resultType="com.igloosec.smartguard.next.agentmanager.entity.AgentInfo">
+	SELECT
+	 	ASSET_CD AS assetCd,
+	 	PORT_SSH AS portSsh,
+		PORT_SFTP AS portSftp,
+		PORT_TELNET AS portTelnet,
+		PORT_FTP AS portFtp,
+		USER_ID_OS AS userIdOs,
+		PASSWORD_ROOT AS passwordRoot,
+		CONNECT_IP_ADDRESS AS connectIpAddress
+	FROM
+		SNET_CONNECT_MASTER
+	</select>
+
+	<insert id="insertAgentStatus" parameterType="com.igloosec.smartguard.next.agentmanager.entity.AgentStatus">
+		INSERT INTO SNET_AGENT_STATUS_HISTORY
+		(
+			AGENT_CD,
+			ASSET_CD,
+			AGENT_STATUS_DATE,
+			AGENT_STATUS,
+			AGENT_STATUS_DESC
+		)
+		VALUES
+		(
+			(
+				SELECT AGENT_CD
+				FROM SNET_ASSET_MASTER
+				WHERE ASSET_CD =  #{assetCd,jdbcType=VARCHAR}
+			)
+			, #{assetCd,jdbcType=VARCHAR}
+			, now()
+			, #{agentStatus}
+			, #{agentStatusDesc,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<insert id="insertAgentStatus_v3" parameterType="com.igloosec.smartguard.next.agentmanager.entity.AgentStatus">
+		INSERT INTO SNET_AGENT_STATUS_HISTORY
+		(
+			AGENT_CD,
+			ASSET_CD,
+			AGENT_STATUS_DATE,
+			AGENT_STATUS,
+			AGENT_STATUS_DESC
+		)
+		VALUES
+		(
+			#{agentCd,jdbcType=VARCHAR}
+			, #{assetCd,jdbcType=VARCHAR}
+			, now()
+			, #{agentStatus}
+			, #{agentStatusDesc,jdbcType=VARCHAR}
+		) ON DUPLICATE KEY UPDATE AGENT_STATUS_DATE = now(), AGENT_STATUS = #{agentStatus, jdbcType=NUMERIC}
+	</insert>
+
+	<insert id="insertRelayStatus" parameterType="com.igloosec.smartguard.next.agentmanager.entity.AgentStatus">
+		INSERT INTO SNET_RELAY_STATUS_HISTORY
+		(
+			ASSET_CD,
+			RELAY_STATUS_DATE,
+			RELAY_STATUS,
+			RELAY_STATUS_DESC
+		)
+		VALUES
+		(
+			#{assetCd,jdbcType=VARCHAR}
+			, now()
+			, #{relayStatus}
+			, #{relayStatusDesc,jdbcType=VARCHAR}
+		)
+	</insert>
+	<select id="selectJobInfo" parameterType="java.util.Map" resultType="com.igloosec.smartguard.next.agentmanager.entity.JobEntity">
+    <![CDATA[ 
+    	SELECT  
+            AJH.SW_TYPE AS swType
+            ,AJH.SW_NM AS swNm
+            ,AJH.SW_INFO AS swInfo
+            ,AJH.SW_DIR AS swDir
+            ,AJH.SW_USER AS swUser
+            ,AJH.SW_ETC AS swEtc
+            ,AJH.AGENT_JOB_RDATE AS agentJobRdate
+            ,AJH.AUDIT_FILE_CD as auditFileCd
+            ,(SELECT FILE_NM FROM SNET_CONFIG_AUDIT_FILE CAF WHERE CAF.AUDIT_FILE_CD = AJH.AUDIT_FILE_CD) auditFileName
+            ,(SELECT FILE_TYPE FROM SNET_CONFIG_AUDIT_FILE CAF WHERE CAF.AUDIT_FILE_CD = AJH.AUDIT_FILE_CD) auditFileType
+            ,(SELECT CHECKSUM_HASH FROM SNET_CONFIG_AUDIT_FILE CAF WHERE CAF.AUDIT_FILE_CD = AJH.AUDIT_FILE_CD) checksumHash
+            ,(CASE WHEN SCM.SW_NM = 'Windows'
+					THEN
+					  (SELECT CHECKSUM_HASH
+					   FROM SNET_CONFIG_AUDIT_FILE
+					   WHERE FILE_TYPE = 0 AND FILE_NM = 'getwindows.jar')
+				   ELSE
+					 (SELECT CHECKSUM_HASH
+					  FROM SNET_CONFIG_AUDIT_FILE
+					  WHERE FILE_TYPE = 0 AND FILE_NM = 'getunixagent.class')
+				   END) infoChecksumHash
+             ,(CASE WHEN SCM.SW_NM = 'Windows'
+					THEN
+					  (SELECT CHECKSUM_HASH
+					   FROM SNET_CONFIG_AUDIT_FILE
+					   WHERE FILE_TYPE = 0 AND FILE_NM = 'diaginfowindows.jar')
+				   ELSE
+					 (SELECT CHECKSUM_HASH
+					  FROM SNET_CONFIG_AUDIT_FILE
+					  WHERE FILE_TYPE = 0 AND FILE_NM = 'diaginfo.class')
+				   END) diagInfoChecksumHash
+            ,AJH.AGENT_JOB_FLAG as agentJobFlag
+            ,SAM.AUDIT_SPEED as auditSpeed
+            ,(SELECT ITEM_VALUE FROM SNET_CONFIG_GLOBAL WHERE ITEM_NM = 'PWL' GROUP BY ITEM_NM) as globalPwl
+            ,(SELECT ITEM_VALUE FROM SNET_CONFIG_GLOBAL WHERE ITEM_NM = 'STS' GROUP BY ITEM_NM) as globalSts
+            ,AJH.USER_ID as userId
+     	FROM
+            SNET_AGENT_JOB_HISTORY AJH
+            , SNET_ASSET_MASTER SAM
+            , SNET_CONNECT_MASTER SCM
+        WHERE
+            1=1
+        AND SAM.ASSET_CD = SCM.ASSET_CD
+        AND
+            AJH.AGENT_CD = (
+				SELECT
+					DISTINCT SAM.AGENT_CD
+				FROM
+					SNET_ASSET_MASTER SAM
+				WHERE
+					SAM.ASSET_CD = #{ASSETCD}
+			)
+        AND
+            AJH.SW_TYPE = #{SWTYPE}
+        AND
+            AJH.SW_NM = #{SWNM}
+        AND
+            AJH.SW_INFO = #{SWINFO}
+        AND
+            AJH.SW_DIR = #{SWDIR}
+        AND
+            AJH.SW_USER = #{SWUSER}
+        AND
+            AJH.SW_ETC = #{SWETC}
+        AND
+        	SAM.ASSET_CD = #{ASSETCD}
+        AND
+        	AJH.AGENT_JOB_FLAG = 1
+    ]]> 
+    </select>
+
+	<select id="selectJobInfoForSrvDiags" parameterType="java.util.Map" resultType="com.igloosec.smartguard.next.agentmanager.entity.JobEntity">
+    <![CDATA[
+    	SELECT
+            AJH.SW_TYPE AS swType
+            ,AJH.SW_NM AS swNm
+            ,AJH.SW_INFO AS swInfo
+            ,AJH.SW_DIR AS swDir
+            ,AJH.SW_USER AS swUser
+            ,AJH.SW_ETC AS swEtc
+            ,AJH.AGENT_JOB_RDATE AS agentJobRdate
+            ,AJH.AUDIT_FILE_CD as auditFileCd
+            ,(SELECT FILE_NM FROM SNET_CONFIG_AUDIT_FILE CAF WHERE CAF.AUDIT_FILE_CD = AJH.AUDIT_FILE_CD) auditFileName
+            ,(SELECT FILE_TYPE FROM SNET_CONFIG_AUDIT_FILE CAF WHERE CAF.AUDIT_FILE_CD = AJH.AUDIT_FILE_CD) auditFileType
+            ,(SELECT CHECKSUM_HASH FROM SNET_CONFIG_AUDIT_FILE CAF WHERE CAF.AUDIT_FILE_CD = AJH.AUDIT_FILE_CD) checksumHash
+            ,(SELECT DIAG_INFO_USE FROM SNET_CONFIG_AUDIT_FILE CAF WHERE CAF.AUDIT_FILE_CD = AJH.AUDIT_FILE_CD) diagInfoUse
+            ,(CASE WHEN SCM.SW_NM = 'Windows'
+					THEN
+					  (SELECT CHECKSUM_HASH
+					   FROM SNET_CONFIG_AUDIT_FILE
+					   WHERE FILE_TYPE = 0 AND FILE_NM = 'getwindows.jar')
+				   ELSE
+					 (SELECT CHECKSUM_HASH
+					  FROM SNET_CONFIG_AUDIT_FILE
+					  WHERE FILE_TYPE = 0 AND FILE_NM = 'getunixagent.class')
+				   END) infoChecksumHash
+             ,(CASE WHEN SCM.SW_NM = 'Windows'
+					THEN
+					  (SELECT CHECKSUM_HASH
+					   FROM SNET_CONFIG_AUDIT_FILE
+					   WHERE FILE_TYPE = 0 AND FILE_NM = 'diaginfowindows.jar')
+				   ELSE
+					 (SELECT CHECKSUM_HASH
+					  FROM SNET_CONFIG_AUDIT_FILE
+					  WHERE FILE_TYPE = 0 AND FILE_NM = 'diaginfo.class')
+				   END) diagInfoChecksumHash
+            ,AJH.AGENT_JOB_FLAG as agentJobFlag
+            ,SAM.AUDIT_SPEED as auditSpeed
+            ,(SELECT ITEM_VALUE FROM SNET_CONFIG_GLOBAL WHERE ITEM_NM = 'PWL' GROUP BY ITEM_NM) as globalPwl
+            ,(SELECT ITEM_VALUE FROM SNET_CONFIG_GLOBAL WHERE ITEM_NM = 'STS' GROUP BY ITEM_NM) as globalSts
+            ,AJH.USER_ID as userId
+     	FROM
+            SNET_AGENT_JOB_HISTORY AJH
+            , SNET_ASSET_MASTER SAM
+            , SNET_CONNECT_MASTER SCM
+        WHERE
+            1=1
+        AND SAM.ASSET_CD = SCM.ASSET_CD
+        AND
+            AJH.AGENT_CD = (
+				SELECT
+					DISTINCT SAM.AGENT_CD
+				FROM
+					SNET_ASSET_MASTER SAM
+				WHERE
+					SAM.ASSET_CD = #{ASSETCD}
+			)
+        AND
+            AJH.SW_TYPE = #{SWTYPE}
+        AND
+            AJH.SW_NM = #{SWNM}
+        AND
+            AJH.SW_INFO = #{SWINFO}
+        AND
+            AJH.SW_DIR = #{SWDIR}
+        AND
+            AJH.SW_USER = #{SWUSER}
+        AND
+            AJH.SW_ETC = #{SWETC}
+        AND
+        	SAM.ASSET_CD = #{ASSETCD}
+        AND
+        	AJH.AGENT_JOB_FLAG = 1
+    ]]>
+    </select>
+
+	<select id="selectJobInfoMultiServices" parameterType="java.util.Map" resultType="com.igloosec.smartguard.next.agentmanager.entity.JobEntity">
+    <![CDATA[
+    	SELECT
+            AJH.SW_TYPE AS swType
+            ,AJH.SW_NM AS swNm
+            ,AJH.SW_INFO AS swInfo
+            ,AJH.SW_DIR AS swDir
+            ,AJH.SW_USER AS swUser
+            ,AJH.SW_ETC AS swEtc
+            ,AJH.AGENT_JOB_RDATE AS agentJobRdate
+            ,AJH.AUDIT_FILE_CD as auditFileCd
+            ,(SELECT FILE_NM FROM SNET_CONFIG_AUDIT_FILE CAF WHERE CAF.AUDIT_FILE_CD = AJH.AUDIT_FILE_CD) auditFileName
+            ,(SELECT FILE_TYPE FROM SNET_CONFIG_AUDIT_FILE CAF WHERE CAF.AUDIT_FILE_CD = AJH.AUDIT_FILE_CD) auditFileType
+            ,(SELECT CHECKSUM_HASH FROM SNET_CONFIG_AUDIT_FILE CAF WHERE CAF.AUDIT_FILE_CD = AJH.AUDIT_FILE_CD) checksumHash
+            ,(CASE WHEN SCM.SW_NM = 'Windows'
+					THEN
+					  (SELECT CHECKSUM_HASH
+					   FROM SNET_CONFIG_AUDIT_FILE
+					   WHERE FILE_TYPE = 0 AND FILE_NM = 'getwindows.jar')
+				   ELSE
+					 (SELECT CHECKSUM_HASH
+					  FROM SNET_CONFIG_AUDIT_FILE
+					  WHERE FILE_TYPE = 0 AND FILE_NM = 'getunixagent.class')
+				   END) infoChecksumHash
+            ,AJH.AGENT_JOB_FLAG as agentJobFlag
+            ,SAM.AUDIT_SPEED as auditSpeed
+            ,(SELECT ITEM_VALUE FROM SNET_CONFIG_GLOBAL WHERE ITEM_NM = 'PWL' GROUP BY ITEM_NM) as globalPwl
+            ,(SELECT ITEM_VALUE FROM SNET_CONFIG_GLOBAL WHERE ITEM_NM = 'STS' GROUP BY ITEM_NM) as globalSts
+     	FROM
+            SNET_AGENT_JOB_HISTORY AJH
+            , SNET_ASSET_MASTER SAM
+            , SNET_CONNECT_MASTER SCM
+        WHERE
+            1=1
+        AND SAM.ASSET_CD = SCM.ASSET_CD
+        AND
+            AJH.AGENT_CD = (
+				SELECT
+					DISTINCT SAM.AGENT_CD
+				FROM
+					SNET_ASSET_MASTER SAM
+				WHERE
+					SAM.ASSET_CD = #{ASSETCD}
+			)
+        AND
+            AJH.SW_TYPE = #{SWTYPE}
+        AND
+            AJH.SW_NM = #{SWNM}
+        AND
+            AJH.SW_INFO = #{SWINFO}
+        AND
+            AJH.SW_DIR = #{SWDIR}
+        AND
+            AJH.SW_USER = #{SWUSER}
+        AND
+            AJH.SW_ETC = #{SWETC}
+        AND
+        	SAM.ASSET_CD = #{ASSETCD}
+        AND
+        	AJH.AGENT_JOB_FLAG = 1
+        AND
+        	AJH.AGENT_JOB_RDATE = (
+        		SELECT MAX(AGENT_JOB_RDATE) FROM SNET_AGENT_JOB_RDATE INAJH WHERE
+            	INAJH.SW_TYPE = #{SWTYPE}
+        		AND
+            	INAJH.SW_NM = #{SWNM}
+        		AND
+            	INAJH.SW_INFO = #{SWINFO}
+        		AND
+        	    INAJH.SW_DIR = #{SWDIR}
+        		AND
+            	INAJH.SW_USER = #{SWUSER}
+        		AND
+           		INAJH.SW_ETC = #{SWETC}
+        		AND
+        		INAJH.ASSET_CD = #{ASSETCD})
+    ]]>
+    </select>
+
+	<select id="selectJobInfoMultiServicesForSrvDiags" parameterType="java.util.Map" resultType="com.igloosec.smartguard.next.agentmanager.entity.JobEntity">
+    <![CDATA[
+    	SELECT
+            AJH.SW_TYPE AS swType
+            ,AJH.SW_NM AS swNm
+            ,AJH.SW_INFO AS swInfo
+            ,AJH.SW_DIR AS swDir
+            ,AJH.SW_USER AS swUser
+            ,AJH.SW_ETC AS swEtc
+            ,AJH.AGENT_JOB_RDATE AS agentJobRdate
+            ,AJH.AUDIT_FILE_CD as auditFileCd
+            ,(SELECT FILE_NM FROM SNET_CONFIG_AUDIT_FILE CAF WHERE CAF.AUDIT_FILE_CD = AJH.AUDIT_FILE_CD) auditFileName
+            ,(SELECT FILE_TYPE FROM SNET_CONFIG_AUDIT_FILE CAF WHERE CAF.AUDIT_FILE_CD = AJH.AUDIT_FILE_CD) auditFileType
+            ,(SELECT CHECKSUM_HASH FROM SNET_CONFIG_AUDIT_FILE CAF WHERE CAF.AUDIT_FILE_CD = AJH.AUDIT_FILE_CD) checksumHash
+            ,(SELECT DIAG_INFO_USE FROM SNET_CONFIG_AUDIT_FILE CAF WHERE CAF.AUDIT_FILE_CD = AJH.AUDIT_FILE_CD) diagInfoUse
+            ,(CASE WHEN SCM.SW_NM = 'Windows'
+					THEN
+					  (SELECT CHECKSUM_HASH
+					   FROM SNET_CONFIG_AUDIT_FILE
+					   WHERE FILE_TYPE = 0 AND FILE_NM = 'getwindows.jar')
+				   ELSE
+					 (SELECT CHECKSUM_HASH
+					  FROM SNET_CONFIG_AUDIT_FILE
+					  WHERE FILE_TYPE = 0 AND FILE_NM = 'getunixagent.class')
+				   END) infoChecksumHash
+            ,AJH.AGENT_JOB_FLAG as agentJobFlag
+            ,SAM.AUDIT_SPEED as auditSpeed
+            ,(SELECT ITEM_VALUE FROM SNET_CONFIG_GLOBAL WHERE ITEM_NM = 'PWL' GROUP BY ITEM_NM) as globalPwl
+            ,(SELECT ITEM_VALUE FROM SNET_CONFIG_GLOBAL WHERE ITEM_NM = 'STS' GROUP BY ITEM_NM) as globalSts
+     	FROM
+            SNET_AGENT_JOB_HISTORY AJH
+            , SNET_ASSET_MASTER SAM
+            , SNET_CONNECT_MASTER SCM
+        WHERE
+            1=1
+        AND SAM.ASSET_CD = SCM.ASSET_CD
+        AND
+            AJH.AGENT_CD = (
+				SELECT
+					DISTINCT SAM.AGENT_CD
+				FROM
+					SNET_ASSET_MASTER SAM
+				WHERE
+					SAM.ASSET_CD = #{ASSETCD}
+			)
+        AND
+            AJH.SW_TYPE = #{SWTYPE}
+        AND
+            AJH.SW_NM = #{SWNM}
+        AND
+            AJH.SW_INFO = #{SWINFO}
+        AND
+            AJH.SW_DIR = #{SWDIR}
+        AND
+            AJH.SW_USER = #{SWUSER}
+        AND
+            AJH.SW_ETC = #{SWETC}
+        AND
+        	SAM.ASSET_CD = #{ASSETCD}
+        AND
+        	AJH.AGENT_JOB_FLAG = 1
+        AND
+        	AJH.AGENT_JOB_RDATE = (
+        		SELECT MAX(AGENT_JOB_RDATE) FROM SNET_AGENT_JOB_RDATE INAJH WHERE
+            	INAJH.SW_TYPE = #{SWTYPE}
+        		AND
+            	INAJH.SW_NM = #{SWNM}
+        		AND
+            	INAJH.SW_INFO = #{SWINFO}
+        		AND
+        	    INAJH.SW_DIR = #{SWDIR}
+        		AND
+            	INAJH.SW_USER = #{SWUSER}
+        		AND
+           		INAJH.SW_ETC = #{SWETC}
+        		AND
+        		INAJH.ASSET_CD = #{ASSETCD})
+    ]]>
+    </select>
+
+	<select id="selectJobInfoList" parameterType="java.util.Map" resultType="com.igloosec.smartguard.next.agentmanager.entity.JobEntity">
+    	SELECT
+			AJH.ASSET_CD AS assetCd
+            ,AJH.SW_TYPE AS swType
+            ,AJH.SW_NM AS swNm
+            ,AJH.SW_INFO AS swInfo
+            ,AJH.SW_DIR AS swDir
+            ,AJH.SW_USER AS swUser
+            ,AJH.SW_ETC AS swEtc
+            ,AJH.AGENT_JOB_RDATE AS agentJobRdate
+            ,AJH.AUDIT_FILE_CD as auditFileCd
+            ,(SELECT FILE_NM FROM SNET_CONFIG_AUDIT_FILE CAF WHERE CAF.AUDIT_FILE_CD = AJH.AUDIT_FILE_CD) auditFileName
+            ,(SELECT CHECKSUM_HASH FROM SNET_CONFIG_AUDIT_FILE CAF WHERE CAF.AUDIT_FILE_CD = AJH.AUDIT_FILE_CD) checksumHash
+            ,(CASE WHEN SCM.SW_NM = 'Windows'
+					THEN
+					  (SELECT CHECKSUM_HASH
+					   FROM SNET_CONFIG_AUDIT_FILE
+					   WHERE FILE_TYPE = 0 AND FILE_NM = 'getwindows.jar')
+				   ELSE
+					 (SELECT CHECKSUM_HASH
+					  FROM SNET_CONFIG_AUDIT_FILE
+					  WHERE FILE_TYPE = 0 AND FILE_NM = 'getunixagent.class')
+				   END) infoChecksumHash
+            ,AJH.AGENT_JOB_FLAG as agentJobFlag
+            ,SAM.AUDIT_SPEED as auditSpeed
+            ,(SELECT ITEM_VALUE FROM SNET_CONFIG_GLOBAL WHERE ITEM_NM = 'PWL' GROUP BY ITEM_NM) as globalPwl
+            ,(SELECT ITEM_VALUE FROM SNET_CONFIG_GLOBAL WHERE ITEM_NM = 'STS' GROUP BY ITEM_NM) as globalSts
+     	FROM
+            SNET_AGENT_JOB_HISTORY AJH
+            , SNET_ASSET_MASTER SAM
+            , SNET_CONNECT_MASTER SCM
+        <where>
+        SAM.ASSET_CD = SCM.ASSET_CD
+		AND	AJH.AGENT_JOB_FLAG = 1
+	    AND (AJH.AGENT_CD, AJH.SW_TYPE, AJH.SW_NM, AJH.SW_INFO, AJH.SW_DIR, AJH.SW_USER, AJH.SW_ETC, SAM.ASSET_CD) IN
+		<foreach collection="diagReqs" item="diagReqs" separator="," open="(" close=")">
+			((( SELECT DISTINCT SAM.AGENT_CD FROM SNET_ASSET_MASTER SAM WHERE SAM.ASSET_CD = #{diagReqs.assetCd} ),
+			 #{diagReqs.swType}, #{diagReqs.swNm}, #{diagReqs.swInfo}, #{diagReqs.swDir}, #{diagReqs.swUser},  #{diagReqs.swEtc}, #{diagReqs.assetCd}
+			))
+		</foreach>
+        </where>
+    </select>
+
+	<select id="selectCompletedJobInfoList" parameterType="hashMap" resultType="com.igloosec.smartguard.next.agentmanager.entity.JobEntity">
+		SELECT
+		AJH.ASSET_CD AS assetCd
+		,AJH.SW_TYPE AS swType
+		,AJH.SW_NM AS swNm
+		,AJH.SW_INFO AS swInfo
+		,AJH.SW_DIR AS swDir
+		,AJH.SW_USER AS swUser
+		,AJH.SW_ETC AS swEtc
+		,AJH.AUDIT_FILE_CD as auditFileCd
+		,AJH.AGENT_JOB_FLAG as agentJobFlag
+		FROM
+		SNET_AGENT_JOB_HISTORY AJH
+		<where>
+			AJH.AGENT_JOB_FLAG <![CDATA[ >= ]]> 3
+			AND AJH.AGENT_JOB_FLAG <![CDATA[ <= ]]> 4
+			AND (AJH.ASSET_CD, AJH.SW_TYPE, AJH.SW_NM, AJH.SW_INFO, AJH.SW_DIR, AJH.SW_USER, AJH.SW_ETC, AJH.AGENT_JOB_RDATE) IN
+			<foreach collection="diagReqs" item="diagReqs" separator="," open="(" close=")">
+				(#{diagReqs.assetCd}, #{diagReqs.swType}, #{diagReqs.swNm}, #{diagReqs.swInfo}, #{diagReqs.swDir}, #{diagReqs.swUser}, #{diagReqs.swEtc}, #{diagReqs.agentJobRdate})
+			</foreach>
+		</where>
+	</select>
+
+	<select id="selectRunningGetJobInfoList" parameterType="hashMap" resultType="com.igloosec.smartguard.next.agentmanager.entity.AgentInfo">
+		SELECT
+		ASSET_CD as assetCd
+		,CONNECT_LOG as connectLog
+		FROM
+		SNET_CONNECT_MASTER
+		<where>
+		ASSET_CD
+			 IN
+			<foreach collection="getReqs" item="getReqs" separator="," open="(" close=")">
+				(#{getReqs.assetCd})
+			</foreach>
+		</where>
+	</select>
+
+	<select id="selectEventJobInfo" parameterType="java.util.Map" resultType="com.igloosec.smartguard.next.agentmanager.entity.JobEntity">
+    	SELECT
+    		SDUJ.ASSET_CD as assetCd
+    		, 'OS' AS swType
+            , SDUJ.JOB_RTIME AS agentJobRdate
+            , '${prgId}' as auditFileCd
+            , 
+            (
+	           	SELECT PRG_NM 
+	           	FROM SNET_DIRECT_USER_PRG_LIST
+	           	WHERE PRG_ID = #{prgId}
+            ) as  auditFileName
+            ,
+			(
+				SELECT JOB_FLAG
+				FROM SNET_DIRECT_USER_JOB_HISTORY
+				WHERE ASSET_CD = #{assetCd}
+				AND PRG_ID = #{prgId}
+				AND JOB_RTIME = SDUJ.JOB_RTIME
+			) as agentJobFlag            
+            , SAM.AUDIT_SPEED as auditSpeed
+            , (SELECT ITEM_VALUE FROM SNET_CONFIG_GLOBAL WHERE ITEM_NM = 'PWL' GROUP BY ITEM_NM) as globalPwl
+            , (SELECT ITEM_VALUE FROM SNET_CONFIG_GLOBAL WHERE ITEM_NM = 'STS' GROUP BY ITEM_NM) as globalSts
+    	FROM 
+    		SNET_ASSET_MASTER SAM
+    		, SNET_DIRECT_USER_JOB SDUJ
+    	WHERE 
+    	SDUJ.ASSET_CD = #{assetCd}
+    	AND SAM.ASSET_CD = #{assetCd}
+    	AND SDUJ.PRG_ID = #{prgId}
+    </select>
+
+	<insert id="insertRawData" parameterType="com.igloosec.smartguard.next.agentmanager.entity.ConfigEntity">
+    <![CDATA[ 
+	    INSERT INTO public.test_table
+			( col1,
+			  col2,
+			  col3
+			)
+			VALUES (
+			  #{PARAM0},
+			  #{PARAM1},
+			  #{PARAM2}
+			)
+	]]> 
+    </insert>
+	<select id="getPass" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select 
+		connect_ip_address AS IP
+		,user_id_os AS ID
+		,user_id_root AS RID
+		,password_os AS PW
+		,password_root AS RPW 
+		,port_ssh AS SPORT
+		,port_sftp AS SFPORT
+		,update_date AS UPDATE
+		,asset_cd AS ASSETCD
+		FROM sgdbadm.snet_connect_master
+		where asset_cd in (
+		select asset_cd
+		from 
+		snet_asset_master
+		where ip_address = '172.18.30.61'
+		and host_nm =   'rcsim01'
+		)
+	</select>
+
+	<insert id="insertWebSrcChgLog" parameterType="java.util.Map">
+	    <![CDATA[ 
+		 INSERT INTO SNET_ASSET_WEBSRC_CHG_HISTORY
+		(
+	       host_nm,
+	       ip_address,
+	       monitor_path,
+	       chg_log,
+	       os_type,
+	       upd_dt
+	       )
+	       values
+	       (
+	       #{hostNm}
+	       ,#{agentIp}
+	       ,#{monDir}
+	       ,#{chgStr}
+	       ,#{osType}
+	       ,now()
+	       )
+		]]> 
+    </insert>
+
+	<insert id="insertCustomDiagJob" parameterType="com.igloosec.smartguard.next.agentmanager.entity.DscriptResultEntity">
+		INSERT INTO SNET_DIRECT_USER_JOB_DAY
+		(
+			ASSET_CD,
+			PRG_ID,
+			AUDIT_DAY
+		)
+		VALUES
+		(
+			#{assetCd,jdbcType=VARCHAR},
+			(
+				SELECT PRG_ID
+				FROM SNET_DIRECT_USER_PRG_LIST
+				WHERE PRG_NM = #{programEntity.prgNm,jdbcType=VARCHAR}
+			),
+			#{auditDay,jdbcType=VARCHAR}
+		)
+		ON DUPLICATE KEY UPDATE AUDIT_DAY = #{auditDay,jdbcType=VARCHAR}
+	</insert>
+	<insert id="insertCustomDiagReport" parameterType="com.igloosec.smartguard.next.agentmanager.entity.DscriptResultEntity">
+		INSERT INTO SNET_DIRECT_USER_JOB_REPORT
+		(
+		ASSET_CD,
+		PRG_ID,
+        HOST_NM,
+        IP_ADDRESS,
+		AUDIT_DAY,
+		DIAGNOSIS_CD,
+		ITEM_STATUS,
+		CREATE_DATE
+		)
+		VALUES
+		<foreach collection="diagnosis" item="diag" separator=",">
+			(
+			#{assetCd,jdbcType=VARCHAR},
+			(
+			SELECT PRG_ID
+			FROM SNET_DIRECT_USER_PRG_LIST
+			WHERE PRG_NM = #{programEntity.prgNm,jdbcType=VARCHAR}
+			),
+			(
+			SELECT HOST_NM
+			FROM SNET_ASSET_MASTER
+			WHERE ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+			),
+			(
+			SELECT IP_ADDRESS
+			FROM SNET_ASSET_MASTER
+			WHERE ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+			),
+			#{auditDay,jdbcType=VARCHAR},
+			#{diag.code,jdbcType=VARCHAR},
+			#{diag.status,jdbcType=VARCHAR},
+			now()
+			)
+		</foreach>
+	</insert>
+
+	<delete id="deleteCustomDiagReport" parameterType="com.igloosec.smartguard.next.agentmanager.entity.DscriptResultEntity">
+		DELETE FROM SNET_DIRECT_USER_JOB_REPORT
+		WHERE 
+		ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+		AND PRG_ID = 
+		(
+			SELECT PRG_ID
+			FROM SNET_DIRECT_USER_PRG_LIST
+			WHERE PRG_NM = #{programEntity.prgNm,jdbcType=VARCHAR}
+		)
+		AND AUDIT_DAY =  #{auditDay,jdbcType=VARCHAR}
+	</delete>
+
+	<select id="selectSnetAssetIpUserExistentCount" resultType="Integer">
+        SELECT
+            COUNT(USER_REGI)
+        FROM
+            SNET_ASSET_IP
+        WHERE
+            USER_REGI = '1'
+    </select>
+
+	<select id="selectSnetConfigGlobalList" resultType="java.util.HashMap">
+        SELECT
+            CREATE_USER_ID
+            ,ITEM_NM
+            ,ITEM_VALUE
+            ,CREATE_TIME
+        FROM
+            SNET_CONFIG_GLOBAL
+    </select>
+
+	<select id="selectSnetAssetMasterTot" parameterType="String" resultType="com.igloosec.smartguard.next.agentmanager.entity.SnetAssetSwAuditReportTotModel">
+		SELECT IFNULL(SUM(X.AD_WEIGHT_OK), 0) AS adWeightOk,
+	       IFNULL(SUM(X.AD_WEIGHT_NOK), 0) AS adWeightNok,
+	       IFNULL(SUM(X.AD_WEIGHT_REQ), 0) AS adWeightReq,
+	       IFNULL(SUM(X.AD_WEIGHT_PASS), 0) AS adWeightPass
+		FROM ((SELECT '진단' AS GUBUN,
+               AD_WEIGHT_OK,
+              AD_WEIGHT_NOK,
+              AD_WEIGHT_REQ,
+              AD_WEIGHT_PASS,
+              A.AUDIT_DAY,
+              A.AUDIT_FILE_CD,
+              A.SW_NM
+	       FROM SNET_ASSET_SW_AUDIT_HISTORY A, SNET_ASSET_SW_AUDIT_DAY B
+	       WHERE A.ASSET_CD = #{assetCd}
+	          AND A.AUDIT_DAY = (SELECT MAX(AUDIT_DAY)
+	                                FROM SNET_ASSET_SW_AUDIT_HISTORY
+	                             WHERE ASSET_CD = #{assetCd}
+	                                AND AUDIT_DAY != '19990101'
+	                                AND SW_TYPE = A.SW_TYPE
+	                                AND SW_NM = A.SW_NM
+	                                AND SW_INFO = A.SW_INFO
+	                                AND SW_USER = A.SW_USER
+	                                AND SW_ETC = A.SW_ETC
+	                                AND SW_DIR = A.SW_DIR )
+				AND A.ASSET_CD = B.ASSET_CD
+				AND A.SW_TYPE = B.SW_TYPE
+				AND A.SW_NM = B.SW_NM
+				AND A.SW_INFO = B.SW_INFO
+				AND A.SW_USER = B.SW_USER
+				AND A.SW_ETC = B.SW_ETC
+				AND A.SW_DIR = B.SW_DIR
+	       GROUP BY A.SW_TYPE,
+	                A.SW_NM,
+	                A.SW_INFO,
+	                A.SW_USER,
+	                A.SW_ETC,
+	                A.SW_DIR,
+	                A.AUDIT_DAY)
+	      UNION ALL
+	      (SELECT '미진단' AS GUBUN,
+	              0 AS AD_WEIGHT_OK,
+	              0 AS AD_WEIGHT_REQ,
+	              SUM(B.ITEM_GRADE) AS AD_WEIGHT_NOK,
+	              0 AS AD_WEIGHT_PASS,
+	              '19990101' AS AUDIT_DAY,
+	              B.SW_NM,
+	              B.AUDIT_FILE_CD
+	       FROM (SELECT CASE
+	                       WHEN ITEM_GRADE = 'H' THEN 3
+	                       WHEN ITEM_GRADE = 'M' THEN 2
+	                       WHEN ITEM_GRADE = 'L' THEN 1
+	                       ELSE 2
+	                    END
+	                       AS ITEM_GRADE,
+	                    AUDIT_FILE_CD,
+	                    SW_NM
+	             FROM SNET_CONFIG_AUDIT_ITEM
+	             WHERE AUDIT_FILE_CD IN
+	                      (SELECT A.AUDIT_FILE_CD
+	                       FROM SNET_ASSET_SW_AUDIT_DAY A
+	                       WHERE     A.ASSET_CD = #{assetCd}
+	                             AND A.AUDIT_DAY = '19990101'
+	                             AND A.AUDIT_FILE_CD IS NOT NULL
+	                             AND A.AUDIT_FILE_CD != ''
+	                       GROUP BY A.SW_TYPE,
+	                                A.SW_NM,
+	                                A.SW_INFO,
+	                                A.SW_USER,
+	                                A.SW_ETC,
+	                                A.SW_DIR)) B
+	       GROUP BY B.AUDIT_FILE_CD)) X
+	</select>
+
+	<select id="selectDiagnosisFileType" parameterType="java.util.Map" resultType="Integer">
+        SELECT
+            A.FILE_TYPE
+        FROM
+            SNET_CONFIG_AUDIT_FILE A
+        JOIN
+            SNET_ASSET_SW_AUDIT_DAY B
+        WHERE
+            A.AUDIT_FILE_CD = B.AUDIT_FILE_CD
+            AND B.ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+            AND B.SW_NM = #{swNm,jdbcType=VARCHAR}
+    </select>
+
+	<select id="selectManualDiagnosisFileType" parameterType="String" resultType="Integer">
+        SELECT
+            DIAGNOSIS_TYPE
+        FROM
+            SNET_CONFIG_AUDIT_ITEM
+        WHERE
+            DIAGNOSIS_CD  = #{diagCode,jdbcType=VARCHAR}
+    </select>
+
+	<select id="selectGetScriptChecksum" parameterType="String"
+			resultType="String">
+		SELECT CHECKSUM_HASH FROM SNET_CONFIG_AUDIT_FILE CAF WHERE FILE_TYPE = 0 AND FILE_NM = #{fileNm};
+	</select>
+
+	<update id="updateDiagnosisFileChecksumHash" parameterType="hashMap">
+		UPDATE SNET_CONFIG_AUDIT_FILE
+		SET CHECKSUM_HASH = #{hash}
+		WHERE FILE_NM = #{fileNm}
+	</update>
+
+    <select id="selectAgentManualSetupCount" parameterType="hashMap" resultType="Integer">
+    	SELECT
+          COUNT(IP_ADDRESS)
+        FROM
+          SNET_ASSET_MASTER
+    	WHERE
+    	  IP_ADDRESS
+        IN
+            <foreach collection="ipAddressList" item="ipAddress" separator="," open="(" close=")" >
+              #{ipAddress}
+            </foreach>
+        AND
+          HOST_NM = #{hostNm}
+	</select>
+
+    <select id="selectAgentManualSetupConfigUserView"
+            parameterType="com.igloosec.smartguard.next.agentmanager.entity.GscriptResultEntity"
+            resultMap="configUserView">
+		SELECT
+			USER_ID,
+			USER_NM,
+			USER_MS,
+			USER_MAIL,
+			BRANCH_ID,
+			BRANCH_NM,
+			TEAM_ID,
+			TEAM_NM,
+			MANAGER_CD
+		FROM
+			SNET_CONFIG_USER_VIEW
+		WHERE
+          USER_AUTH ='SU' limit 1;
+	</select>
+
+    <select id="selectAgentAssetCdCountCheck" parameterType="java.util.HashMap" resultType="Integer">
+        SELECT
+          COUNT(ASSET_CD)
+        FROM
+          SNET_ASSET_SW_AUDIT_DAY
+        WHERE
+          1 = 1
+        AND ASSET_CD = #{assetCd, jdbcType=VARCHAR}
+        AND SW_TYPE = #{swType, jdbcType=VARCHAR}
+        AND SW_NM = #{swNm, jdbcType=VARCHAR}
+        AND SW_INFO = #{swInfo , jdbcType=VARCHAR}
+        AND SW_DIR = #{swDir, jdbcType=VARCHAR}
+        AND SW_USER = #{swUser, jdbcType=VARCHAR}
+        AND SW_ETC = #{swEtc, jdbcType=VARCHAR}
+    </select>
+
+	<select id="selectSoftWareExcept" resultType="java.util.HashMap">
+        SELECT
+          SW_ID,
+          SW_NM
+        FROM
+          SNET_CONFIG_SOFTWARE_EXCEPT
+    </select>
+
+	<select id="selectSnetSetupFileList" parameterType="InstallFile" resultType="InstallFile">
+		SELECT
+		BIT_TYPE,
+		SW_NM,
+		INSTALL_FILE_NM,
+		INSTALL_FILE_DIR,
+		AGENT_TYPE,
+		CHECKSUM_HASH
+		FROM
+		SNET_CONFIG_AGENT_INSTALL
+		WHERE
+		INSTALL_FILE_NM IS NOT NULL AND INSTALL_FILE_NM <![CDATA[<>]]> ''
+		<if test="agentType != null and agentType != ''">
+			AND AGENT_TYPE = #{agentType}
+		</if>
+		<if test="bitType!= null and bitType != ''">
+			AND BIT_TYPE = #{bitType}
+		</if>
+		<if test="swNm!= null and swNm != ''">
+			AND SW_NM = #{swNm}
+		</if>
+		<if test="installFileNm != null and installFileNm != ''">
+			AND INSTALL_FILE_NM = #{installFileNm}
+		</if>
+		<if test="installFileDir != null and installFileDir != ''">
+			AND INSTALL_FILE_DIR = #{installFileDir}
+		</if>
+		ORDER BY ORDER_NUM;
+	</select>
+
+	<update id="updateInstallFileChecksumHash" parameterType="InstallFile">
+		UPDATE SNET_CONFIG_AGENT_INSTALL SET CHECKSUM_HASH = #{checksumHash} WHERE SW_NM = #{swNm} AND BIT_TYPE = #{bitType} AND AGENT_TYPE = #{agentType}
+	</update>
+
+	<select id="selectUseDiagSudo" parameterType="String" resultType="String">
+        SELECT
+          USE_DIAG_SUDO as useDiagSudo
+        FROM
+          SNET_CONNECT_MASTER
+        WHERE
+          ASSET_CD=#{assetCd}
+    </select>
+
+	<update id="updateOldJobHistory" parameterType="String">
+		UPDATE 	SNET_AGENT_JOB_HISTORY
+		SET		AGENT_JOB_FLAG = 4,
+				AGENT_JOB_EDATE = now(),
+				AGENT_JOB_DESC = #{desc,jdbcType=VARCHAR}
+		WHERE
+				AGENT_JOB_RDATE <![CDATA[<]]> DATE_SUB(now() , INTERVAL 1 HOUR)
+				AND AGENT_JOB_FLAG IN (2, 6, 7)
+	</update>
+
+	<select id="selectOldJobsFromJobHistory" resultType="String">
+		SELECT  ASSET_CD
+		FROM    SNET_AGENT_JOB_HISTORY
+		WHERE
+				AGENT_JOB_RDATE <![CDATA[<]]> DATE_SUB(now() , INTERVAL 1 HOUR)
+				AND AGENT_JOB_FLAG IN (2, 6, 7)
+				LIMIT 1
+	</select>
+
+	<update id="updateAllOldJobHistory" parameterType="String">
+		UPDATE 	SNET_AGENT_JOB_HISTORY
+		SET		AGENT_JOB_FLAG = 4,
+				AGENT_JOB_EDATE = now(),
+				AGENT_JOB_DESC = #{desc,jdbcType=VARCHAR}
+		WHERE
+				AGENT_JOB_RDATE <![CDATA[<]]> DATE_SUB(now() , INTERVAL 1 HOUR)
+				AND AGENT_JOB_FLAG IN (1, 2, 6, 7)
+	</update>
+
+	<select id="selectAllOldJobsFromJobHistory" resultType="String">
+		SELECT  ASSET_CD
+		FROM    SNET_AGENT_JOB_HISTORY
+		WHERE
+				AGENT_JOB_RDATE <![CDATA[<]]> DATE_SUB(now() , INTERVAL 1 HOUR)
+				AND AGENT_JOB_FLAG IN (1, 2, 6, 7)
+				LIMIT 1
+	</select>
+
+	<select id="getAssetDiagnosisJobCount" parameterType="String" resultType="Integer">
+        SELECT
+          COUNT(ASSET_CD)
+        FROM
+          SNET_AGENT_JOB_HISTORY
+        WHERE
+          1 = 1
+        AND AGENT_JOB_FLAG = 1
+        AND ASSET_CD = #{assetCd, jdbcType=VARCHAR}
+	</select>
+
+	<insert id="insertAgentResource" parameterType="AgentResource">
+		INSERT INTO SNET_ASSET_RESOURCE_MONITORING
+		(
+			ASSET_CD,
+			CPU_USE_RATE,
+			MEM_TOTAL,
+			MEM_FREE,
+			MEM_USE,
+			MEM_USE_RATE,
+			CDATE
+		)
+		VALUES
+		(
+			#{assetCd},
+			#{cpuUseRate},
+			#{memTotal},
+			#{memFree},
+			#{memUse},
+			#{memUseRate},
+			#{cDate}
+		)
+	</insert>
+
+	<select id="selectAgentResource" parameterType="string"  resultType="string">
+		SELECT 	CDATE
+		FROM 	SNET_ASSET_RESOURCE_MONITORING
+		WHERE	ASSET_CD = #{assetCd} ORDER BY CAST( CDATE AS CHAR ) DESC LIMIT 1
+	</select>
+
+	<update id="updateAgentResource" parameterType="AgentResource">
+		UPDATE SNET_ASSET_RESOURCE_MONITORING
+		SET CPU_USE_RATE = #{cpuUseRate},
+		    MEM_TOTAL = #{memTotal},
+		    MEM_FREE = #{memFree},
+		    MEM_USE = #{memUse},
+		    MEM_USE_RATE = #{memUseRate},
+		    CDATE = #{cDate}
+		WHERE ASSET_CD = #{assetCd}
+	</update>
+
+	<select id="deleteAgentResource" parameterType="string">
+		DELETE FROM SNET_NOTIFICATION_USER
+		WHERE ASSET_CD = #{assetCd}
+	</select>
+
+	<!--notification -->
+	<select id="getDuplicateNotiSeq" parameterType="SnetNotificationModel" resultType="long">
+		SELECT 	IFNULL(MAX(NOTI_SEQ), 0) AS NOTI_SEQ
+		FROM	SNET_NOTIFICATION
+		WHERE
+				NOTI_USER_ID = #{notiUserId}
+		AND		NOTI_TYPE = #{notiType}
+		AND		NOTI_FLAG = '1'
+	</select>
+
+	<insert id="insertNotification" parameterType="SnetNotificationModel" useGeneratedKeys="true" keyProperty="notiSeq">
+		INSERT INTO SNET_NOTIFICATION
+		(
+			NOTI_TYPE,
+			NOTI_LINK_URL,
+			NOTI_DATA_YN,
+			NOTI_USER_ID,
+			REQ_USER_ID,
+			NOTI_FLAG,
+			CREATE_DATE
+		)
+		VALUES
+		(
+			#{notiType},
+			#{notiLinkUrl},
+			#{notiDataYn},
+			#{notiUserId},
+			#{reqUserId},
+			'1',
+			now()
+		)
+	</insert>
+
+	<update id="updateNotificationTypeCnt" parameterType="SnetNotificationModel">
+		UPDATE 	SNET_NOTIFICATION
+		SET		NOTI_TYPE_CNT = NOTI_TYPE_CNT + 1,
+				UPDATE_DATE = now()
+		WHERE
+				NOTI_SEQ = #{notiSeq}
+	</update>
+
+	<insert id="insertNotificationData" parameterType="SnetNotificationDataModel">
+		INSERT INTO	SNET_NOTIFICATION_DATA
+		(
+			NOTI_SEQ ,
+			ASSET_CD ,
+			SW_TYPE ,
+			SW_NM ,
+			SW_INFO ,
+			SW_DIR ,
+			SW_USER ,
+			SW_ETC ,
+			AUDIT_DAY,
+			AUDIT_RATE ,
+			ASSET_USER_ID,
+			DIAGNOSIS_CD,
+			HOST_NM,
+			IP_ADDRESS,
+			READ_YN
+		)
+		VALUES
+		(
+			#{notiSeq} ,
+			#{assetCd} ,
+			#{swType} ,
+			#{swNm} ,
+			#{swInfo} ,
+			#{swDir} ,
+			#{swUser} ,
+			#{swEtc} ,
+			#{auditDay},
+			(
+				SELECT 	MAX(AUDIT_RATE)
+				FROM 	SNET_ASSET_SW_AUDIT_HISTORY
+				WHERE   ASSET_CD = #{assetCd}
+				AND 	SW_TYPE = #{swType}
+				AND 	SW_NM = #{swNm}
+				AND 	SW_INFO = #{swInfo}
+				AND 	SW_USER = #{swUser}
+				AND 	SW_DIR = #{swDir}
+				AND 	SW_ETC = #{swEtc}
+				AND 	AUDIT_DAY = #{auditDay}
+			),
+			#{assetUserId},
+			#{diagnosisCd},
+			#{hostNm},
+			#{ipAddress},
+			'N'
+		)
+	</insert>
+
+	<select id="getNotificationUseYn" parameterType="string"  resultType="string">
+		SELECT 	USE_YN
+		FROM 	SNET_NOTIFICATION_CONFIG
+		WHERE
+				NOTI_TYPE = #{notiType}
+		LIMIT 1
+	</select>
+
+	<select id="selectNotificationUserList" parameterType="string"  resultType="string">
+		SELECT 	USER_ID
+		FROM 	SNET_NOTIFICATION_USER
+		WHERE
+				NOTI_TYPE = #{notiType}
+	</select>
+
+	<insert id="insertSnetManualAgentJobHistory" parameterType="com.igloosec.smartguard.next.agentmanager.entity.JobEntity">
+		INSERT INTO SNET_AGENT_JOB_HISTORY
+		( AGENT_CD , ASSET_CD , SW_TYPE , SW_NM , SW_INFO , SW_DIR , SW_USER , SW_ETC , AGENT_JOB_RDATE , USER_ID , AGENT_JOB_FLAG , AUDIT_FILE_CD )
+		VALUES
+		( #{agentCd,jdbcType=VARCHAR} , #{assetCd,jdbcType=VARCHAR} , #{swType,jdbcType=VARCHAR} , #{swNm,jdbcType=VARCHAR} , #{swInfo,jdbcType=VARCHAR} , #{swDir,jdbcType=VARCHAR} , #{swUser,jdbcType=VARCHAR} , #{swEtc,jdbcType=VARCHAR} , now() , #{userId,jdbcType=VARCHAR} , 2 , #{auditFileCd,jdbcType=VARCHAR} )
+	</insert>
+
+	<insert id="insertSnetAgentJobRdate" parameterType="com.igloosec.smartguard.next.agentmanager.entity.JobEntity">
+		INSERT INTO SNET_AGENT_JOB_RDATE ( AGENT_CD , ASSET_CD , SW_TYPE , SW_NM , SW_INFO , SW_DIR , SW_USER , SW_ETC , AGENT_JOB_RDATE )
+        VALUES ( #{agentCd,jdbcType=VARCHAR}, #{assetCd,jdbcType=VARCHAR}, #{swType,jdbcType=VARCHAR}, #{swNm,jdbcType=VARCHAR}, #{swInfo,jdbcType=VARCHAR}, #{swDir,jdbcType=VARCHAR}, #{swUser,jdbcType=VARCHAR}, #{swEtc,jdbcType=VARCHAR},
+        		 ( SELECT MAX ( AGENT_JOB_RDATE ) FROM SNET_AGENT_JOB_HISTORY
+                   WHERE AGENT_CD = #{agentCd,jdbcType=VARCHAR}
+					 AND ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+					 AND SW_TYPE = #{swType,jdbcType=VARCHAR}
+					 AND SW_NM = #{swNm,jdbcType=VARCHAR}
+					 AND SW_INFO = #{swInfo,jdbcType=VARCHAR}
+					 AND SW_DIR = #{swDir,jdbcType=VARCHAR}
+					 AND SW_USER = #{swUser,jdbcType=VARCHAR}
+					 AND SW_ETC = #{swEtc,jdbcType=VARCHAR}
+				 )
+		)
+	</insert>
+
+	<select id="selectSwInfoOfNw" parameterType="com.igloosec.smartguard.next.agentmanager.entity.JobEntity" resultType="java.util.HashMap">
+		SELECT
+		DISTINCT ASSET_CD,
+		SW_INFO
+		FROM
+		SNET_ASSET_SW_AUDIT_DAY
+		WHERE
+		ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+		AND	SW_NM = #{swNm,jdbcType=VARCHAR} AND SW_ETC = #{swEtc,jdbcType=VARCHAR}
+		AND SW_USER = #{swUser,jdbcType=VARCHAR} AND SW_DIR = #{swDir,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectSnetAssetGetHistory"	parameterType="string" resultType="SnetAssetGetHistoryModel">
+		SELECT 	 A.ASSET_CD,
+				 A.GET_DAY,
+				 (SELECT MAX(USER_ID) FROM SNET_ASSET_USER U WHERE U.ASSET_CD = A.ASSET_CD AND U.USER_TYPE = 'OP') AS USER_ID,
+				 (SELECT MAX(USER_NM) FROM SNET_ASSET_USER U WHERE U.ASSET_CD = A.ASSET_CD AND U.USER_TYPE = 'OP') AS USER_NM,
+				 BRANCH_NM,
+				 TEAM_NM,
+				 (SELECT MAX(SW_NM) FROM SNET_CONNECT_MASTER WHERE ASSET_CD = A.ASSET_CD) AS OS_NM,
+				 HOST_NM,
+				 IP_ADDRESS,
+				 AUDIT_RATE,
+				 AUDIT_RATE_FIREWALL,
+				 AUDIT_DAY,
+				 HOST_GRADE,
+				 VM_YN,
+				 ISMS_YN,
+				 INFRA_YN,
+				 AUTO_AUDIT_YN,
+				 ASSET_RMK,
+				 GOV_FLAG,
+				 A.AGENT_CD,
+				 B.AGENT_VERSION,
+				 (SELECT MAX(AGENT_STATUS) FROM SNET_AGENT_STATUS_HISTORY H WHERE H.AGENT_CD = B.AGENT_CD) AS AGENT_STATUS,
+				 B.AGENT_TYPE,
+				 DATE_FORMAT(UPDATE_DATE,  '%Y%m%d%H%i%s') AS MASTER_UPDATE_DATE
+		FROM	SNET_ASSET_MASTER A
+		LEFT OUTER JOIN SNET_AGENT_MASTER B ON (A.AGENT_CD = B.AGENT_CD)
+		WHERE
+				ASSET_CD = #{assetCd}
+	</select>
+
+	<insert id="insertSnetAssetGetHistory" parameterType="SnetAssetGetHistoryModel">
+
+		INSERT INTO SNET_ASSET_GET_HISTORY
+		(
+			ASSET_CD,
+			GET_DAY,
+			GET_TYPE,
+			USER_ID,
+			USER_NM,
+			BRANCH_NM,
+			TEAM_NM,
+			OS_NM,
+			HOST_NM,
+			IP_ADDRESS,
+			AUDIT_RATE,
+			AUDIT_RATE_FIREWALL,
+			AUDIT_DAY,
+			HOST_GRADE,
+			VM_YN,
+			ISMS_YN,
+			INFRA_YN,
+			AUTO_AUDIT_YN,
+			ASSET_RMK,
+			GOV_FLAG,
+			AGENT_CD,
+			AGENT_VERSION,
+			AGENT_STATUS,
+			AGENT_TYPE,
+			CREATE_DATE
+		)
+		VALUES
+		(
+			#{assetCd},
+			#{getDay},
+			#{getType},
+			#{userId},
+			#{userNm},
+			#{branchNm},
+			#{teamNm},
+			#{osNm},
+			#{hostNm},
+			#{ipAddress},
+			#{auditRate},
+			#{auditRateFirewall},
+			#{auditDay},
+			#{hostGrade},
+			#{vmYn},
+			#{ismsYn},
+			#{infraYn},
+			#{autoAuditYn},
+			#{assetRmk},
+			#{govFlag},
+			#{agentCd},
+			#{agentVersion},
+			#{agentStatus},
+			#{agentType},
+			NOW()
+		)
+	</insert>
+
+	<select id="selectAssetSwList" parameterType="string" resultType="snetAssetSwChangeHistoryModel">
+		SELECT
+			ASSET_CD,
+			SW_TYPE,
+			SW_NM,
+			SW_INFO,
+			SW_DIR,
+			SW_USER,
+			SW_ETC,
+			AUDIT_DAY,
+			CASE WHEN AUDIT_DAY = '19990101' THEN NULL
+			ELSE
+			(SELECT MAX(AUDIT_RATE)
+			 FROM SNET_ASSET_SW_AUDIT_HISTORY
+			 WHERE
+					ASSET_CD = A.ASSET_CD
+			 AND	SW_TYPE = A.SW_TYPE
+			 AND	SW_NM = A.SW_NM
+			 AND	SW_INFO = A.SW_INFO
+			 AND	SW_DIR = A.SW_DIR
+			 AND	SW_USER = A.SW_USER
+			 AND	SW_ETC = A.SW_ETC
+			 AND	AUDIT_DAY = A.AUDIT_DAY
+			) END AS AUDIT_RATE,
+			CASE WHEN AUDIT_DAY = '19990101' THEN NULL
+			ELSE
+			(SELECT MAX(AUDIT_RATE_FIREWALL)
+			 FROM SNET_ASSET_SW_AUDIT_HISTORY
+			 WHERE
+					ASSET_CD = A.ASSET_CD
+			 AND	SW_TYPE = A.SW_TYPE
+			 AND	SW_NM = A.SW_NM
+			 AND	SW_INFO = A.SW_INFO
+			 AND	SW_DIR = A.SW_DIR
+			 AND	SW_USER = A.SW_USER
+			 AND	SW_ETC = A.SW_ETC
+			 AND	AUDIT_DAY = A.AUDIT_DAY
+			) END AS AUDIT_RATE_FIREWALL,
+			AUDIT_FILE_CD,
+			SW_OPERATOR,
+			(SELECT MAX(GET_DAY) FROM SNET_ASSET_MASTER WHERE ASSET_CD = A.ASSET_CD) AS GET_DAY,
+			USER_REGI
+		FROM	SNET_ASSET_SW_AUDIT_DAY A
+		WHERE
+				ASSET_CD = #{assetCd}
+	</select>
+
+	<insert id="insertAssetSwChangeHistory" parameterType="java.util.List">
+		INSERT INTO SNET_ASSET_SW_CHANGE_HISTORY
+		(
+		ASSET_CD,
+		SW_TYPE,
+		SW_NM,
+		SW_INFO,
+		SW_DIR,
+		SW_USER,
+		SW_ETC,
+		AUDIT_DAY,
+		AUDIT_FILE_CD,
+		SW_OPERATOR,
+		CHANGE_TYPE,
+		GET_DAY,
+		USER_REGI
+		)
+		VALUES
+		<foreach collection="list" item="item" separator=",">
+			(
+			#{item.assetCd},
+			#{item.swType},
+			#{item.swNm},
+			#{item.swInfo},
+			#{item.swDir},
+			#{item.swUser},
+			#{item.swEtc},
+			#{item.auditDay},
+			#{item.auditFileCd},
+			#{item.swOperator},
+			#{item.changeType},
+			#{item.getDay},
+			#{item.userRegi}
+			)
+		</foreach>
+	</insert>
+
+	<select id="selectBatchGet" resultType="com.igloosec.smartguard.next.agentmanager.schedule.model.BatchGet">
+			SELECT
+				A.ASSET_CD,
+				B.AGENT_CD,
+		        A.GET_TYPE,
+		        A.GET_DAY_LIST,
+		        A.GET_MONTH_LIST,
+		        A.CREATE_USER_ID,
+		        C.USER_NM,
+			    D.MANAGER_CD
+		    FROM SNET_ASSET_GET_SCHEDULE A
+		    LEFT OUTER JOIN SNET_ASSET_MASTER B
+		    ON A.ASSET_CD  = B.ASSET_CD
+			LEFT OUTER JOIN SNET_ASSET_USER C
+		    ON A.ASSET_CD  = C.ASSET_CD AND A.CREATE_USER_ID = C.USER_ID
+			LEFT OUTER JOIN SNET_CONFIG_USER_VIEW D ON (A.CREATE_USER_ID = D.USER_ID)
+		  WHERE GET_TIME = DATE_FORMAT(NOW(), '%H%i')
+    </select>
+
+	<select id="selectManagerCd" parameterType="string" resultType="string">
+		SELECT
+		CC.MANAGER_CD
+		FROM SNET_ASSET_USER BB, SNET_CONFIG_USER_VIEW CC
+		WHERE BB.USER_ID = CC.USER_ID AND BB.ASSET_CD = #{assetCd}
+    </select>
+	
+	<!-- 변경이력 단건조회-->
+	<select id="selectAssetSw" parameterType="hashMap" resultType="snetAssetSwChangeHistoryModel">
+		SELECT
+			ASSET_CD,
+			SW_TYPE,
+			SW_NM,
+			SW_INFO,
+			SW_DIR,
+			SW_USER,
+			SW_ETC,
+			AUDIT_DAY,
+			CASE WHEN AUDIT_DAY = '19990101' THEN NULL
+			ELSE
+			(SELECT MAX(AUDIT_RATE)
+			 FROM SNET_ASSET_SW_AUDIT_HISTORY
+			 WHERE
+					ASSET_CD = A.ASSET_CD
+			 AND	SW_TYPE = A.SW_TYPE
+			 AND	SW_NM = A.SW_NM
+			 AND	SW_INFO = A.SW_INFO
+			 AND	SW_DIR = A.SW_DIR
+			 AND	SW_USER = A.SW_USER
+			 AND	SW_ETC = A.SW_ETC
+			 AND	AUDIT_DAY = A.AUDIT_DAY
+			) END AS AUDIT_RATE,
+			CASE WHEN AUDIT_DAY = '19990101' THEN NULL
+			ELSE
+			(SELECT MAX(AUDIT_RATE_FIREWALL)
+			 FROM SNET_ASSET_SW_AUDIT_HISTORY
+			 WHERE
+					ASSET_CD = A.ASSET_CD
+			 AND	SW_TYPE = A.SW_TYPE
+			 AND	SW_NM = A.SW_NM
+			 AND	SW_INFO = A.SW_INFO
+			 AND	SW_DIR = A.SW_DIR
+			 AND	SW_USER = A.SW_USER
+			 AND	SW_ETC = A.SW_ETC
+			 AND	AUDIT_DAY = A.AUDIT_DAY
+			) END AS AUDIT_RATE_FIREWALL,
+			AUDIT_FILE_CD,
+			SW_OPERATOR,
+			(SELECT MAX(GET_DAY) FROM SNET_ASSET_MASTER WHERE ASSET_CD = A.ASSET_CD) AS GET_DAY,
+			USER_REGI
+		FROM	SNET_ASSET_SW_AUDIT_DAY A
+		WHERE
+				ASSET_CD = #{assetCd}
+		AND 	SW_TYPE = #{swType}
+		AND 	SW_NM = #{swNm}
+		AND 	SW_INFO = #{swInfo}
+		AND 	SW_DIR = #{swDir}
+		AND 	SW_USER = #{swUser}
+		AND 	SW_ETC = #{swEtc}
+	</select>
+
+	<!-- 이력 등록 여부 체크-->
+	<select id="checkAssetSwHistory" parameterType="snetAssetSwChangeHistoryModel" resultType="Integer">
+		SELECT
+			COUNT(1)
+		FROM	SNET_ASSET_SW_CHANGE_HISTORY
+		WHERE
+				ASSET_CD = #{assetCd}
+		AND 	SW_TYPE = #{swType}
+		AND 	SW_NM = #{swNm}
+		AND 	SW_INFO = #{swInfo}
+		AND 	SW_DIR = #{swDir}
+		AND 	SW_USER = #{swUser}
+		AND 	SW_ETC = #{swEtc}
+		AND 	GET_DAY = #{getDay}
+	</select>
+
+	<update id="updateAssetSwHistoryAuditDay" parameterType="snetAssetSwChangeHistoryModel" >
+		UPDATE SNET_ASSET_SW_CHANGE_HISTORY
+		SET		AUDIT_DAY = #{auditDay},
+				AUDIT_FILE_CD = #{auditFileCd}
+		WHERE 	ASSET_CD = #{assetCd}
+		AND 	SW_TYPE = #{swType}
+		AND 	SW_NM = #{swNm}
+		AND 	SW_INFO = #{swInfo}
+		AND 	SW_DIR = #{swDir}
+		AND 	SW_USER = #{swUser}
+		AND 	SW_ETC = #{swEtc}
+		AND 	GET_DAY = #{getDay}
+	</update>
+
+	<update id="updateAssetGetHistoryAgentInfo" parameterType="com.igloosec.smartguard.next.agentmanager.entity.AgentInfo" >
+		UPDATE SNET_ASSET_GET_HISTORY
+		SET
+				AGENT_CD = #{agentCd},
+				AGENT_VERSION = #{agentVersion},
+				AGENT_TYPE = #{agentType}
+		WHERE
+				ASSET_CD = #{assetCd}
+		AND     GET_DAY = (SELECT * FROM (SELECT MAX(GET_DAY) FROM SNET_ASSET_GET_HISTORY WHERE ASSET_CD = #{assetCd}) t)
+	</update>
+
+
+	<select id="selectConfigAuditItemOption" parameterType="com.igloosec.smartguard.next.agentmanager.entity.JobEntity" resultType="com.igloosec.smartguard.next.agentmanager.entity.ConfigAuditItemOption">
+		SELECT
+			AUDIT_FILE_CD AS auditFileCd
+			 ,DIAGNOSIS_CD AS diagnosisCd
+			 ,OPTION_KEY AS optionKey
+			 ,OPTION_DEFAULT_VALUE AS optionDefaultValue
+			 ,OPTION_VALUE AS optionValue
+			 ,DESCRIPTION AS description
+			 ,NUM_YN AS numYn
+			 ,OPTION_REASON AS optionReason
+		FROM
+			SNET_CONFIG_AUDIT_ITEM_DIAG_OPTION
+		WHERE
+			1=1
+		  AND
+			AUDIT_FILE_CD = #{auditFileCd,jdbcType=VARCHAR}
+		ORDER BY DIAGNOSIS_CD
+	</select>
+
+	<select id="selectSwOsKind" parameterType="String" resultType="String">
+		SELECT
+			SW_NM AS swNm
+		FROM
+			SNET_ASSET_SW_AUDIT_DAY
+		WHERE
+			1=1
+		  AND
+			ASSET_CD = #{assetCd,jdbcType=VARCHAR}
+		  AND
+			SW_TYPE = 'OS'
+	</select>
+
+</mapper>

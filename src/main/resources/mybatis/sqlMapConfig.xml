@@ -1,0 +1,42 @@
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--
+
+-->
+<configuration>
+	<settings>
+		<!-- 매퍼에 설정된 캐시를 전역적으로 사용할지에 대한 여부 default = true -->
+		<setting name="cacheEnabled" value="true" />
+		<!-- 지연로딩을 사용할지에 대한 여부 default = false -->
+		<setting name="lazyLoadingEnabled" value="false" />
+		<!-- 한개의 구문에서 여러개의 ResultSet을 허용할지의 여부 default = true -->
+		<setting name="multipleResultSetsEnabled" value="true" />
+		<!-- 컬럼명 대신 컬럼라벨을 사용 default = true -->
+		<setting name="useColumnLabel" value="true" />
+		<!-- 생성키에 대한 JDBC 지원을 허용 default = false -->
+		<setting name="useGeneratedKeys" value="false" />
+		<!-- 자동매핑 여부  (PARTIAL : FULL) defaulat = PARTIAL -->
+		<setting name="autoMappingBehavior" value="PARTIAL" />
+		<!-- 실행자 설정 (SIMPLE, REUSE, BATCH) default = SIMPLE -->
+		<setting name="defaultExecutorType" value="SIMPLE" />
+		<!-- 데이터베이스로 응답을 얼마나 오래 걸릴지를 판단하는 타임아웃 default = null -->
+		<setting name="defaultStatementTimeout" value="180" />
+		<!-- 중첩구문내 RowBound사용을 허용  default = false -->
+		<setting name="safeRowBoundsEnabled" value="false" />
+		<!-- _를 CamelCase 매핑 default = true -->
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+		<!-- 마이바티스는 순환참조를 막거나 반복된
+			쿼리의 속도를 높이기 위해 로컬캐시 사용 SESSION/STATEMENT
+		 	default = SESSION
+		-->
+		<setting name="localCacheScope" value="SESSION" />
+		<!-- JDBC타입을 파라미터에 제공하지 않을때 null값을 처리한 JDBC타입을 명시한다. default = OTHER -->
+		<setting name="jdbcTypeForNull" value="OTHER" />
+		<!-- 지연로딩을 야기하는 객체의 메소드를 명시 default = equals,clone,hashCode,toString -->
+		<setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString" />
+		<!-- 가져온 값이 null 일 경우 맵의 put 메소드를 호출할지를 명시 default : false -->
+		<setting name="callSettersOnNulls" value="true"/>
+	</settings>
+
+</configuration>

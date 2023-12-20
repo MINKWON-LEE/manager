@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator" />
+
+    <!--<property name="LOG_DIR" value="logs/manager"  />-->
+    <!--<property name="LOG_PATH_NAME" value="${LOG_DIR}/manager_was.log"  />-->
+    <property name="LOG_PATH" value="/usr/local/snetManager/logs" />
+
+    <include resource = "org/springframework/boot/logging/logback/defaults.xml" />
+
+    <define name="INCLUDED_FILE_EXISTS"
+            class="ch.qos.logback.core.property.FileExistsPropertyDefiner">
+        <path>/usr/local/snetManager/conf/include-logback.xml</path>
+    </define>
+
+    <if condition='property("INCLUDED_FILE_EXISTS").equals("true")'>
+        <then>
+            <include file="/usr/local/snetManager/conf/include-logback.xml" />
+        </then>
+        <else>
+            <include resource="include-logback.xml" />
+        </else>
+    </if>
+
+    <!-- user spring default values prod -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <logger name="org.springframework" level="INFO" additivity="false">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </logger>
+
+    <!--jdbc logging-->
+    <logger name="jdbc.sqltiming" level="DEBUG" additivity="false"/>
+    <logger name="jdbc.sqlonly" level="OFF" additivity="false"/>
+    <logger name="jdbc.audit" level="OFF" additivity="false"/>
+    <logger name="jdbc.resultset" level="OFF" additivity="false"/>
+    <logger name="jdbc.resultsettable" level="OFF" additivity="false"/>
+    <logger name="jdbc.connection" level="OFF" additivity="false"/>
+
+ 	<logger name="com.igloosec.smartguard.next.agentmanager" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </logger>
+
+    <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" level="debug" additivity="false">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </logger>
+
+    <logger name="com.zaxxer.hikari" level="ERROR" additivity="false">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </logger>
+</configuration>
