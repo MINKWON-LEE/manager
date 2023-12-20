@@ -1,0 +1,10 @@
+.idea
+manager.iml
+logs
+target
+testTool/diagresult
+testTool/getresult
+testTool/run
+testTool/sampledata
+testTool/secure
+db
